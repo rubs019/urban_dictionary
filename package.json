@@ -1,0 +1,11 @@
+{
+  "name": "urban_dictionary_proto",
+  "version": "0.1.0",
+  "description": "Proto for school project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rubs019",
+  "license": "ISC"
+}

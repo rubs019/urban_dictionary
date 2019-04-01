@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/healthcheck",
+      "handler": "Healthcheck.index"
+    }
+  ]
+}

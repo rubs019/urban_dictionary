@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/definitions",
+      "handler": "Definitions.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/definitions/count",
+      "handler": "Definitions.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/definitions/:id",
+      "handler": "Definitions.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/definitions",
+      "handler": "Definitions.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/definitions/:id",
+      "handler": "Definitions.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/definitions/:id",
+      "handler": "Definitions.destroy",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
