@@ -1,10 +1,10 @@
 <template>
   <div class="healthcheck">
     <p>Check if server is up :</p>
-    <button v-on:click="check()">Check</button>
+    <button v-on:click="check(true)">Check</button>
     <div
       v-if="isChecked"
-      v-bind:class="{ valid: isUp === true, error: isUp === false }"
+      v-bind:class="{ valid: isUp === true, error: isUp === false, default: isUp === null }"
       class="notif default"
     >
       <span class="notif-title">{{ msgNotif.title }}</span>
@@ -26,7 +26,10 @@ export default {
         title: "Success",
         content: "The server is up !"
       },
-      pending: "Wait...",
+      pending: {
+        title: "Wait...",
+        content: "Try to connect..."
+      },
       reject: {
         title: "Error",
         content: "The server seems close"
@@ -34,17 +37,25 @@ export default {
     }
   }),
   methods: {
-    check: async function() {
+    check: async function(lazy) {
       if (this.isChecked) {
         this.isChecked = false;
         return;
       }
       this.isChecked = true;
       this.msgNotif = this.statusNotif.pending;
+      this.isUp = null
 
       try {
         await axios.get("http://localhost:1337/healthcheck");
 
+        if (lazy) {
+          setTimeout(() => {
+            this.isUp = true;
+            this.msgNotif = this.statusNotif.resolve;
+          }, 1500)
+          return
+        }
         this.isUp = true;
         this.msgNotif = this.statusNotif.resolve;
       } catch (err) {
