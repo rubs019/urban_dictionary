@@ -9,6 +9,7 @@ import ListDefinitions from "./components/definitions/ListDefinitions";
 import InscriptionPage from "./views/inscription/InscriptionPage";
 import AppContact from "./views/AppContact";
 import AppDefinitions from "./views/AppDefinitions";
+import AddDefinitions from "./components/definitions/AddDefinitions";
 
 Vue.use(Router);
 
@@ -37,6 +38,10 @@ export default new Router({
         {
           path: "/",
           component: ListDefinitions
+        },
+        {
+          path: "new",
+          component: AddDefinitions
         },
         {
           path: "update",
