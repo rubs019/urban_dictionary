@@ -1,5 +1,6 @@
 .DS_Store
 .idea/*
+api/admin/admin/build
 
 ############################
 # OS X

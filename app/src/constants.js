@@ -4,4 +4,4 @@ export const PAGE_NAME = {
   about: "About",
   games: "Games",
   health: "Health"
-}
+};

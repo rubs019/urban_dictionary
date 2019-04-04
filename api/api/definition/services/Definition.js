@@ -1,8 +1,8 @@
-/* global Definitions */
+/* global Definition */
 'use strict';
 
 /**
- * Definitions.js service
+ * Definition.js service
  *
  * @description: A set of functions similar to controller's actions to avoid code duplication.
  */
@@ -23,13 +23,13 @@ module.exports = {
 
   fetchAll: (params) => {
     // Convert `params` object to filters compatible with Bookshelf.
-    const filters = strapi.utils.models.convertParams('definitions', params);
+    const filters = strapi.utils.models.convertParams('definition', params);
     // Select field to populate.
-    const populate = Definitions.associations
+    const populate = Definition.associations
       .filter(ast => ast.autoPopulate !== false)
       .map(ast => ast.alias);
 
-    return Definitions.query(function(qb) {
+    return Definition.query(function(qb) {
       _.forEach(filters.where, (where, key) => {
         if (_.isArray(where.value) && where.symbol !== 'IN' && where.symbol !== 'NOT IN') {
           for (const value in where.value) {
@@ -52,33 +52,33 @@ module.exports = {
   },
 
   /**
-   * Promise to fetch a/an definitions.
+   * Promise to fetch a/an definition.
    *
    * @return {Promise}
    */
 
   fetch: (params) => {
     // Select field to populate.
-    const populate = Definitions.associations
+    const populate = Definition.associations
       .filter(ast => ast.autoPopulate !== false)
       .map(ast => ast.alias);
 
-    return Definitions.forge(_.pick(params, 'id')).fetch({
+    return Definition.forge(_.pick(params, 'name')).fetch({
       withRelated: populate
     });
   },
 
   /**
-   * Promise to count a/an definitions.
+   * Promise to count a/an definition.
    *
    * @return {Promise}
    */
 
   count: (params) => {
     // Convert `params` object to filters compatible with Bookshelf.
-    const filters = strapi.utils.models.convertParams('definitions', params);
+    const filters = strapi.utils.models.convertParams('definition', params);
 
-    return Definitions.query(function(qb) {
+    return Definition.query(function(qb) {
       _.forEach(filters.where, (where, key) => {
         if (_.isArray(where.value)) {
           for (const value in where.value) {
@@ -92,50 +92,50 @@ module.exports = {
   },
 
   /**
-   * Promise to add a/an definitions.
+   * Promise to add a/an definition.
    *
    * @return {Promise}
    */
 
   add: async (values) => {
     // Extract values related to relational data.
-    const relations = _.pick(values, Definitions.associations.map(ast => ast.alias));
-    const data = _.omit(values, Definitions.associations.map(ast => ast.alias));
+    const relations = _.pick(values, Definition.associations.map(ast => ast.alias));
+    const data = _.omit(values, Definition.associations.map(ast => ast.alias));
 
     // Create entry with no-relational data.
-    const entry = await Definitions.forge(data).save();
+    const entry = await Definition.forge(data).save();
 
     // Create relational data and return the entry.
-    return Definitions.updateRelations({ id: entry.id , values: relations });
+    return Definition.updateRelations({ id: entry.id , values: relations });
   },
 
   /**
-   * Promise to edit a/an definitions.
+   * Promise to edit a/an definition.
    *
    * @return {Promise}
    */
 
   edit: async (params, values) => {
     // Extract values related to relational data.
-    const relations = _.pick(values, Definitions.associations.map(ast => ast.alias));
-    const data = _.omit(values, Definitions.associations.map(ast => ast.alias));
+    const relations = _.pick(values, Definition.associations.map(ast => ast.alias));
+    const data = _.omit(values, Definition.associations.map(ast => ast.alias));
 
     // Create entry with no-relational data.
-    const entry = await Definitions.forge(params).save(data);
+    const entry = await Definition.forge(params).save(data);
 
     // Create relational data and return the entry.
-    return Definitions.updateRelations(Object.assign(params, { values: relations }));
+    return Definition.updateRelations(Object.assign(params, { values: relations }));
   },
 
   /**
-   * Promise to remove a/an definitions.
+   * Promise to remove a/an definition.
    *
    * @return {Promise}
    */
 
   remove: async (params) => {
     params.values = {};
-    Definitions.associations.map(association => {
+    Definition.associations.map(association => {
       switch (association.nature) {
         case 'oneWay':
         case 'oneToOne':
@@ -152,45 +152,45 @@ module.exports = {
       }
     });
 
-    await Definitions.updateRelations(params);
+    await Definition.updateRelations(params);
 
-    return Definitions.forge(params).destroy();
+    return Definition.forge(params).destroy();
   },
 
   /**
-   * Promise to search a/an definitions.
+   * Promise to search a/an definition.
    *
    * @return {Promise}
    */
 
   search: async (params) => {
     // Convert `params` object to filters compatible with Bookshelf.
-    const filters = strapi.utils.models.convertParams('definitions', params);
+    const filters = strapi.utils.models.convertParams('definition', params);
     // Select field to populate.
-    const populate = Definitions.associations
+    const populate = Definition.associations
       .filter(ast => ast.autoPopulate !== false)
       .map(ast => ast.alias);
 
-    const associations = Definitions.associations.map(x => x.alias);
-    const searchText = Object.keys(Definitions._attributes)
-      .filter(attribute => attribute !== Definitions.primaryKey && !associations.includes(attribute))
-      .filter(attribute => ['string', 'text'].includes(Definitions._attributes[attribute].type));
+    const associations = Definition.associations.map(x => x.alias);
+    const searchText = Object.keys(Definition._attributes)
+      .filter(attribute => attribute !== Definition.primaryKey && !associations.includes(attribute))
+      .filter(attribute => ['string', 'text'].includes(Definition._attributes[attribute].type));
 
-    const searchNoText = Object.keys(Definitions._attributes)
-      .filter(attribute => attribute !== Definitions.primaryKey && !associations.includes(attribute))
-      .filter(attribute => !['string', 'text', 'boolean', 'integer', 'decimal', 'float'].includes(Definitions._attributes[attribute].type));
+    const searchNoText = Object.keys(Definition._attributes)
+      .filter(attribute => attribute !== Definition.primaryKey && !associations.includes(attribute))
+      .filter(attribute => !['string', 'text', 'boolean', 'integer', 'decimal', 'float'].includes(Definition._attributes[attribute].type));
 
-    const searchInt = Object.keys(Definitions._attributes)
-      .filter(attribute => attribute !== Definitions.primaryKey && !associations.includes(attribute))
-      .filter(attribute => ['integer', 'decimal', 'float'].includes(Definitions._attributes[attribute].type));
+    const searchInt = Object.keys(Definition._attributes)
+      .filter(attribute => attribute !== Definition.primaryKey && !associations.includes(attribute))
+      .filter(attribute => ['integer', 'decimal', 'float'].includes(Definition._attributes[attribute].type));
 
-    const searchBool = Object.keys(Definitions._attributes)
-      .filter(attribute => attribute !== Definitions.primaryKey && !associations.includes(attribute))
-      .filter(attribute => ['boolean'].includes(Definitions._attributes[attribute].type));
+    const searchBool = Object.keys(Definition._attributes)
+      .filter(attribute => attribute !== Definition.primaryKey && !associations.includes(attribute))
+      .filter(attribute => ['boolean'].includes(Definition._attributes[attribute].type));
 
     const query = (params._q || '').replace(/[^a-zA-Z0-9.-\s]+/g, '');
 
-    return Definitions.query(qb => {
+    return Definition.query(qb => {
       // Search in columns which are not text value.
       searchNoText.forEach(attribute => {
         qb.orWhereRaw(`LOWER(${attribute}) LIKE '%${_.toLower(query)}%'`);
@@ -209,7 +209,7 @@ module.exports = {
       }
 
       // Search in columns with text using index.
-      switch (Definitions.client) {
+      switch (Definition.client) {
         case 'mysql':
           qb.orWhereRaw(`MATCH(${searchText.join(',')}) AGAINST(? IN BOOLEAN MODE)`, `*${query}*`);
           break;

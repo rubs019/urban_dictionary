@@ -48,10 +48,10 @@ export default new Router({
           component: UpdateDefinitions
         },
         {
-          path: ":id",
+          path: ":name",
           name: "one-definition",
           component: OneDefinitions
-        },
+        }
       ]
     },
     {

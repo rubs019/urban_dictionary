@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Lifecycle callbacks for the `Definitions` model.
+ * Lifecycle callbacks for the `Definition` model.
  */
 
 module.exports = {

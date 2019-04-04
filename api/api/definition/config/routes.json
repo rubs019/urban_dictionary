@@ -3,7 +3,7 @@
     {
       "method": "GET",
       "path": "/definitions",
-      "handler": "Definitions.find",
+      "handler": "Definition.find",
       "config": {
         "policies": []
       }
@@ -11,15 +11,15 @@
     {
       "method": "GET",
       "path": "/definitions/count",
-      "handler": "Definitions.count",
+      "handler": "Definition.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/definitions/:id",
-      "handler": "Definitions.findOne",
+      "path": "/definitions/:name",
+      "handler": "Definition.findOne",
       "config": {
         "policies": []
       }
@@ -27,7 +27,7 @@
     {
       "method": "POST",
       "path": "/definitions",
-      "handler": "Definitions.create",
+      "handler": "Definition.create",
       "config": {
         "policies": []
       }
@@ -35,7 +35,7 @@
     {
       "method": "PUT",
       "path": "/definitions/:id",
-      "handler": "Definitions.update",
+      "handler": "Definition.update",
       "config": {
         "policies": []
       }
@@ -43,7 +43,7 @@
     {
       "method": "DELETE",
       "path": "/definitions/:id",
-      "handler": "Definitions.destroy",
+      "handler": "Definition.destroy",
       "config": {
         "policies": []
       }

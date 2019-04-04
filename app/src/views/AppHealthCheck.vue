@@ -1,24 +1,57 @@
 <template>
   <div class="healthcheck">
-    <p>Check if server is up :</p>
-    <button v-on:click="check(true)">Check</button>
-    <div
-      v-if="isChecked"
-      v-bind:class="{ valid: isUp === true, error: isUp === false, default: isUp === null }"
-      class="notif default"
-    >
-      <span class="notif-title">{{ msgNotif.title }}</span>
-      <p class="notif-content">{{ msgNotif.content }}</p>
+    <div class="columns">
+      <div class="column">
+        <p class="title">Check if server is up :</p>
+        <button
+          v-on:click="UICheck(true, 1500)"
+          class="button is-medium is-primary"
+        >
+          Check
+        </button>
+        <div class="columns">
+          <div class="column is-half is-offset-3">
+            <article
+              class="message"
+              v-if="isChecked"
+              v-bind:class="{
+                'is-success': isUp === 1,
+                'is-danger': isUp === 2,
+                'is-info': isUp === 0
+              }"
+            >
+              <div class="message-header">
+                <p>{{ msgNotif.title }}</p>
+                <span v-if="msgNotif.loader" class="loader"></span>
+                <button
+                  class="delete"
+                  aria-label="delete"
+                  v-on:click="UICloseNotificationOnClick()"
+                ></button>
+              </div>
+              <div class="message-body">
+                {{ msgNotif.content }}
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios/index";
+import * as APIService from "@/services/api.service";
+
+const STATUS_INITIAL = 0,
+  STATUS_UP = 1,
+  STATUS_DOWN = 2;
+const ENDPOINT = "healthcheck";
+
 export default {
   name: "AppHealthCheck",
   data: () => ({
-    msgNotif: "",
+    msgNotif: null,
     isChecked: false,
     isUp: null,
     statusNotif: {
@@ -28,7 +61,8 @@ export default {
       },
       pending: {
         title: "Wait...",
-        content: "Try to connect..."
+        content: "Try to connect...",
+        loader: true
       },
       reject: {
         title: "Error",
@@ -37,59 +71,75 @@ export default {
     }
   }),
   methods: {
-    check: async function(lazy) {
-      if (this.isChecked) {
-        this.isChecked = false;
+    UICheck: async function(lazy, timeout = 1500) {
+      if (this.isChecked === true) {
+        // For better UX
+        this.closeNotification();
         return;
       }
-      this.isChecked = true;
-      this.msgNotif = this.statusNotif.pending;
-      this.isUp = null
-
+      this.setNotification(STATUS_INITIAL);
       try {
-        await axios.get("http://localhost:1337/healthcheck");
+        await APIService.get(ENDPOINT);
 
         if (lazy) {
+          // Use to simulate a server latency
           setTimeout(() => {
-            this.isUp = true;
-            this.msgNotif = this.statusNotif.resolve;
-          }, 1500)
-          return
+            this.setNotification(STATUS_UP);
+          }, timeout);
+          return;
         }
-        this.isUp = true;
-        this.msgNotif = this.statusNotif.resolve;
+        this.setNotification(STATUS_UP);
       } catch (err) {
-        console.log(err);
-        this.isUp = false;
-        this.msgNotif = this.statusNotif.reject;
+        this.setNotification(STATUS_DOWN, err);
       }
+    },
+    UICloseNotificationOnClick: function() {
+      this.closeNotification();
+    },
+    closeNotification: function() {
+      this.isChecked = false;
+    },
+    successNotification: function() {
+      this.isChecked = true;
+      this.isUp = STATUS_UP;
+      this.msgNotif = this.statusNotif.resolve;
+    },
+    errorNotification: function(err) {
+      console.log(err);
+      this.isChecked = true;
+      this.isUp = STATUS_DOWN;
+      this.msgNotif = this.statusNotif.reject;
+    },
+    waitNotification: function() {
+      this.isChecked = true;
+      this.msgNotif = this.statusNotif.pending;
+      this.isUp = STATUS_INITIAL;
+    },
+    setNotification: function(status, error = null) {
+      if (status === STATUS_INITIAL) {
+        this.waitNotification();
+        return;
+      }
+      if (status === STATUS_UP) {
+        this.successNotification();
+        return;
+      }
+      if (status === STATUS_DOWN && error) {
+        this.errorNotification(error);
+        return;
+      }
+
+      console.log("SetNotification Error");
     }
+  },
+  mounted() {
+    this.isUp = STATUS_INITIAL;
   }
 };
 </script>
 
 <style scoped>
-.valid {
-  background-color: forestgreen !important;
-}
-.error {
-  background-color: red !important;
-}
-.default {
-  background-color: gray;
-  color: white;
-}
-div.notif {
-  padding: 20px 40px;
-  border: none;
-  width: 25%;
-  margin: 15px auto auto;
-}
-.notif-title {
-  font-size: x-large;
-  font-weight: bold;
-}
-.notif-content {
-  margin: 0;
+.message {
+  margin: 10px;
 }
 </style>

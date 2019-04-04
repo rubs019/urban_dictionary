@@ -3,19 +3,19 @@
     <div id="nav">
       <TheHeading />
     </div>
-      <router-view />
+    <router-view />
   </div>
 </template>
 
 <script>
-  import TheHeading from "@/components/generic/TheHeading.vue";
+import TheHeading from "@/components/generic/TheHeading.vue";
 
-  export default {
-    name: "home",
-    components: {
-      TheHeading
-    }
-  };
+export default {
+  name: "home",
+  components: {
+    TheHeading
+  }
+};
 </script>
 <style lang="scss">
 #app {
