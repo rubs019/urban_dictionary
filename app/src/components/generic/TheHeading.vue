@@ -1,12 +1,11 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <router-link :to="{ name: 'AppHome' }" class="navbar-item">
-        <img
-          src="https://bulma.io/images/bulma-logo.png"
-          width="112"
-          height="28"
-        />
+      <router-link
+        :to="{ name: 'AppHome' }"
+        class="navbar-item router-link-exact-active"
+      >
+        {{ AppName }}
       </router-link>
 
       <a
@@ -23,22 +22,19 @@
     </div>
 
     <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
+      <div class="navbar-end">
         <router-link :to="{ name: 'AppHome' }" class="navbar-item">{{
           PageName.home
         }}</router-link>
 
-        <router-link to="/definitions" class="navbar-item"
-          >Definitions</router-link
-        >
-        <router-link to="/games" class="navbar-item">{{
-          PageName.games
+        <router-link :to="{ name: 'ListDefinitions' }" class="navbar-item">{{
+          PageName.expression
         }}</router-link>
-        <router-link :to="{ name: 'AppHealthCheck' }" class="navbar-item">{{
-          PageName.health
+        <router-link :to="{ name: 'AppAbout' }" class="navbar-item">{{
+          PageName.about
         }}</router-link>
 
-        <div class="navbar-item has-dropdown is-hoverable">
+        <!-- <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             More
           </a>
@@ -46,7 +42,7 @@
           <div class="navbar-dropdown">
             <router-link :to="{ name: 'AppAbout' }" class="navbar-item">{{
               PageName.about
-            }}</router-link>
+              }}</router-link>
 
             <a class="navbar-item">
               Jobs
@@ -54,24 +50,23 @@
             <a class="navbar-item">
               <router-link :to="{ name: 'AppContact' }">{{
                 PageName.contact
-              }}</router-link>
+                }}</router-link>
             </a>
             <hr class="navbar-divider" />
             <a class="navbar-item">
               Report an issue
             </a>
           </div>
-        </div>
-      </div>
-
-      <div class="navbar-end">
+        </div> -->
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
-              <strong>Sign up</strong>
-            </a>
             <a class="button is-light">
               Log in
+            </a>
+            <a class="button is-primary">
+              <router-link to="/games">
+                <strong>{{ PageName.games }}</strong>
+              </router-link>
             </a>
           </div>
         </div>
@@ -81,13 +76,18 @@
 </template>
 
 <script>
-import { PAGE_NAME } from "@/constants";
+import { PAGE_NAME, APP_NAME } from "../../constants";
 export default {
   name: "TheHeading",
   data: () => ({
-    PageName: PAGE_NAME
+    PageName: PAGE_NAME,
+    AppName: APP_NAME
   })
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.navbar-brand {
+  font-size: 2.2em;
+}
+</style>

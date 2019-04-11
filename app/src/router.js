@@ -37,6 +37,7 @@ export default new Router({
       children: [
         {
           path: "/",
+          name: "ListDefinitions",
           component: ListDefinitions
         },
         {
@@ -49,7 +50,7 @@ export default new Router({
         },
         {
           path: ":name",
-          name: "one-definition",
+          name: "OneDefinition",
           component: OneDefinitions
         }
       ]

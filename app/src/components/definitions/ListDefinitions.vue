@@ -2,14 +2,20 @@
   <div class="list-definitions container">
     <p class="title">List Definitions</p>
     <div class="columns">
-      <div class="column is-6" v-for="(definition, index) in definitions" :key="index">
+      <div
+        class="column is-6"
+        v-for="(definition, index) in definitions"
+        :key="index"
+      >
         <div class="card">
-          <router-link :to="{ name: 'one-definition', params: { name: definition.name } }">
+          <router-link
+            :to="{ name: 'OneDefinition', params: { name: definition.name } }"
+          >
             <header class="card-header">
               <p class="card-header-title">
                 <router-link
-                  :to="{ name: 'one-definition', params: { id: definition.id } }"
-                >{{ definition.name }}
+                  :to="{ name: 'OneDefinition', params: { id: definition.id } }"
+                  >{{ definition.name }}
                 </router-link>
               </p>
               <a href="#" class="card-header-icon" aria-label="more options">
@@ -21,8 +27,9 @@
             <div class="card-content">
               <div class="content">
                 {{ definition.definition.substr(0, 120) }}
-                <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
-                <br>
+                <a href="#">@bulmaio</a>. <a href="#">#css</a>
+                <a href="#">#responsive</a>
+                <br />
                 <time datetime="2016-1-1">{{ definition.created_at }}</time>
               </div>
             </div>
@@ -68,19 +75,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .card {
-    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 0;
-    a {
-      color: white;
-    }
-    background-color: #36cfde;
+.card {
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 0;
+  a {
     color: white;
   }
-  .card-header {
-    box-shadow: none;
-  }
-  .card-footer-item {
-    border-right: none !important;
-  }
-
+  background-color: #36cfde;
+  color: white;
+}
+.card-header {
+  box-shadow: none;
+}
+.card-footer-item {
+  border-right: none !important;
+}
 </style>

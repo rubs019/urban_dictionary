@@ -13,8 +13,7 @@ Finished at : *****
 ## Run project
 To run API and webApp at the same time use
 ``npm start``
-in root foolder
-#### Web Application
-``cd app && npm run serve``
-#### API
+in root folder
+#### Web Application & API
+To run webApp and API separately go to correct folder and run
 ``cd api && npm start``
