@@ -24,9 +24,11 @@
     <input
       ref="input"
       class="input is-rounded"
+      :class="[border ? 'border-input' : '']"
+      v-on:keyup.enter="UIGoToDefinition"
       type="text"
-      placeholder="SEARCH"
-      v-model="userInput"
+      placeholder="Entrer le mot que vous cherchez"
+      v-model="userInput.name"
     />
     <!-- Icone de gauche -->
     <span class="icon is-small is-left">
@@ -42,23 +44,39 @@
 <script>
 export default {
   name: "searchComponent",
+  props: ["border"],
   data() {
     return {
-      userInput: null,
+      userInput: {
+        name: null
+      },
       expressionsFromBDD: []
     };
   },
   methods: {
     filterWithLowerCase: function(expression) {
-      return expression.name.toLowerCase() === this.userInput;
+      if (!this.userInput.name) return;
+      console.log(expression.name, this.userInput.name);
+      return expression.name.toLowerCase() === this.userInput.name;
     },
     onClose() {
       this.expressionsFromBDD = [];
+    },
+    UIGoToDefinition() {
+      const expression =
+        this.filteredExpressionsFromBDD.shift() || this.userInput;
+      if (!expression) {
+        return this.$router.push({ name: "AppHome" });
+      }
+      return this.$router.push({
+        name: "OneDefinition",
+        params: { name: expression.name }
+      });
     }
   },
   computed: {
     filteredExpressionsFromBDD: function() {
-      if (this.expressionsFromBDD.length === 0) return [];
+      if (this.expressionsFromBDD.length === 0) return this.expressionsFromBDD;
       return this.expressionsFromBDD.filter(this.filterWithLowerCase);
     },
     resultList: function() {
@@ -71,7 +89,8 @@ export default {
       { name: "Afro-Trap" },
       { name: "Kahwa" },
       { name: "En Esprit" },
-      { name: "Etre Stein" }
+      { name: "Etre Stein" },
+      { name: "FriendZone" }
     ];
   }
 };
@@ -98,6 +117,9 @@ $myGrey: #7b7b7b;
   &:hover {
     color: $myGrey;
   }
+}
+.border-input {
+  border: 1px solid $myGrey;
 }
 .content {
   z-index: 999;

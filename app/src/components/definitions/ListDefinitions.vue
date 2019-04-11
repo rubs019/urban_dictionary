@@ -67,6 +67,7 @@ export default {
       const definitions = await APIService.get(ENDPOINT);
 
       this.definitions = definitions.data;
+      console.log(definitions.data);
     } catch (err) {
       console.log(err);
     }

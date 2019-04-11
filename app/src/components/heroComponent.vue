@@ -1,12 +1,12 @@
 <template>
-  <section class="hero is-medium is-primary is-bold">
+  <section class="hero is-primary is-bold">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
           {{ AppName }}
         </h1>
         <h2 class="subtitle">
-          Je suis un slogan qui devra apparaitre içi
+          Le dictionnaire complet de l'argot
         </h2>
         <h2 class="subtitle search">
           <SearchComponent></SearchComponent>
