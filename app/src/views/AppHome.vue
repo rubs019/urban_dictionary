@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <HeroComponent></HeroComponent>
+    <AppHeroComponent></AppHeroComponent>
     <section class="section">
       <div class="container">
         <div class="columns">
@@ -20,10 +20,13 @@
                 </router-link>
               </div>
               <div class="tile is-parent">
-                <BaseTag></BaseTag>
+                <BaseTag :tags="tags"></BaseTag>
               </div>
               <div class="tile is-parent">
-                <BaseTopExpressions></BaseTopExpressions>
+                <BaseTopExpressions
+                  :expressions-names="expressions"
+                  v-bind:url="'OneDefinition'"
+                ></BaseTopExpressions>
               </div>
             </div>
           </div>
@@ -35,7 +38,7 @@
 
 <script>
 // @ is an alias to /src
-import HeroComponent from "../components/heroComponent.vue";
+import AppHeroComponent from "../components/heroComponent.vue";
 import BaseTag from "../components/BaseTag.vue";
 import BaseTopExpressions from "../components/BaseTopExpressions.vue";
 import { APP_NAME } from "../constants";
@@ -44,11 +47,46 @@ export default {
   name: "AppHome",
   data() {
     return {
-      AppName: APP_NAME
+      AppName: APP_NAME,
+      tags: [
+        "Street",
+        "Soleil",
+        "Paris",
+        "Musique",
+        "One",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "Ten",
+        "Eleven",
+        "Twelve",
+        "Thirteen",
+        "Fourteen",
+        "Fifteen",
+        "Sixteen",
+        "Seventeen",
+        "Eighteen",
+        "Nineteen"
+      ],
+      expressions: [
+        "Tchoin",
+        "au DD",
+        "Gava",
+        "Bavon",
+        "Brava",
+        "En esprit",
+        "Un Fer",
+        "Un guigui"
+      ]
     };
   },
   components: {
-    HeroComponent,
+    AppHeroComponent,
     BaseTag,
     BaseTopExpressions
   }

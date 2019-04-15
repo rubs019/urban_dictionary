@@ -21,7 +21,7 @@ import SearchComponent from "../components/searchComponent";
 import { APP_NAME } from "../constants";
 
 export default {
-  name: "heroComponent",
+  name: "AppHeroComponent",
   components: { SearchComponent },
   data() {
     return {

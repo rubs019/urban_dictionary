@@ -1,9 +1,11 @@
 import Vue from "vue";
 import App from "./App.vue";
+import Buefy from "buefy";
 import router from "./router";
 
 Vue.config.productionTip = false;
 let handleOutsideClick;
+Vue.use(Buefy);
 Vue.directive("clickOutside", {
   inserted: function(el) {
     console.log("el", el);

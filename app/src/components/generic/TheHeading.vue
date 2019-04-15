@@ -33,36 +33,14 @@
         <router-link :to="{ name: 'AppAbout' }" class="navbar-item">{{
           PageName.about
         }}</router-link>
-
-        <!-- <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            More
-          </a>
-
-          <div class="navbar-dropdown">
-            <router-link :to="{ name: 'AppAbout' }" class="navbar-item">{{
-              PageName.about
-              }}</router-link>
-
-            <a class="navbar-item">
-              Jobs
-            </a>
-            <a class="navbar-item">
-              <router-link :to="{ name: 'AppContact' }">{{
-                PageName.contact
-                }}</router-link>
-            </a>
-            <hr class="navbar-divider" />
-            <a class="navbar-item">
-              Report an issue
-            </a>
-          </div>
-        </div> -->
+        <router-link :to="{ name: 'AppLogIn' }" class="navbar-item">
+          Log in
+        </router-link>
+        <router-link :to="{ name: 'AppSignUp' }" class="navbar-item">
+          Sign Up
+        </router-link>
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-light">
-              Log in
-            </a>
             <a class="button is-primary">
               <router-link to="/games">
                 <strong>{{ PageName.games }}</strong>
@@ -77,6 +55,7 @@
 
 <script>
 import { PAGE_NAME, APP_NAME } from "../../constants";
+
 export default {
   name: "TheHeading",
   data: () => ({

@@ -5,14 +5,14 @@
       <div class="tags">
         <div class="content">
           <ol start="1">
-            <li>Wesh</li>
-            <li>Tchoin</li>
-            <li>Tchoin</li>
-            <li>Tchoin</li>
-            <li>Tchoin</li>
-            <li>Tchoin</li>
-            <li>Tchoin</li>
-            <li>Tchoin</li>
+            <router-link
+              tag="li"
+              v-for="(expressionName, index) in expressionsNames"
+              :key="index"
+              :to="{ name: 'OneDefinition', params: { name: expressionName } }"
+            >
+              {{ expressionName }}
+            </router-link>
           </ol>
         </div>
       </div>
@@ -22,8 +22,18 @@
 
 <script>
 export default {
-  name: "BaseTopExpressions"
+  name: "BaseTopExpressions",
+  props: {
+    expressionsNames: Array,
+    url: String
+  }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+li {
+  cursor: pointer;
+}
+li:hover {
+}
+</style>

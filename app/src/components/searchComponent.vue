@@ -111,7 +111,6 @@ $myGrey: #7b7b7b;
   position: absolute;
   top: 10px;
   right: 20px;
-  z-index: 999;
   cursor: pointer;
   color: #dbdbdb;
   &:hover {
@@ -122,7 +121,6 @@ $myGrey: #7b7b7b;
   border: 1px solid $myGrey;
 }
 .content {
-  z-index: 999;
   background-color: white;
   width: 93%;
   color: #909090;

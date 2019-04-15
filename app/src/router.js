@@ -10,6 +10,8 @@ import InscriptionPage from "./views/inscription/InscriptionPage";
 import AppContact from "./views/AppContact";
 import AppDefinitions from "./views/AppDefinitions";
 import AddDefinitions from "./components/definitions/AddDefinitions";
+import AppLogIn from "./views/AppLogIn";
+import AppSignIn from "./views/AppSignUp";
 
 Vue.use(Router);
 
@@ -29,6 +31,16 @@ export default new Router({
       path: "/games",
       name: "games",
       component: Games
+    },
+    {
+      path: "/login",
+      name: "AppLogIn",
+      component: AppLogIn
+    },
+    {
+      path: "/signup",
+      name: "AppSignUp",
+      component: AppSignIn
     },
     {
       path: "/definitions",

@@ -24,6 +24,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #f6f9fc;
+  height: 100vh;
 }
 #nav {
   padding: 0;
