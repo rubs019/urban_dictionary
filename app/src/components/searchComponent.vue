@@ -12,7 +12,7 @@
         <!-- On affiche la liste que si nous avons des résultats -->
         <router-link
           tag="li"
-          v-for="(expression, index) in filteredExpressionsFromBDD"
+          v-for="(expression, index) in suggestions"
           :key="index"
           :to="{ name: 'OneDefinition', params: { name: expression.name } }"
         >
@@ -23,9 +23,10 @@
 
     <input
       ref="input"
+      id="searchContent"
       class="input is-rounded"
       :class="[border ? 'border-input' : '']"
-      v-on:keyup.enter="UIGoToDefinition"
+      v-on:keyup.enter="UIRedirectToDefinition"
       type="text"
       placeholder="Entrer le mot que vous cherchez"
       v-model="userInput.name"
@@ -50,22 +51,21 @@ export default {
       userInput: {
         name: null
       },
-      expressionsFromBDD: []
+      rawExpressions: []
     };
   },
   methods: {
-    filterWithLowerCase: function(expression) {
-      if (!this.userInput.name) return;
-      console.log(expression.name, this.userInput.name);
-      return expression.name.toLowerCase() === this.userInput.name;
+    filterWithLowerCase: function(rawExpression) {
+      return rawExpression.name.toLowerCase() === this.userInput.name;
     },
     onClose() {
-      this.expressionsFromBDD = [];
+      this.rawExpressions = [];
     },
-    UIGoToDefinition() {
-      const expression =
-        this.filteredExpressionsFromBDD.shift() || this.userInput;
-      if (!expression) {
+    UIRedirectToDefinition() {
+      const expression = this.suggestions.shift() || this.userInput;
+      // Use to select the first element of suggestion or the user input text
+      if (!expression.name) {
+        // Todo: idea ? Put a notif
         return this.$router.push({ name: "AppHome" });
       }
       return this.$router.push({
@@ -75,16 +75,19 @@ export default {
     }
   },
   computed: {
-    filteredExpressionsFromBDD: function() {
-      if (this.expressionsFromBDD.length === 0) return this.expressionsFromBDD;
-      return this.expressionsFromBDD.filter(this.filterWithLowerCase);
+    suggestions: function() {
+      // Don't show suggestions lists if no results
+      if (this.rawExpressions.length === 0) return [];
+
+      // Else filters the results
+      return this.rawExpressions.filter(this.filterWithLowerCase);
     },
     resultList: function() {
-      return this.filteredExpressionsFromBDD.length !== 0;
+      return this.suggestions.length !== 0;
     }
   },
   mounted() {
-    this.expressionsFromBDD = [
+    this.rawExpressions = [
       { name: "Tchoin" },
       { name: "Afro-Trap" },
       { name: "Kahwa" },

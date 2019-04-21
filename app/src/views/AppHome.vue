@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <AppHeroComponent></AppHeroComponent>
+    <AppHeroComponent
+      :app-name="AppName"
+      :app-description="AppDescription"
+    ></AppHeroComponent>
     <section class="section">
       <div class="container">
         <div class="columns">
@@ -41,13 +44,14 @@
 import AppHeroComponent from "../components/heroComponent.vue";
 import BaseTag from "../components/BaseTag.vue";
 import BaseTopExpressions from "../components/BaseTopExpressions.vue";
-import { APP_NAME } from "../constants";
+import { APP_NAME, APP_DESCRIPTION } from "../constants";
 
 export default {
   name: "AppHome",
   data() {
     return {
       AppName: APP_NAME,
+      AppDescription: APP_DESCRIPTION,
       tags: [
         "Street",
         "Soleil",
@@ -73,7 +77,7 @@ export default {
         "Eighteen",
         "Nineteen"
       ],
-      expressions: [
+      rawExpressions: [
         "Tchoin",
         "au DD",
         "Gava",

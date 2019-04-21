@@ -4,8 +4,17 @@ import Buefy from "buefy";
 import router from "./router";
 
 Vue.config.productionTip = false;
-let handleOutsideClick;
+
+// We use buefy
 Vue.use(Buefy);
+
+/*
+
+  Click outside function
+  Use case:  Use to remove search suggestion on searchbar
+
+ */
+let handleOutsideClick;
 Vue.directive("clickOutside", {
   inserted: function(el) {
     console.log("el", el);
@@ -51,6 +60,7 @@ Vue.directive("clickOutside", {
     document.removeEventListener("touchstart", handleOutsideClick);
   }
 });
+
 new Vue({
   router,
   render: h => h(App)

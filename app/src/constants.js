@@ -8,3 +8,4 @@ export const PAGE_NAME = {
 };
 
 export const APP_NAME = "UnderDico";
+export const APP_DESCRIPTION = "Le dictionnaire complet de l'argot";

@@ -6,7 +6,7 @@
           {{ AppName }}
         </h1>
         <h2 class="subtitle">
-          Le dictionnaire complet de l'argot
+          {{ AppDescription }}
         </h2>
         <h2 class="subtitle search">
           <SearchComponent></SearchComponent>
@@ -18,15 +18,13 @@
 
 <script>
 import SearchComponent from "../components/searchComponent";
-import { APP_NAME } from "../constants";
 
 export default {
   name: "AppHeroComponent",
   components: { SearchComponent },
-  data() {
-    return {
-      AppName: APP_NAME
-    };
+  props: {
+    AppName: String,
+    AppDescription: String
   }
 };
 </script>
