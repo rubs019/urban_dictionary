@@ -1,6 +1,7 @@
 {
   "name": "urban_dictionary_proto",
   "version": "0.1.0",
+  "engines" : { "node" : ">=10.15.3" },
   "description": "Proto for school project",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
