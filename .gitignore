@@ -1,6 +1,6 @@
 .DS_Store
 .idea/*
-api/admin/admin/build
+dist/
 
 ############################
 # OS X

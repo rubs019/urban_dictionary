@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "vue-cli-service serve --port=8090",
+    "start": "node server.js",
+    "start:dev": "vue-cli-service serve --port=8090",
     "serve:start": "./node_modules/@vue/cli/bin/vue.js serve",
     "serve": "vue-cli-service serve --port=8090",
     "build": "vue-cli-service build",
+    "heroku-prebuild": "npm install && npm audit fix",
+    "heroku-postbuild": "npm run build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
@@ -14,10 +17,15 @@
     "docker:start": "docker run -t -p 3090:8090 urban_dictionary_app",
     "docker:dev": "npm run docker:build && npm run docker:start"
   },
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.4.1"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "vue": "^2.6.6",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "express": "^4.16.4"
   },
   "devDependencies": {
     "@vue/cli": "^3.6.3",
