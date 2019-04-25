@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import * as APIService from "@/services/api.service";
-const ENDPOINT = "definitions";
+import * as APIService from "@/services/api.service"
+const ENDPOINT = "definitions"
 export default {
   name: "ListDefinitions",
   data: () => ({
@@ -64,15 +64,15 @@ export default {
   }),
   async mounted() {
     try {
-      const definitions = await APIService.get(ENDPOINT);
+      const definitions = await APIService.get(ENDPOINT)
 
-      this.definitions = definitions.data;
-      console.log(definitions.data);
+      this.definitions = definitions.data
+      console.log(definitions.data)
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

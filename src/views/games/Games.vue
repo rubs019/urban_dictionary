@@ -10,7 +10,7 @@ export default {
   data: () => ({
     msg: "Coming soon"
   })
-};
+}
 </script>
 
 <style scoped></style>

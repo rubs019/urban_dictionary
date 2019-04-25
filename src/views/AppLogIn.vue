@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import FormLogin from "../components/FormLogin";
+import FormLogin from "../components/FormLogin"
 export default {
   name: "AppLogIn",
   components: {
@@ -20,11 +20,11 @@ export default {
   }),
   methods: {
     sendLogin() {
-      this.form.message = "Identifiant ou mot de passe incorrect";
+      this.form.message = "Identifiant ou mot de passe incorrect"
       // Send login and pwd
     }
   }
-};
+}
 </script>
 
 <style scoped>

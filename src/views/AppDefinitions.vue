@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import SearchComponent from "../components/searchComponent";
+import SearchComponent from "../components/searchComponent"
 export default {
   name: "AppDefinitions",
   components: { SearchComponent }
-};
+}
 </script>
 
 <style scoped lang="scss">

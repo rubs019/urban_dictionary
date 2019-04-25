@@ -52,38 +52,38 @@ export default {
         name: null
       },
       rawExpressions: []
-    };
+    }
   },
   methods: {
     filterWithLowerCase: function(rawExpression) {
-      return rawExpression.name.toLowerCase() === this.userInput.name;
+      return rawExpression.name.toLowerCase() === this.userInput.name
     },
     onClose() {
-      this.rawExpressions = [];
+      this.rawExpressions = []
     },
     UIRedirectToDefinition() {
-      const expression = this.suggestions.shift() || this.userInput;
+      const expression = this.suggestions.shift() || this.userInput
       // Use to select the first element of suggestion or the user input text
       if (!expression.name) {
         // Todo: idea ? Put a notif
-        return this.$router.push({ name: "AppHome" });
+        return this.$router.push({ name: "AppHome" })
       }
       return this.$router.push({
         name: "OneDefinition",
         params: { name: expression.name }
-      });
+      })
     }
   },
   computed: {
     suggestions: function() {
       // Don't show suggestions lists if no results
-      if (this.rawExpressions.length === 0) return [];
+      if (this.rawExpressions.length === 0) return []
 
       // Else filters the results
-      return this.rawExpressions.filter(this.filterWithLowerCase);
+      return this.rawExpressions.filter(this.filterWithLowerCase)
     },
     resultList: function() {
-      return this.suggestions.length !== 0;
+      return this.suggestions.length !== 0
     }
   },
   mounted() {
@@ -94,9 +94,9 @@ export default {
       { name: "En Esprit" },
       { name: "Etre Stein" },
       { name: "FriendZone" }
-    ];
+    ]
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

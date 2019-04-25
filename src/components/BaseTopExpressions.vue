@@ -27,7 +27,7 @@ export default {
     expressionsNames: Array,
     url: String
   }
-};
+}
 </script>
 
 <style scoped>

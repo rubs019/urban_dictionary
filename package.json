@@ -10,7 +10,7 @@
     "build": "vue-cli-service build",
     "heroku-prebuild": "npm install && npm audit fix",
     "heroku-postbuild": "npm run build",
-    "lint": "vue-cli-service lint",
+    "lint": "vue-cli-service src lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "docker:build": "docker build --tag=urban_dictionary_app app",

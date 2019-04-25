@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import SearchComponent from "./searchComponent";
+import SearchComponent from "./searchComponent"
 
 export default {
   name: "AppHeroComponent",
@@ -26,7 +26,7 @@ export default {
     AppName: String,
     AppDescription: String
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

@@ -1,19 +1,19 @@
-import Vue from "vue";
-import Router from "vue-router";
-import Home from "./views/AppHome.vue";
-import HealthCheck from "./views/AppHealthCheck.vue";
-import Games from "./views/games/Games";
-import OneDefinitions from "./components/definitions/OneDefinitions";
-import UpdateDefinitions from "./components/definitions/UpdateDefinitions";
-import ListDefinitions from "./components/definitions/ListDefinitions";
-import InscriptionPage from "./views/inscription/InscriptionPage";
-import AppContact from "./views/AppContact";
-import AppDefinitions from "./views/AppDefinitions";
-import AddDefinitions from "./components/definitions/AddDefinitions";
-import AppLogIn from "./views/AppLogIn";
-import AppSignIn from "./views/AppSignUp";
+import Vue from "vue"
+import Router from "vue-router"
+import Home from "./views/AppHome.vue"
+import HealthCheck from "./views/AppHealthCheck.vue"
+import Games from "./views/games/Games"
+import OneDefinitions from "./components/definitions/OneDefinitions"
+import UpdateDefinitions from "./components/definitions/UpdateDefinitions"
+import ListDefinitions from "./components/definitions/ListDefinitions"
+import InscriptionPage from "./views/inscription/InscriptionPage"
+import AppContact from "./views/AppContact"
+import AppDefinitions from "./views/AppDefinitions"
+import AddDefinitions from "./components/definitions/AddDefinitions"
+import AppLogIn from "./views/AppLogIn"
+import AppSignIn from "./views/AppSignUp"
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   routes: [
@@ -87,4 +87,4 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/AppAbout.vue")
     }
   ]
-});
+})

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import FormSignUp from "../components/FormSignUp";
+import FormSignUp from "../components/FormSignUp"
 export default {
   name: "AppSignUp",
   components: {
@@ -20,13 +20,13 @@ export default {
   }),
   methods: {
     sendLogin(credentials) {
-      this.form.message = "Identifiant ou mot de passe incorrect";
+      this.form.message = "Identifiant ou mot de passe incorrect"
       // Send login and pwd
 
-      console.log("credentials", credentials);
+      console.log("credentials", credentials)
     }
   }
-};
+}
 </script>
 
 <style scoped>

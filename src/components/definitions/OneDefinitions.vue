@@ -101,8 +101,8 @@
 </template>
 
 <script>
-import * as APIService from "../../services/api.service";
-const ENDPOINT = "definitions";
+import * as APIService from "../../services/api.service"
+const ENDPOINT = "definitions"
 
 export default {
   name: "OneDefinitions",
@@ -110,35 +110,35 @@ export default {
     definition: null
   }),
   async mounted() {
-    console.log("mounted");
-    this.getDefinition();
+    console.log("mounted")
+    this.getDefinition()
   },
   methods: {
     async getDefinition() {
-      const nameDefinition = this.$route.params.name;
+      const nameDefinition = this.$route.params.name
       try {
         const definition = await APIService.get(
           `${ENDPOINT}/${nameDefinition}`
-        );
-        this.definition = definition.data;
+        )
+        this.definition = definition.data
       } catch (err) {
         this.definition = {
           name: "Oups...",
           definition: "La défintion que vous cherchez n'existe pas :("
-        };
+        }
       }
     }
   },
   async beforeRouteUpdate(to, from, next) {
     // react to route changes...
     // don't forget to call next()
-    console.log(to, from);
-    this.definition = null;
-    await this.getDefinition();
-    console.log("done");
-    next();
+    console.log(to, from)
+    this.definition = null
+    await this.getDefinition()
+    console.log("done")
+    next()
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

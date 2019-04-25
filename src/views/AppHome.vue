@@ -41,10 +41,10 @@
 
 <script>
 // @ is an alias to /src
-import AppHeroComponent from "../components/heroComponent.vue";
-import BaseTag from "../components/BaseTag.vue";
-import BaseTopExpressions from "../components/BaseTopExpressions.vue";
-import { APP_NAME, APP_DESCRIPTION } from "../constants";
+import AppHeroComponent from "../components/heroComponent.vue"
+import BaseTag from "../components/BaseTag.vue"
+import BaseTopExpressions from "../components/BaseTopExpressions.vue"
+import { APP_NAME, APP_DESCRIPTION } from "../constants"
 
 export default {
   name: "AppHome",
@@ -87,12 +87,12 @@ export default {
         "Un Fer",
         "Un guigui"
       ]
-    };
+    }
   },
   components: {
     AppHeroComponent,
     BaseTag,
     BaseTopExpressions
   }
-};
+}
 </script>

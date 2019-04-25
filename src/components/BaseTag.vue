@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import BaseTagLabel from "./BaseTagLabel";
+import BaseTagLabel from "./BaseTagLabel"
 export default {
   name: "BaseTag",
   components: {
@@ -25,7 +25,7 @@ export default {
   props: {
     tags: Array
   }
-};
+}
 </script>
 
 <style scoped></style>

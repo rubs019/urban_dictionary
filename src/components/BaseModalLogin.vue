@@ -117,16 +117,16 @@ export default {
         login: null,
         pwd: null
       }
-    };
+    }
   },
   methods: {
     sendLogin() {
-      this.form.message = "Identifiant ou mot de passe incorrect";
-      this.user.login = null;
-      this.user.pwd = null;
+      this.form.message = "Identifiant ou mot de passe incorrect"
+      this.user.login = null
+      this.user.pwd = null
     }
   }
-};
+}
 </script>
 
 <style scoped>

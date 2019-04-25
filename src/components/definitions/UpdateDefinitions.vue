@@ -11,7 +11,7 @@
 <script>
 export default {
   name: "UpdateDefinitions"
-};
+}
 </script>
 
 <style scoped></style>

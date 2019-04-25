@@ -41,12 +41,12 @@
 </template>
 
 <script>
-import * as APIService from "@/services/api.service";
+import * as APIService from "@/services/api.service"
 
 const STATUS_INITIAL = 0,
   STATUS_UP = 1,
-  STATUS_DOWN = 2;
-const ENDPOINT = "healthcheck";
+  STATUS_DOWN = 2
+const ENDPOINT = "healthcheck"
 
 export default {
   name: "AppHealthCheck",
@@ -74,68 +74,68 @@ export default {
     UICheck: async function(lazy, timeout = 1500) {
       if (this.isChecked === true) {
         // For better UX
-        this.closeNotification();
-        return;
+        this.closeNotification()
+        return
       }
-      this.setNotification(STATUS_INITIAL);
+      this.setNotification(STATUS_INITIAL)
       try {
-        await APIService.get(ENDPOINT);
+        await APIService.get(ENDPOINT)
 
         if (lazy) {
           // Use to simulate a server latency
           setTimeout(() => {
-            this.setNotification(STATUS_UP);
-          }, timeout);
-          return;
+            this.setNotification(STATUS_UP)
+          }, timeout)
+          return
         }
-        this.setNotification(STATUS_UP);
+        this.setNotification(STATUS_UP)
       } catch (err) {
-        this.setNotification(STATUS_DOWN, err);
+        this.setNotification(STATUS_DOWN, err)
       }
     },
     UICloseNotificationOnClick: function() {
-      this.closeNotification();
+      this.closeNotification()
     },
     closeNotification: function() {
-      this.isChecked = false;
+      this.isChecked = false
     },
     successNotification: function() {
-      this.isChecked = true;
-      this.isUp = STATUS_UP;
-      this.msgNotif = this.statusNotif.resolve;
+      this.isChecked = true
+      this.isUp = STATUS_UP
+      this.msgNotif = this.statusNotif.resolve
     },
     errorNotification: function(err) {
-      console.log(err);
-      this.isChecked = true;
-      this.isUp = STATUS_DOWN;
-      this.msgNotif = this.statusNotif.reject;
+      console.log(err)
+      this.isChecked = true
+      this.isUp = STATUS_DOWN
+      this.msgNotif = this.statusNotif.reject
     },
     waitNotification: function() {
-      this.isChecked = true;
-      this.msgNotif = this.statusNotif.pending;
-      this.isUp = STATUS_INITIAL;
+      this.isChecked = true
+      this.msgNotif = this.statusNotif.pending
+      this.isUp = STATUS_INITIAL
     },
     setNotification: function(status, error = null) {
       if (status === STATUS_INITIAL) {
-        this.waitNotification();
-        return;
+        this.waitNotification()
+        return
       }
       if (status === STATUS_UP) {
-        this.successNotification();
-        return;
+        this.successNotification()
+        return
       }
       if (status === STATUS_DOWN && error) {
-        this.errorNotification(error);
-        return;
+        this.errorNotification(error)
+        return
       }
 
-      console.log("SetNotification Error");
+      console.log("SetNotification Error")
     }
   },
   mounted() {
-    this.isUp = STATUS_INITIAL;
+    this.isUp = STATUS_INITIAL
   }
-};
+}
 </script>
 
 <style scoped>

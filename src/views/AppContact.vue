@@ -7,7 +7,7 @@
 <script>
 export default {
   name: "AppContact"
-};
+}
 </script>
 
 <style scoped></style>

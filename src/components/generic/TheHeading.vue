@@ -24,26 +24,30 @@
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-end">
         <router-link :to="{ name: 'AppHome' }" class="navbar-item">{{
-          PageName.home
+          MenuName.home
         }}</router-link>
 
         <router-link :to="{ name: 'ListDefinitions' }" class="navbar-item">{{
-          PageName.expression
+          MenuName.expression
         }}</router-link>
         <router-link :to="{ name: 'AppAbout' }" class="navbar-item">{{
-          PageName.about
+          MenuName.about
         }}</router-link>
-        <router-link :to="{ name: 'AppLogIn' }" class="navbar-item">
-          Log in
+        <router-link
+          :to="{ name: 'AppLogIn' }"
+          class="navbar-item"
+          v-on:click="connectOrDisconnectUser()"
+        >
+          {{ Storage.state.isConnected ? MenuName.logout : MenuName.login }}
         </router-link>
         <router-link :to="{ name: 'AppSignUp' }" class="navbar-item">
-          Sign Up
+          {{ MenuName.signup }}
         </router-link>
         <div class="navbar-item">
           <div class="buttons">
             <a class="button is-primary">
               <router-link to="/games">
-                <strong>{{ PageName.games }}</strong>
+                <strong>{{ MenuName.games }}</strong>
               </router-link>
             </a>
           </div>
@@ -54,15 +58,23 @@
 </template>
 
 <script>
-import { PAGE_NAME, APP_NAME } from "../../constants";
+import { APP_NAME, MENU_NAME } from "../../constants"
+import Store from "../../store"
 
 export default {
   name: "TheHeading",
   data: () => ({
-    PageName: PAGE_NAME,
-    AppName: APP_NAME
-  })
-};
+    AppName: APP_NAME,
+    MenuName: MENU_NAME,
+    Storage: Store
+  }),
+  methods: {
+    connectOrDisconnectUser: () => {
+      console.log("this.storage", Store)
+      Store.setConnected(!Store.state.isConnected)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

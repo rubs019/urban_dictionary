@@ -94,10 +94,10 @@ export default {
   },
   methods: {
     sendLogin() {
-      this.$emit("tryConnect", this.user);
+      this.$emit("tryConnect", this.user)
     }
   }
-};
+}
 </script>
 
 <style scoped></style>
