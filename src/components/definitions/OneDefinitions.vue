@@ -1,29 +1,7 @@
 <template>
   <div class="one-definitions">
-    <!--<section class="hero is-primary is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <template v-if="definition">
-            <h1 class="title">
-              {{ definition.name }}
-            </h1>
-            <h2 class="subtitle">
-              {{ definition.definition }}
-            </h2>
-          </template>
-          <template v-else>
-            <h1 class="title">
-              Chargement...
-            </h1>
-            <h2 class="subtitle">
-              <span class="loader"></span>
-            </h2>
-          </template>
-        </div>
-      </div>
-    </section>-->
     <div class="columns">
-      <div class="column is-8 is-offset-2">
+      <div class="column is-12">
         <template v-if="definition">
           <div class="tile is-parent">
             <article class="tile is-child notification is-primary">

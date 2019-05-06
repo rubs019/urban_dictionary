@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: "BaseTopExpressions",
+  name: "TopExpressions",
   props: {
     expressionsNames: Array,
     url: String

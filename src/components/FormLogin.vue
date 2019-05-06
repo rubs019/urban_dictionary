@@ -14,27 +14,29 @@
                     </div>
                   </article>
                 </template>
-                <div class="content has-text-left" v-if="user">
-                  <b-field label="Nom utilisateur">
-                    <b-input v-model="user.login"></b-input>
-                  </b-field>
+                <form @submit.prevent="sendLogin">
+                  <div class="content has-text-left" v-if="user">
+                    <b-field label="Nom utilisateur">
+                      <b-input v-model="user.login"></b-input>
+                    </b-field>
 
-                  <b-field label="Mot de passe">
-                    <b-input type="password" v-model="user.pwd"></b-input>
-                  </b-field>
-                </div>
-                <b-button
-                  type="is-primary"
-                  rounded
-                  class="is-pulled-right"
-                  v-on:click="sendLogin()"
+                    <b-field label="Mot de passe">
+                      <b-input type="password" v-model="user.pwd"></b-input>
+                    </b-field>
+                  </div>
+                  <b-button
+                          type="is-primary"
+                          rounded
+                          class="is-pulled-right"
+                          native-type="submit"
                   >Se connecter</b-button
-                >
-                <div class="content is-pulled-left">
-                  <router-link :to="{ name: '/inscriptions' }" class="is-size-7"
-                    >Vous n'avez pas encore de compte ?</router-link
                   >
-                </div>
+                  <div class="content is-pulled-left">
+                    <router-link :to="{ name: 'AppSignUp' }" class="is-size-7"
+                    >Vous n'avez pas encore de compte ?</router-link
+                    >
+                  </div>
+                </form>
               </div>
             </div>
           </div>

@@ -8,9 +8,18 @@
       <div class="container">
         <div class="columns">
           <div class="column is-8">
-            <h3 class="title boxed-section-title is-4 has-text-left">
-              Expression du jour
-            </h3>
+            <div id="topExpression">
+              <h3 class="title boxed-section-title is-4 has-text-left">
+                Expression du jour
+              </h3>
+              <OneDefinition></OneDefinition>
+            </div>
+            <div id="allExpression">
+              <h3 class="title boxed-section-title is-4 has-text-left">
+                Toutes les expressions
+              </h3>
+              <OneDefinition></OneDefinition>
+            </div>
           </div>
           <div class="column is-4">
             <div class="sidebar">
@@ -26,10 +35,10 @@
                 <BaseTag :tags="tags"></BaseTag>
               </div>
               <div class="tile is-parent">
-                <BaseTopExpressions
-                  :expressions-names="expressions"
+                <TopExpressions
+                  :expressions-names="rawExpressions"
                   v-bind:url="'OneDefinition'"
-                ></BaseTopExpressions>
+                ></TopExpressions>
               </div>
             </div>
           </div>
@@ -42,8 +51,9 @@
 <script>
 // @ is an alias to /src
 import AppHeroComponent from "../components/heroComponent.vue"
+import OneDefinition from "../components/definitions/OneDefinition"
 import BaseTag from "../components/BaseTag.vue"
-import BaseTopExpressions from "../components/BaseTopExpressions.vue"
+import TopExpressions from "../components/TopExpressions.vue"
 import { APP_NAME, APP_DESCRIPTION } from "../constants"
 
 export default {
@@ -52,6 +62,7 @@ export default {
     return {
       AppName: APP_NAME,
       AppDescription: APP_DESCRIPTION,
+      OneDefinition: OneDefinition,
       tags: [
         "Street",
         "Soleil",
@@ -92,7 +103,8 @@ export default {
   components: {
     AppHeroComponent,
     BaseTag,
-    BaseTopExpressions
+    TopExpressions,
+    OneDefinition
   }
 }
 </script>
