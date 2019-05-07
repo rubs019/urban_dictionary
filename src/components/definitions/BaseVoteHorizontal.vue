@@ -1,24 +1,31 @@
 <template>
     <div id="basevote">
-        <div class="divide">
-                    <span class="icon fa-2x" v-on:click="vote('add')">
+        <nav class="level">
+            <div class="level-item button has-text-centered is-primary" v-on:click="vote('add')">
+                  <span class="icon fa-2x">
                         <i class="fas fa-caret-up"></i>
                     </span>
-        </div>
-        <div class="divide">
-            <p> {{ nbLike || 1024 }}</p>
-        </div>
-        <div class="divide">
-                    <span class="icon fa-2x" v-on:click="vote('reduce')">
+                <span>Upvote</span>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">Vote</p>
+                    <p class="title">{{ nbLike }}</p>
+                </div>
+            </div>
+            <div class="level-item button has-text-centered is-primary" v-on:click="vote('reduce')">
+                  <span class="icon fa-2x">
                         <i class="fas fa-caret-down"></i>
                     </span>
-        </div>
+                <span>Downvote</span>
+            </div>
+        </nav>
     </div>
 </template>
 
 <script>
   export default {
-    name: "BaseVote",
+    name: "BaseVoteHorizontal",
     props: {
       nbVote: Number,
       nbMaxLike: Number
@@ -59,7 +66,6 @@
 
 <style scoped="scss">
     #basevote {
-        margin-top: 50%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -69,9 +75,5 @@
     }
     .divide {
         margin: 0.2em 0;
-    }
-    p {
-        font-size: 1.5em;
-        font-weight: bold;
     }
 </style>

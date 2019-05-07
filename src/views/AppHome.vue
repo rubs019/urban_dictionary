@@ -8,17 +8,17 @@
       <div class="container">
         <div class="columns">
           <div class="column is-8">
-            <div id="topExpression">
+            <div class="expression" id="topExpression">
               <h3 class="title boxed-section-title is-4 has-text-left">
                 Expression du jour
               </h3>
-              <OneDefinition></OneDefinition>
+              <OneDefinition :is-primary="true" :simpleComponent="false"></OneDefinition>
             </div>
-            <div id="allExpression">
+            <div class="expression" id="allExpression">
               <h3 class="title boxed-section-title is-4 has-text-left">
                 Toutes les expressions
               </h3>
-              <OneDefinition></OneDefinition>
+              <OneDefinition :is-primary="false" :simpleComponent="true"></OneDefinition>
             </div>
           </div>
           <div class="column is-4">
@@ -108,3 +108,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .expression {
+    padding: 40px 0;
+  }
+</style>

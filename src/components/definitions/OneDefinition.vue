@@ -2,39 +2,74 @@
   <div class="one-definitions">
 
     <template v-if="definition">
-      <article class="message is-primary">
-        <div class="message-body">
-          <div class="columns">
-            <div class="column is-10">
-              <div class="columns ">
-                <div class="column">
-                  <p class="title">
-                    {{ definition.name }}
-                  </p>
-                </div>
-              </div>
-              <div class="columns">
-                <div class="column has-text-left">
-                  <p class="subtitle is-size-6">
-                    {{ definition.definition }}
-                  </p>
-                </div>
-              </div>
-              <div class="columns">
-                <div class="column has-text-right">
-                  Ajouté par {{ definition.user.pseudo }}
-                </div>
+      <div class="tile is-parent">
+        <article
+                class="tile is-child notification"
+                v-bind:class="[isPrimary ? 'is-primary' : ''  ]">
+          <div class="level">
+            <div class="level-left">
+              <div class="item">
+                <router-link
+                  class="title"
+                  :to="{ name: 'OneDefinition', params: { name: definition.name } }">{{ definition.name }}
+                  </router-link>
               </div>
             </div>
-            <div class="column is-2">
-              <BaseVote
-                      @sendVote="updateNbVote()"
-                      :nb-vote="definition.like"
-              ></BaseVote>
+            <div class="level-right">
+              <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <div
+                          class="dropdown-definition"
+                          aria-haspopup="true"
+                          aria-controls="dropdown-menu4"
+                  >
+                        <span class="icon">
+                          <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                  </div>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                  <div class="dropdown-content">
+                    <a href="#" class="dropdown-item">
+                      <span class="icon">
+                          <i class="fas fa-flag" aria-hidden="true"></i>
+                        </span>
+                      Autre langue
+                    </a>
+                    <a href="#" class="dropdown-item">
+                      <span class="icon">
+                        <i class="fas fa-book"></i>
+                      </span>
+                      Proposez une définition
+                    </a>
+                    <a href="" class="dropdown-item">
+                      <span class="icon">
+                        <i class="fas fa-volume-up"></i>
+                      </span>
+                      Ecouter l'audio
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
+          <router-link
+            tag="p"
+            class="subtitle has-text-left is-size-6"
+            v-if="!simpleComponent"
+            :to="{ name: 'OneDefintion', params: { name: definition.user.pseudo } }">@{{ definition.user.pseudo }}</router-link>
+          <div class="content has-text-left">
+            <!-- Content -->
+            {{ definition.definition }}
+          </div>
+          <div v-if="!simpleComponent" id="tag-items" class="has-text-left">
+            <span id="label-items" v-for="(label, index) in definition.tags" :key="index">
+              <BaseTagLabel :name="label"></BaseTagLabel>
+            </span>
+          </div>
+          <BaseVoteHorizontal :nb-vote="definition.like"></BaseVoteHorizontal>
+        </article>
+      </div>
     </template>
     <template v-else>
       <div class="tile is-parent">
@@ -49,11 +84,16 @@
 </template>
 
 <script>
-import BaseVote from "./BaseVote"
+import BaseVoteHorizontal from "./BaseVoteHorizontal"
+import BaseTagLabel from "../BaseTagLabel"
 
 export default {
   name: "OneDefinitions",
-  components: { BaseVote },
+  components: { BaseVoteHorizontal, BaseTagLabel},
+  props: {
+    isPrimary: Boolean,
+    simpleComponent: Boolean
+  },
   data: () => ({
     definition: null
   }),
@@ -75,7 +115,8 @@ export default {
             user: {
               pseudo: "John DOE"
             },
-            like: 1252
+            like: 1252,
+            tags: ['Street', 'Musique', 'Paris', '2019']
           }
         }, 1500)
       } catch (err) {
@@ -125,6 +166,12 @@ export default {
   cursor: pointer;
 }
 p {
-  cursor: default;
+  cursor: pointer;
+}
+#tag-items {
+  margin: 5px 0;
+  span {
+    margin: 0 .2em;
+  }
 }
 </style>
