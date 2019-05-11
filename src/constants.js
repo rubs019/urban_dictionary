@@ -1,12 +1,3 @@
-export const PAGE_NAME = {
-  home: "Home",
-  contact: "Contact",
-  expression: "Expression",
-  about: "A propos",
-  games: "Games",
-  health: "Health"
-}
-
 export const MENU_NAME = {
   home: "Accueil",
   login: "Se connecter",
