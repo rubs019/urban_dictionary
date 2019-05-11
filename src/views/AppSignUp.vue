@@ -11,6 +11,8 @@ import FormSignUp from "../components/FormSignUp"
 import { post } from "../services/api.service"
 import { accountCreate } from "../services/DTO"
 import Store from "../store"
+import { NOTIF_MSG } from "../constants"
+
 export default {
   name: "AppSignUp",
   components: {
@@ -20,18 +22,12 @@ export default {
     form: {
       message: null,
       color: null
-    },
-    notificationMsg: {
-      NOT_SAME_PWD: "Les mots de passent doivent être identiques",
-      USER_ALREADY_EXIST: "Ce nom d'utilisateur existe déjà",
-      SUCCESS: "Vous allez être redirigé vers la page correspondante",
-      ERROR_SERVER: "Une erreur s'est produite, veuillez réessayer dans quelques instants"
     }
   }),
   methods: {
     async register(credentials) {
       if (!this.checkPassword(credentials)) {
-        this.setMsgNotification(this.notificationMsg.NOT_SAME_PWD)
+        this.setMsgNotification(NOTIF_MSG.NOT_SAME_PWD)
         return
       }
 
@@ -41,14 +37,14 @@ export default {
         Store.setConnected(true)
         Store.setUser(result.data)
 
-        this.setMsgNotification(this.notificationMsg.SUCCESS)
+        this.setMsgNotification(NOTIF_MSG.SUCCESS)
       } catch (e) {
         console.log('e', e.response)
         if (e.response.status === 422) {
-          this.setMsgNotification(this.notificationMsg.USER_ALREADY_EXIST)
+          this.setMsgNotification(NOTIF_MSG.USER_ALREADY_EXIST)
           return
         }
-        this.setMsgNotification(this.notificationMsg.ERROR_SERVER)
+        this.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
       }
 
     },
@@ -68,7 +64,7 @@ export default {
      * @return {boolean}
      */
     setMsgNotification(message) {
-      this.form.color = message === this.notificationMsg.SUCCESS ? 'success' : 'danger'
+      this.form.color = message === NOTIF_MSG.SUCCESS ? 'success' : 'danger'
       this.form.message = message
     }
   }

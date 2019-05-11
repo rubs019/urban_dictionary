@@ -8,7 +8,7 @@
             <div class="columns">
               <div class="column is-12">
                 <template v-if="message">
-                  <article class="is-size-6 message is-danger">
+                  <article class="is-size-6 message" :class="[color ? `is-${color}` : '']">
                     <div class="message-body">
                       {{ message }}
                     </div>
@@ -87,16 +87,17 @@ export default {
   name: "FormLogin",
   data: () => ({
     user: {
-      login: null,
-      pwd: null
+      login: "Ruben",
+      pwd: "null"
     }
   }),
   props: {
-    message: String
+    message: String,
+    color: String
   },
   methods: {
-    register() {
-      this.$emit("tryConnect", this.user)
+    sendLogin() {
+      this.$emit("login", this.user)
     }
   }
 }
