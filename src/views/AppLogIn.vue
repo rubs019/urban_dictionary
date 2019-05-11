@@ -45,7 +45,7 @@ export default {
 
         this.setMsgNotification(NOTIF_MSG.SUCCESS_LOGIN)
 
-        console.log('result.data', result.data)
+        this.$router.push('/')
       } catch (e) {
         console.log('e', e.response)
         this.setMsgNotification(NOTIF_MSG.ERROR_SERVER)

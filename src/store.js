@@ -37,5 +37,11 @@ export default {
   },
   clear() {
     this.state.isConnected = false
+    this.credentials = {
+      id: null,
+      username: null,
+      email: null,
+      realm: null
+    }
   }
 }

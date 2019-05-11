@@ -36,11 +36,18 @@
         <router-link
           :to="{ name: 'AppLogIn' }"
           class="navbar-item"
-          v-on:click="connectOrDisconnectUser()"
+          v-if="!Storage.state.isConnected"
         >
-          {{ Storage.state.isConnected ? MenuName.logout : MenuName.login }}
+          {{ MenuName.login }}
         </router-link>
-        <router-link :to="{ name: 'AppSignUp' }" class="navbar-item">
+        <router-link
+          class="navbar-item"
+          :to="{ name: 'AppDisconnect' }"
+          v-if="Storage.state.isConnected"
+        >
+          {{ MenuName.logout }}
+        </router-link>
+        <router-link v-if="!Storage.state.isConnected" :to="{ name: 'AppSignUp' }" class="navbar-item">
           {{ MenuName.signup }}
         </router-link>
         <div class="navbar-item">
@@ -69,9 +76,9 @@ export default {
     Storage: Store
   }),
   methods: {
-    connectOrDisconnectUser: () => {
-      console.log("this.storage", Store)
-      Store.setConnected(!Store.state.isConnected)
+    disconnectUser() {
+      Store.clear()
+      this.$router.push('/')
     }
   }
 }

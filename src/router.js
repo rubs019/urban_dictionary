@@ -12,6 +12,7 @@ import AppDefinitions from "./views/AppDefinitions"
 import AddDefinitions from "./components/definitions/AddDefinitions"
 import AppLogIn from "./views/AppLogIn"
 import AppSignIn from "./views/AppSignUp"
+import AppDisconnect from "./views/AppDisconnect"
 
 Vue.use(Router)
 
@@ -42,6 +43,11 @@ export default new Router({
       path: "/signup",
       name: "AppSignUp",
       component: AppSignIn
+    },
+    {
+      path: "/disconnect",
+      name: "AppDisconnect",
+      component: AppDisconnect
     },
     {
       path: "/definitions",
