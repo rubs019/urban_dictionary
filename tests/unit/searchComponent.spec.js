@@ -10,7 +10,7 @@ describe("searchComponent.vue", () => {
     const classToTest = wrapper.find("input")
     expect(classToTest.is("input")).to.be.true
     expect(wrapper.classes()).to.not.have.members(["border-input"])
-  });
+  })
 
   it("should have border style when props border is set to true", () => {
     const wrapper = mount(searchComponent, {
@@ -18,13 +18,13 @@ describe("searchComponent.vue", () => {
     })
     const classToTest = wrapper.find("input")
     expect(classToTest.classes()).to.contain("border-input")
-  });
+  })
 
   describe("resultList function", () => {
     it("should return false if the resultList is empty", () => {
       const wrapper = mount(searchComponent)
       const ul = wrapper.find("ul")
       expect(ul.exists()).to.be.false
-    });
+    })
   })
-});
+})

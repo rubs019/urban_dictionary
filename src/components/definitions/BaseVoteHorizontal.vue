@@ -61,7 +61,7 @@
     mounted() {
       this.nbLike = this.nbVote
     }
-  };
+  }
 </script>
 
 <style scoped="scss">

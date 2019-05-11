@@ -89,7 +89,7 @@ import BaseTagLabel from "../BaseTagLabel"
 
 export default {
   name: "OneDefinitions",
-  components: { BaseVoteHorizontal, BaseTagLabel},
+  components: { BaseVoteHorizontal, BaseTagLabel },
   props: {
     isPrimary: Boolean,
     simpleComponent: Boolean

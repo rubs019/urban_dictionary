@@ -11,7 +11,7 @@ describe("heroComponent.vue", () => {
     })
     expect(wrapper.props().AppName).to.include(AppName)
     expect(wrapper.props().AppDescription).to.include(AppDescription)
-  });
+  })
 
   it("render undefined props when passed", () => {
     const wrapper = shallowMount(heroComponent, {
@@ -19,5 +19,5 @@ describe("heroComponent.vue", () => {
     })
     expect(wrapper.props().AppName).to.be.undefined
     expect(wrapper.props().AppDescription).to.be.undefined
-  });
+  })
 })

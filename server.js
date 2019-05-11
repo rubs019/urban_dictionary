@@ -24,13 +24,13 @@ const setupWorkerProcesses = () => {
     // to receive messages from worker process
     workers[i].on("message", function(message) {
       console.log(message)
-    });
+    })
   }
 
   // process is clustered on a core and process id is assigned
   cluster.on("online", function(worker) {
     console.log("Worker " + worker.process.pid + " is listening")
-  });
+  })
 
   // if any of the worker process dies then start a new one by simply forking another one
   cluster.on("exit", function(worker, code, signal) {
@@ -48,9 +48,9 @@ const setupWorkerProcesses = () => {
     // to receive messages from worker process
     workers[workers.length - 1].on("message", function(message) {
       console.log(message)
-    });
+    })
   })
-};
+}
 
 /**
  * Setup server either with clustering or without it
@@ -80,7 +80,7 @@ function setupApp() {
 
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
-  });
+  })
 }
 
 setupServer(true)

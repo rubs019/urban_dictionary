@@ -8,6 +8,7 @@
       <div class="container">
         <div class="columns">
           <div class="column is-8">
+            <p v-if="store.state.isConnected"> Welcome back, {{ store.credentials.username }} </p>
             <div class="expression" id="topExpression">
               <h3 class="title boxed-section-title is-4 has-text-left">
                 Expression du jour
@@ -55,6 +56,7 @@ import OneDefinition from "../components/definitions/OneDefinition"
 import BaseTag from "../components/BaseTag.vue"
 import TopExpressions from "../components/TopExpressions.vue"
 import { APP_NAME, APP_DESCRIPTION } from "../constants"
+import Store  from "../store"
 
 export default {
   name: "AppHome",
@@ -63,6 +65,7 @@ export default {
       AppName: APP_NAME,
       AppDescription: APP_DESCRIPTION,
       OneDefinition: OneDefinition,
+      store : Store,
       tags: [
         "Street",
         "Soleil",

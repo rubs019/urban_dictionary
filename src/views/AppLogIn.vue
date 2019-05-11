@@ -41,7 +41,7 @@ export default {
         const userInformation = await get(`accounts/${result.data.userId}`)
 
         Store.setConnected(true)
-        Store.setUser(userInformation)
+        Store.setUser(userInformation.data)
 
         this.setMsgNotification(NOTIF_MSG.SUCCESS_LOGIN)
 
