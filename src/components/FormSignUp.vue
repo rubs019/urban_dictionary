@@ -8,7 +8,7 @@
             <div class="columns">
               <div class="column is-12">
                 <template v-if="message">
-                  <article class="is-size-6 message is-danger">
+                  <article class="is-size-6 message" :class="[color ? `is-${color}` : '']">
                     <div class="message-body">
                       {{ message }}
                     </div>
@@ -35,11 +35,11 @@
                   type="is-primary"
                   rounded
                   class="is-pulled-right"
-                  v-on:click="sendLogin()"
+                  v-on:click="register()"
                   >S'inscrire</b-button
                 >
                 <div class="content is-pulled-left">
-                  <router-link :to="{ name: '/inscriptions' }" class="is-size-7"
+                  <router-link :to="{ name: 'AppLogIn' }" class="is-size-7"
                     >Vous avez déjà un compte ?</router-link
                   >
                 </div>
@@ -93,18 +93,19 @@ export default {
   name: "FormSignUp",
   data: () => ({
     user: {
-      login: null,
-      pwd: null,
-      pwd2: null,
-      email: null
+      login: "Ruben",
+      pwd: "null",
+      pwd2: "null",
+      email: "ruben.desert@gmail.com"
     }
   }),
   props: {
-    message: String
+    message: String,
+    color: String
   },
   methods: {
-    sendLogin() {
-      this.$emit("tryConnect", this.user)
+    register() {
+      this.$emit("tryRegister", this.user)
     }
   }
 }

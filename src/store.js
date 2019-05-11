@@ -3,6 +3,26 @@ export default {
   state: {
     isConnected: false
   },
+  credentials: {
+    id: null,
+    username: null,
+    email: null,
+    realm: null
+  },
+  /**
+   * Save the user credentials in the store
+   *
+   * @param credentials
+   * @return undefined
+   */
+  setUser(credentials) {
+    this.credentials = credentials
+  },
+  /**
+   * Set user connection state
+   * @param newValue {boolean}
+   * @return undefined
+   */
   setConnected(newValue) {
     if (typeof newValue !== "boolean") {
       if (this.debug)

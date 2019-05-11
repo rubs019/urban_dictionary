@@ -95,7 +95,7 @@ export default {
     message: String
   },
   methods: {
-    sendLogin() {
+    register() {
       this.$emit("tryConnect", this.user)
     }
   }

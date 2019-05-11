@@ -19,7 +19,7 @@ export default {
     }
   }),
   methods: {
-    sendLogin(e) {
+    register(e) {
       this.form.message = "Identifiant ou mot de passe incorrect"
       // Send login and pwd
     }

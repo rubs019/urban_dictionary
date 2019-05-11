@@ -120,7 +120,7 @@ export default {
     }
   },
   methods: {
-    sendLogin() {
+    register() {
       this.form.message = "Identifiant ou mot de passe incorrect"
       this.user.login = null
       this.user.pwd = null
