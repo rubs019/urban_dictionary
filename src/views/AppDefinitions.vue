@@ -1,14 +1,9 @@
 <template>
   <div id="app-definitions">
-    <section class="section">
-    <div class="columns">
-      <div class="column is-6 is-offset-3">
-        <div id="search">
-          <SearchComponent border="true"></SearchComponent>
-        </div>
-      </div>
-    </div>
-    </section>
+    <AppHeroComponent
+            :app-name="AppName"
+            :app-description="AppDescription"
+    ></AppHeroComponent>
     <section class="section">
       <div class="container">
         <div class="columns">
@@ -25,13 +20,13 @@
 </template>
 
 <script>
-import SearchComponent from "../components/searchComponent"
-import TheSidebar from "../components/generic/TheSidebar"
-import Store from "../store"
+import AppHeroComponent from "../components/AppHeroComponent"
+import TheSidebar       from "../components/generic/TheSidebar"
+import Store            from "../store"
 
 export default {
   name: "AppDefinitions",
-  components: { SearchComponent, TheSidebar },
+  components: { AppHeroComponent, TheSidebar },
   data: () => ({
     store: Store,
   })

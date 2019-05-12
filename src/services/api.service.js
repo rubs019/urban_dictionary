@@ -13,5 +13,9 @@ async function post(endpoint, data = null) {
   return await axios.post(`${BASE_URL}/${endpoint}`, data)
 }
 
-export { get, post }
+async function patch(endpoint, data = null) {
+  return await axios.patch(`${BASE_URL}/${endpoint}`, data)
+}
+
+export { get, post, patch }
 

@@ -2,7 +2,8 @@ export default {
   accountCreate,
   accountLogin,
   accountLogout,
-  addDefinition
+  addDefinition,
+  accountPatchInformation
 }
 
 
@@ -34,6 +35,13 @@ function addDefinition(expression) {
     "name": expression.name,
     "definition": expression.description,
     "tags": expression.tags
+  }
+}
+
+function accountPatchInformation(data) {
+  return {
+    username: data.name,
+    email: data.email
   }
 }
 

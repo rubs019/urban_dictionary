@@ -8,9 +8,7 @@
             <hr />
             <div class="subtitle">
               <div class="content has-text-left">
-                <div>
-                  <p>Ici vous pouvez créer vos propres définitions et les partager à tout le monde !</p>
-                </div>
+                <p>Ici vous pouvez créer vos propres définitions et les partager à tout le monde !</p>
                 <p class="is-size-6">Que cela soit une expression propre à votre ville, à votre région, ou votre pays, nous récoltons toutes
                   les expressions possible dans l'objectif de partager ces connaissances</p>
               </div>

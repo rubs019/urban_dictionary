@@ -27,7 +27,7 @@
           MenuName.home
         }}</router-link>
 
-        <router-link :to="{ name: 'ListDefinitions' }" class="navbar-item">{{
+        <router-link :to="{ name: 'AppDefinitions' }" class="navbar-item">{{
           MenuName.expression
         }}</router-link>
         <router-link :to="{ name: 'AppAbout' }" class="navbar-item">{{
@@ -49,6 +49,9 @@
         </router-link>
         <router-link v-if="!Storage.state.isConnected" :to="{ name: 'AppSignUp' }" class="navbar-item">
           {{ MenuName.signup }}
+        </router-link>
+        <router-link v-if="Storage.state.isConnected" :to="{ name: 'AppProfile' }" class="navbar-item">
+          {{ MenuName.profile }}
         </router-link>
         <div class="navbar-item">
           <div class="buttons">

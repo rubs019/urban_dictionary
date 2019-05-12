@@ -1,7 +1,7 @@
 <template>
   <div class="one-definitions">
 
-    <template v-if="definition">
+    <template v-if="expression">
       <div class="tile is-parent">
         <article
                 class="tile is-child notification"
@@ -11,7 +11,7 @@
               <div class="item">
                 <router-link
                   class="title"
-                  :to="{ name: 'OneDefinition', params: { name: definition.name } }">{{ definition.name }}
+                  :to="{ name: 'OneDefinition', params: { name: expression.name } }">{{ expression.name }}
                   </router-link>
               </div>
             </div>
@@ -57,17 +57,17 @@
             tag="p"
             class="subtitle has-text-left is-size-6"
             v-if="!simpleComponent"
-            :to="{ name: 'OneDefintion', params: { name: definition.user.pseudo } }">@{{ definition.user.pseudo }}</router-link>
+            :to="{ name: 'OneDefintion', params: { name: expression.accountId } }">@{{ expression.accountId }}</router-link>
           <div class="content has-text-left">
             <!-- Content -->
-            {{ definition.definition }}
+            {{ expression.definition }}
           </div>
-          <div v-if="!simpleComponent" id="tag-items" class="has-text-left">
-            <span id="label-items" v-for="(label, index) in definition.tags" :key="index">
+          <div id="tag-items" class="has-text-left">
+            <span id="label-items" v-for="(label, index) in expression.tags" :key="index">
               <BaseTagLabel :name="label"></BaseTagLabel>
             </span>
           </div>
-          <BaseVoteHorizontal :nb-vote="definition.like"></BaseVoteHorizontal>
+          <BaseVoteHorizontal :nb-vote="definition ? definition.votes : 92 "></BaseVoteHorizontal>
         </article>
       </div>
     </template>
@@ -92,53 +92,17 @@ export default {
   components: { BaseVoteHorizontal, BaseTagLabel },
   props: {
     isPrimary: Boolean,
-    simpleComponent: Boolean
+    simpleComponent: Boolean,
+    expression: Object
   },
   data: () => ({
     definition: null
   }),
-  async mounted() {
-    this.getDefinition()
-  },
-  methods: {
-    async getDefinition() {
-      const nameDefinition = this.$route.params.name
-      try {
-        /*const definition = await APIService.get(
-          `${ENDPOINT}/${nameDefinition}`
-        )
-        this.definition = definition.data*/
-        setTimeout(() => {
-          this.definition = {
-            name: "Afrotrap",
-            definition: "L’ afrotrap n’est autre qu’un mélange de sonorité africaine et de texte trap, lequel est un type d’instrumentale assez lente qui oblige  le rappeur à lâcher ses textes de façon plus rapide que sur une prod au BPM classique. \n" + "Ce style musical existait déjà, mais MHD est le premier à le baptiser.",
-            user: {
-              pseudo: "John DOE"
-            },
-            like: 1252,
-            tags: ['Street', 'Musique', 'Paris', '2019']
-          }
-        }, 1500)
-      } catch (err) {
-        console.log('err', err)
-        this.definition = {
-          name: "Oups...",
-          definition: "La défintion que vous cherchez n'existe pas :("
-        }
-      }
-    },
-    updateNbVote(nbVote) {
-      // Use to update the new nb vote
-      // Make a request to server
-      console.log("Nouveau nb de vote = ", nbVote)
-    }
-  },
   async beforeRouteUpdate(to, from, next) {
     // react to route changes...
     // don't forget to call next()
     console.log(to, from)
     this.definition = null
-    await this.getDefinition()
     console.log("done")
     next()
   }

@@ -57,7 +57,7 @@
   }
 </script>
 
-<style scoped="scss">
+<style scoped lang="scss">
     #basevote {
         margin-top: 50%;
         display: flex;

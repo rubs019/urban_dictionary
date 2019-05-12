@@ -1,6 +1,6 @@
 import { expect } from "chai"
 import { shallowMount } from "@vue/test-utils"
-import heroComponent from "@/components/heroComponent.vue"
+import heroComponent from "@/components/AppHeroComponent.vue"
 
 describe("heroComponent.vue", () => {
   it("renders all props when passed", () => {

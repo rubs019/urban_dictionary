@@ -13,11 +13,20 @@ export default {
   /**
    * Save the user credentials in the store
    *
+   * @param fieldName Nom du champ a mettre a jour
    * @param credentials
    * @return undefined
    */
-  setUser(credentials) {
-    this.credentials = credentials
+  setUser(credentials, fieldName = null) {
+
+    if (!fieldName) {
+      if (this.debug) console.log('SetUser triggered with no fieldName,', credentials)
+      this.credentials = credentials
+      return
+    }
+
+    if (this.debug) console.log(`SetUser triggered with fieldName = ${fieldName}`, credentials)
+    this.credentials[fieldName] = credentials
   },
   /**
    * Set user connection state

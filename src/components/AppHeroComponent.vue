@@ -18,13 +18,16 @@
 
 <script>
 import SearchComponent from "./searchComponent"
+import { APP_NAME, APP_DESCRIPTION } from "../constants"
 
 export default {
   name: "AppHeroComponent",
   components: { SearchComponent },
-  props: {
-    AppName: String,
-    AppDescription: String
+  data() {
+    return {
+      AppName: APP_NAME,
+      AppDescription: APP_DESCRIPTION
+    }
   }
 }
 </script>

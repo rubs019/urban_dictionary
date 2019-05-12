@@ -6,7 +6,8 @@ export const MENU_NAME = {
   games: "Jouer",
   contact: "Contact",
   expression: "Expression",
-  about: "A propos"
+  about: "A propos",
+  profile: "Profile"
 }
 
 export const NOTIF_MSG = {
@@ -18,7 +19,8 @@ export const NOTIF_MSG = {
   SUCCESS_LOGIN: "Connexion réussie..."
 }
 export const ENDPOINT = {
-  ACCOUNTS: "accounts"
+  ACCOUNTS: "accounts",
+  WORDS: "words"
 }
 export const API_PATH = {
   CREATE_ACCOUNT: ENDPOINT.ACCOUNTS,
