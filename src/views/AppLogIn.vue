@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import FormLogin from "../components/FormLogin"
-import { post, get } from "../services/api.service"
-import { accountLogin } from "../services/DTO"
-import { NOTIF_MSG } from "../constants"
-import Store from "../store"
+import FormLogin                         from "../components/FormLogin"
+import { post, get }                     from "../services/api.service"
+import DTO                  from "../services/DTO"
+import { ENDPOINT, NOTIF_MSG, API_PATH } from "../constants"
+import Store                             from "../store"
 
 export default {
   name: "AppLogIn",
@@ -36,9 +36,13 @@ export default {
       // Send login and pwd
 
       try {
-        const result = await post('accounts/login', accountLogin(credentials))
+        const result = await post(API_PATH.ACCOUNT_LOGIN, DTO.accountLogin(credentials))
 
-        const userInformation = await get(`accounts/${result.data.userId}`)
+        const userInformation = await get(`${ENDPOINT.ACCOUNTS}/${result.data.userId}`)
+
+        // On ajoute le token aux données que l'on va enregistrer
+        userInformation.data.token = result.data.id
+        userInformation.data.ttl = result.data.ttl
 
         Store.setConnected(true)
         Store.setUser(userInformation.data)
@@ -48,6 +52,10 @@ export default {
         this.$router.push('/')
       } catch (e) {
         console.log('e', e.response)
+        if (e.response.status === 401) {
+          this.setMsgNotification(NOTIF_MSG.ACCOUNT_NOT_EXIST)
+          return
+        }
         this.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
       }
     },

@@ -1,14 +1,97 @@
 <template>
   <div class="add-definitions">
-    <p>Add Definitions page</p>
+    <div class="columns">
+      <div class="column">
+        <div class="tile is-parent notification is-white">
+          <div class="tile is-child">
+            <p class="title has-text-left">Créer une nouvelle expression</p>
+            <hr />
+            <div class="subtitle">
+              <div class="content has-text-left">
+                <div>
+                  <p>Ici vous pouvez créer vos propres définitions et les partager à tout le monde !</p>
+                </div>
+                <p class="is-size-6">Que cela soit une expression propre à votre ville, à votre région, ou votre pays, nous récoltons toutes
+                  les expressions possible dans l'objectif de partager ces connaissances</p>
+              </div>
+              <div class="column">
+                <template>
+                  <div class="notification has-text-left ">
+                    <template>
+                      <section>
+                        <form @submit.prevent="sendExpression">
+                          <b-field label="Nom de l'expression">
+                          <b-input v-model="definition.name"></b-input>
+                          </b-field>
+
+                          <b-field label="Description de la définition">
+                            <b-input maxlength="200" type="textarea" v-model="definition.description"></b-input>
+                          </b-field>
+
+                          <b-field label="Ajoutez des tags">
+                            <b-taginput
+                                    v-model="definition.tags"
+                                    ellipsis
+                                    icon="label"
+                                    placeholder="Add a tag">
+                            </b-taginput>
+                          </b-field>
+
+                          <div class="has-text-right">
+                            <b-button native-type="submit" type="is-primary" icon-pack="fas" icon-left="paper-plane">Ajouter cette définition</b-button>
+                          </div>
+                        </form>
+                      </section>
+                    </template>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { post }     from "../../services/api.service"
+import { ENDPOINT } from "../../constants"
+import Store from "../../store"
+import DTO from "../../services/DTO"
 export default {
-  name: "AddDefinitions"
-  // TODO : implement the function for add Definitions
+  name: "AddDefinitions",
+  data() {
+    return {
+      definition: {
+        name: "Bleus",
+        description: "Expression argotique signifiant la police",
+        tags: [
+          'Police',
+          'Keuf',
+          'Urbain'
+        ]
+      },
+    }
+  },
+  methods: {
+    async sendExpression() {
+      console.log('definition', this.definition)
+
+      try {
+        const result = await post(`${ENDPOINT.ACCOUNTS}/${Store.credentials.id}/words`, DTO.addDefinition(this.definition))
+
+        console.log('AddDefinitions: result', result)
+      } catch (e) {
+        console.log('AddDefinitions: Error: ', e.response)
+      }
+    }
+  }
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+  p.title {
+    margin: 14px;
+  }
+</style>

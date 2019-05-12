@@ -23,25 +23,7 @@
             </div>
           </div>
           <div class="column is-4">
-            <div class="sidebar">
-              <div class="tile is-parent">
-                <router-link
-                  to="/connect"
-                  class="button is-primary is-fullwidth"
-                >
-                  Lancer une partie
-                </router-link>
-              </div>
-              <div class="tile is-parent">
-                <BaseTag :tags="tags"></BaseTag>
-              </div>
-              <div class="tile is-parent">
-                <TopExpressions
-                  :expressions-names="rawExpressions"
-                  v-bind:url="'OneDefinition'"
-                ></TopExpressions>
-              </div>
-            </div>
+            <TheSidebar></TheSidebar>
           </div>
         </div>
       </div>
@@ -53,8 +35,7 @@
 // @ is an alias to /src
 import AppHeroComponent from "../components/heroComponent.vue"
 import OneDefinition from "../components/definitions/OneDefinition"
-import BaseTag from "../components/BaseTag.vue"
-import TopExpressions from "../components/TopExpressions.vue"
+import TheSidebar from "../components/generic/TheSidebar"
 import { APP_NAME, APP_DESCRIPTION } from "../constants"
 import Store  from "../store"
 
@@ -65,49 +46,13 @@ export default {
       AppName: APP_NAME,
       AppDescription: APP_DESCRIPTION,
       OneDefinition: OneDefinition,
-      store : Store,
-      tags: [
-        "Street",
-        "Soleil",
-        "Paris",
-        "Musique",
-        "One",
-        "Two",
-        "Three",
-        "Four",
-        "Five",
-        "Six",
-        "Seven",
-        "Eight",
-        "Nine",
-        "Ten",
-        "Eleven",
-        "Twelve",
-        "Thirteen",
-        "Fourteen",
-        "Fifteen",
-        "Sixteen",
-        "Seventeen",
-        "Eighteen",
-        "Nineteen"
-      ],
-      rawExpressions: [
-        "Tchoin",
-        "au DD",
-        "Gava",
-        "Bavon",
-        "Brava",
-        "En esprit",
-        "Un Fer",
-        "Un guigui"
-      ]
+      store : Store
     }
   },
   components: {
     AppHeroComponent,
-    BaseTag,
-    TopExpressions,
-    OneDefinition
+    OneDefinition,
+    TheSidebar
   }
 }
 </script>

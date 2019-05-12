@@ -6,7 +6,6 @@ import Games from "./views/games/Games"
 import OneDefinitions from "./components/definitions/OneDefinitions"
 import UpdateDefinitions from "./components/definitions/UpdateDefinitions"
 import ListDefinitions from "./components/definitions/ListDefinitions"
-import InscriptionPage from "./views/inscription/InscriptionPage"
 import AppContact from "./views/AppContact"
 import AppDefinitions from "./views/AppDefinitions"
 import AddDefinitions from "./components/definitions/AddDefinitions"
@@ -61,6 +60,7 @@ export default new Router({
         },
         {
           path: "new",
+          name: "AddDefinitions",
           component: AddDefinitions
         },
         {
@@ -73,11 +73,6 @@ export default new Router({
           component: OneDefinitions
         }
       ]
-    },
-    {
-      path: "/inscription",
-      name: "inscription",
-      component: InscriptionPage
     },
     {
       path: "/healthcheck",

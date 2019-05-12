@@ -7,7 +7,8 @@ export default {
     id: null,
     username: null,
     email: null,
-    realm: null
+    realm: null,
+    token: null
   },
   /**
    * Save the user credentials in the store
@@ -37,11 +38,6 @@ export default {
   },
   clear() {
     this.state.isConnected = false
-    this.credentials = {
-      id: null,
-      username: null,
-      email: null,
-      realm: null
-    }
+    this.credentials = null
   }
 }

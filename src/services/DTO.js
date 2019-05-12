@@ -1,6 +1,8 @@
-module.exports = {
+export default {
   accountCreate,
-  accountLogin
+  accountLogin,
+  accountLogout,
+  addDefinition
 }
 
 
@@ -20,3 +22,18 @@ function accountLogin(data) {
     "password": data.pwd
   }
 }
+
+function accountLogout({token}) {
+  return {
+    "access_token": token
+  }
+}
+
+function addDefinition(expression) {
+  return {
+    "name": expression.name,
+    "definition": expression.description,
+    "tags": expression.tags
+  }
+}
+

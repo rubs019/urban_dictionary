@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import FormSignUp from "../components/FormSignUp"
-import { post } from "../services/api.service"
-import { accountCreate } from "../services/DTO"
-import Store from "../store"
-import { NOTIF_MSG } from "../constants"
+import FormSignUp              from "../components/FormSignUp"
+import { post }                from "../services/api.service"
+import DTO       from "../services/DTO"
+import Store                   from "../store"
+import { NOTIF_MSG, API_PATH } from "../constants"
 
 export default {
   name: "AppSignUp",
@@ -32,12 +32,13 @@ export default {
       }
 
       try {
-        const result = await post('accounts', accountCreate(credentials))
+        const result = await post(API_PATH.CREATE_ACCOUNT, DTO.accountCreate(credentials))
 
         Store.setConnected(true)
         Store.setUser(result.data)
 
         this.setMsgNotification(NOTIF_MSG.SUCCESS)
+        this.$router.push("/")
       } catch (e) {
         console.log('e', e.response)
         if (e.response.status === 422) {
