@@ -25,6 +25,7 @@
                     </b-field>
                   </div>
                   <b-button
+                          :loading="status === Status.PENDING"
                           type="is-primary"
                           rounded
                           class="is-pulled-right"
@@ -83,9 +84,12 @@
 </template>
 
 <script>
+import { STATUS } from "../constants"
+
 export default {
   name: "FormLogin",
   data: () => ({
+    Status: STATUS,
     user: {
       login: "Ruben",
       pwd: "null"
@@ -93,7 +97,8 @@ export default {
   }),
   props: {
     message: String,
-    color: String
+    color: String,
+    status: Number
   },
   methods: {
     sendLogin() {
