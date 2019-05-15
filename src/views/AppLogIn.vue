@@ -1,17 +1,17 @@
 <template>
   <div class="columns">
     <div class="column is-6 is-offset-3">
-      <FormLogin @login="login" :message="form.message" :color="form.color"></FormLogin>
+      <FormLogin @login="login" :message="form.message" :color="form.color" :status="form.status"></FormLogin>
     </div>
   </div>
 </template>
 
 <script>
-import FormLogin                         from "../components/FormLogin"
-import { post, get }                     from "../services/api.service"
-import DTO                  from "../services/DTO"
-import { ENDPOINT, NOTIF_MSG, API_PATH } from "../constants"
-import Store                             from "../store"
+import FormLogin                                 from "../components/FormLogin"
+import { post, get }                             from "../services/api.service"
+import DTO                                       from "../services/DTO"
+import { ENDPOINT, NOTIF_MSG, API_PATH, STATUS } from "../constants"
+import Store                                     from "../store"
 
 export default {
   name: "AppLogIn",
@@ -21,7 +21,8 @@ export default {
   data: () => ({
     form: {
       message: null,
-      color: null
+      color: null,
+      status: 0
     }
   }),
   methods: {
@@ -35,13 +36,14 @@ export default {
       console.log('credentials : ', credentials)
       // Send login and pwd
 
+      this.form.status = STATUS.PENDING
+
       try {
         const result = await post(API_PATH.ACCOUNT_LOGIN, DTO.accountLogin(credentials))
 
         const userInformation = await get(`${ENDPOINT.ACCOUNTS}/${result.data.userId}`)
 
         // On ajoute le token aux données que l'on va enregistrer
-        console.log(result)
         userInformation.data.token = result.data.id
         userInformation.data.ttl = result.data.ttl
 
@@ -50,7 +52,10 @@ export default {
 
         this.setMsgNotification(NOTIF_MSG.SUCCESS_LOGIN)
 
-        this.$router.push('/')
+        const that = this
+        setTimeout(() => {
+          that.$router.push('/')
+        }, 1500)
       } catch (e) {
         console.log('e', e)
         if (e.response.status === 401) {

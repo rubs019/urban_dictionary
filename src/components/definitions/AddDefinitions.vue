@@ -20,9 +20,6 @@
                       <div class="notification is-danger" v-if="formStatus === 2">
                         {{ errorMsg }}
                       </div>
-                      <div class="notification is-success" v-if="formStatus === 3">
-                        {{ successMsg }}
-                      </div>
                       <section>
                         <form @submit.prevent="sendExpression">
                           <b-field label="Nom de l'expression">
@@ -55,7 +52,7 @@
                           </b-field>
 
                           <div class="has-text-right">
-                            <b-button native-type="submit" :loading="formStatus === 1" type="is-primary" icon-pack="fas" icon-left="paper-plane">Ajouter cette définition</b-button>
+                            <b-button native-type="submit" :loading="formStatus === status.PENDING" :type="[formStatus === status.SUCCESS ? 'is-success' : 'is-primary' ]" icon-pack="fas" icon-left="paper-plane">Ajouter cette définition</b-button>
                           </div>
                         </form>
                       </section>
@@ -73,22 +70,18 @@
 
 <script>
 import { post }     from "../../services/api.service"
-import { ENDPOINT } from "../../constants"
+import { ENDPOINT, STATUS } from "../../constants"
 import Store from "../../store"
 import DTO from "../../services/DTO"
 
-const STATUS = {
-  DEFAULT: 0,
-  PENDING: 1,
-  ERROR: 2,
-  SUCCESS: 3
-}
 export default {
   name: "AddDefinitions",
   data() {
     return {
+      status: STATUS,
       formStatus: STATUS.DEFAULT,
       errorMsg: null,
+      file: null,
       successMsg: "L'expression à bien été ajoutée",
       definition: {
         name: "Bleus",

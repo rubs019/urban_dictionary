@@ -28,5 +28,12 @@ export const API_PATH = {
   ACCOUNT_LOGIN: `${ENDPOINT.ACCOUNTS}/login`
 }
 
+export const STATUS = {
+  DEFAULT: 0,
+  PENDING: 1,
+  ERROR: 2,
+  SUCCESS: 3
+}
+
 export const APP_NAME = "UnderDico"
 export const APP_DESCRIPTION = "Le dictionnaire complet de l'argot"

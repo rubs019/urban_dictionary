@@ -2,18 +2,15 @@
   "name": "urban_dictionary",
   "version": "0.1.1",
   "private": true,
+  "author": "Rubs019",
+  "license": "ISC",
   "scripts": {
     "start": "node server.js",
-    "start:dev": "vue-cli-service serve --port=8090",
     "serve": "vue-cli-service serve --port=8090",
     "build": "vue-cli-service build",
     "heroku-prebuild": "npm install",
     "lint": "vue-cli-service lint",
-    "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit",
-    "docker:build": "docker build --tag=urban_dictionary_app app",
-    "docker:start": "docker run -t -p 3090:8090 urban_dictionary_app",
-    "docker:dev": "npm run docker:build && npm run docker:start"
+    "test:unit": "vue-cli-service test:unit"
   },
   "engines": {
     "node": "10.15.3",

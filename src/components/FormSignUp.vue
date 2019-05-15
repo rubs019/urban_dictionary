@@ -1,7 +1,7 @@
 <template>
   <div class="tile is-parent notification is-white">
     <div class="tile is-child">
-      <p class="title">S'inscrire</p>
+      <p class="title">Se connecter</p>
       <div class="subtitle">
         <div class="columns">
           <div class="column is-10 is-offset-1">
@@ -14,35 +14,30 @@
                     </div>
                   </article>
                 </template>
-                <div class="content has-text-left" v-if="user">
-                  <b-field label="Nom utilisateur">
-                    <b-input v-model="user.login"></b-input>
-                  </b-field>
+                <form @submit.prevent="sendLogin">
+                  <div class="content has-text-left" v-if="user">
+                    <b-field label="Nom utilisateur">
+                      <b-input v-model="user.login"></b-input>
+                    </b-field>
 
-                  <b-field label="Email">
-                    <b-input type="email" v-model="user.email"></b-input>
-                  </b-field>
-
-                  <b-field label="Mot de passe">
-                    <b-input type="password" v-model="user.pwd"></b-input>
-                  </b-field>
-
-                  <b-field label="Retaper votre mot de passe">
-                    <b-input type="password" v-model="user.pwd2"></b-input>
-                  </b-field>
-                </div>
-                <b-button
-                  type="is-primary"
-                  rounded
-                  class="is-pulled-right"
-                  v-on:click="register()"
-                  >S'inscrire</b-button
-                >
-                <div class="content is-pulled-left">
-                  <router-link :to="{ name: 'AppLogIn' }" class="is-size-7"
-                    >Vous avez déjà un compte ?</router-link
+                    <b-field label="Mot de passe">
+                      <b-input type="password" v-model="user.pwd"></b-input>
+                    </b-field>
+                  </div>
+                  <b-button
+                          type="is-primary"
+                          rounded
+                          class="is-pulled-right"
+                          native-type="submit"
+                          :loading="status === Status.PENDING"
+                  >Se connecter</b-button
                   >
-                </div>
+                  <div class="content is-pulled-left">
+                    <router-link :to="{ name: 'AppSignUp' }" class="is-size-7"
+                    >Vous n'avez pas encore de compte ?</router-link
+                    >
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -89,23 +84,27 @@
 </template>
 
 <script>
+
+import { STATUS } from "../constants"
+
 export default {
-  name: "FormSignUp",
-  data: () => ({
-    user: {
-      login: "Ruben",
-      pwd: "null",
-      pwd2: "null",
-      email: "ruben.desert@gmail.com"
-    }
-  }),
+  name: "FormLogin",
   props: {
     message: String,
-    color: String
+    color: String,
+    status: Number
   },
+  data: () => ({
+    Status: STATUS,
+    formStatus: STATUS.DEFAULT,
+    user: {
+      login: "Ruben",
+      pwd: "null"
+    }
+  }),
   methods: {
-    register() {
-      this.$emit("tryRegister", this.user)
+    sendLogin() {
+      this.$emit("login", this.user)
     }
   }
 }
