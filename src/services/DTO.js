@@ -24,10 +24,8 @@ function accountLogin(data) {
   }
 }
 
-function accountLogout({token}) {
-  return {
-    "access_token": token
-  }
+function accountLogout() {
+  return {}
 }
 
 function addDefinition(expression) {

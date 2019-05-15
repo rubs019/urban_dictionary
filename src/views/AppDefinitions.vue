@@ -1,9 +1,6 @@
 <template>
   <div id="app-definitions">
-    <AppHeroComponent
-            :app-name="AppName"
-            :app-description="AppDescription"
-    ></AppHeroComponent>
+    <AppHeroComponent></AppHeroComponent>
     <section class="section">
       <div class="container">
         <div class="columns">

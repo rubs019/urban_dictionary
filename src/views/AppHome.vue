@@ -79,7 +79,10 @@
 	}
 </script>
 
-<style>
+<style scoped>
+    .home {
+        background-color: #f6f9fc;
+    }
     .expression {
         padding: 40px 0;
     }

@@ -31,7 +31,7 @@ export default {
      * @return undefined
      */
     async login(credentials) {
-      this.form.message = "Identifiant ou mot de passe incorrect"
+      // this.form.message = "Identifiant ou mot de passe incorrect"
       console.log('credentials : ', credentials)
       // Send login and pwd
 
@@ -41,6 +41,7 @@ export default {
         const userInformation = await get(`${ENDPOINT.ACCOUNTS}/${result.data.userId}`)
 
         // On ajoute le token aux données que l'on va enregistrer
+        console.log(result)
         userInformation.data.token = result.data.id
         userInformation.data.ttl = result.data.ttl
 
@@ -51,7 +52,7 @@ export default {
 
         this.$router.push('/')
       } catch (e) {
-        console.log('e', e.response)
+        console.log('e', e)
         if (e.response.status === 401) {
           this.setMsgNotification(NOTIF_MSG.ACCOUNT_NOT_EXIST)
           return

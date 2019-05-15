@@ -35,8 +35,8 @@
                         <div class="tile is-vertical">
                             <div class="tile is-parent">
                                 <article class="tile is-child notification">
-                                    <p class="title">Middle tile</p>
-                                    <p class="subtitle">With an image</p>
+                                    <p class="title">Vous...</p>
+                                    <p class="subtitle">Une image de vous...</p>
                                     <figure class="image is-4by3">
                                         <img class="is-rounded" src="http://cdn.onlinewebfonts.com/svg/img_504570.png">
                                     </figure>

@@ -16,6 +16,13 @@
                 <template>
                   <div class="notification has-text-left ">
                     <template>
+
+                      <div class="notification is-danger" v-if="formStatus === 2">
+                        {{ errorMsg }}
+                      </div>
+                      <div class="notification is-success" v-if="formStatus === 3">
+                        {{ successMsg }}
+                      </div>
                       <section>
                         <form @submit.prevent="sendExpression">
                           <b-field label="Nom de l'expression">
@@ -35,8 +42,20 @@
                             </b-taginput>
                           </b-field>
 
+                          <b-field class="file">
+                            <b-upload v-model="file">
+                              <a class="button is-primary">
+                                <b-icon icon="upload"></b-icon>
+                                <span>Click to upload</span>
+                              </a>
+                            </b-upload>
+                            <span class="file-name" v-if="file">
+            {{ file.name }}
+        </span>
+                          </b-field>
+
                           <div class="has-text-right">
-                            <b-button native-type="submit" type="is-primary" icon-pack="fas" icon-left="paper-plane">Ajouter cette définition</b-button>
+                            <b-button native-type="submit" :loading="formStatus === 1" type="is-primary" icon-pack="fas" icon-left="paper-plane">Ajouter cette définition</b-button>
                           </div>
                         </form>
                       </section>
@@ -57,10 +76,20 @@ import { post }     from "../../services/api.service"
 import { ENDPOINT } from "../../constants"
 import Store from "../../store"
 import DTO from "../../services/DTO"
+
+const STATUS = {
+  DEFAULT: 0,
+  PENDING: 1,
+  ERROR: 2,
+  SUCCESS: 3
+}
 export default {
   name: "AddDefinitions",
   data() {
     return {
+      formStatus: STATUS.DEFAULT,
+      errorMsg: null,
+      successMsg: "L'expression à bien été ajoutée",
       definition: {
         name: "Bleus",
         description: "Expression argotique signifiant la police",
@@ -73,14 +102,42 @@ export default {
     }
   },
   methods: {
+    successToast() {
+      this.$toast.open({
+        message: this.successMsg,
+        type: 'is-success'
+      })
+    },
+    errorToast() {
+      this.$toast.open({
+        message: this.errorMsg,
+        type: 'is-danger'
+      })
+    },
+    cleanForm(){
+      this.definition.name = null
+      this.definition.tags = []
+      this.definition.description = null
+    },
     async sendExpression() {
+      this.formStatus = STATUS.PENDING
       console.log('definition', this.definition)
 
       try {
         const result = await post(`${ENDPOINT.ACCOUNTS}/${Store.credentials.id}/words`, DTO.addDefinition(this.definition))
 
+        setTimeout(() => {
+          this.formStatus = STATUS.SUCCESS
+          this.successToast()
+          this.cleanForm()
+        }, 1500)
         console.log('AddDefinitions: result', result)
       } catch (e) {
+        this.formStatus = STATUS.ERROR
+        if (e.response.status === 422) {
+          this.errorMsg = "Les champs ne doivent pas être vides"
+        }
+        this.errorToast()
         console.log('AddDefinitions: Error: ', e.response)
       }
     }

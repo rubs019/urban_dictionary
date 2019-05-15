@@ -5,7 +5,6 @@
   "scripts": {
     "start": "node server.js",
     "start:dev": "vue-cli-service serve --port=8090",
-    "serve:start": "./node_modules/@vue/cli/bin/vue.js serve",
     "serve": "vue-cli-service serve --port=8090",
     "build": "vue-cli-service build",
     "heroku-prebuild": "npm install && npm audit fix",

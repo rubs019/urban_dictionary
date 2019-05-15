@@ -19,7 +19,7 @@
 			console.log("Store.credentials", Store.credentials)
 
 			try {
-				const result = await post(`${API_PATH.ACCOUNT_LOGOUT}?access_token=${Store.credentials.token}`, DTO.accountLogout(Store.credentials))
+				const result = await post(`${API_PATH.ACCOUNT_LOGOUT}`, DTO.accountLogout(null), { token: Store.credentials.token })
 				console.log('appDisconnect : result', result)
 				Store.clear()
 				console.log("Store.credentials2", Store.credentials)
