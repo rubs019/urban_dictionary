@@ -1,14 +1,13 @@
 {
   "name": "urban_dictionary",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "start": "node server.js",
     "start:dev": "vue-cli-service serve --port=8090",
     "serve": "vue-cli-service serve --port=8090",
     "build": "vue-cli-service build",
-    "heroku-prebuild": "npm install && npm audit fix",
-    "heroku-postbuild": "npm run build",
+    "heroku-prebuild": "npm install",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",

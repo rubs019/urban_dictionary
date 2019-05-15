@@ -4,7 +4,7 @@ import axios from "axios"
 const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "https://underdico-playground.herokuapp.com/api"
-    : "http://prod-url.com"
+    : "https://underdico-playground.herokuapp.com/api"
 
 async function get(endpoint) {
   return await axios.get(`${BASE_URL}/${endpoint}`) // return error if server is down
