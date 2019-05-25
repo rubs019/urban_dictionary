@@ -1,4 +1,5 @@
-[![Build Status](https://semaphoreci.com/api/v1/rubs019/urban_dictionary/branches/staging/badge.svg)](https://semaphoreci.com/rubs019/urban_dictionary)
+![Build Status](https://travis-ci.com/rubs019/urban_dictionary.svg?branch=dev)
+![Build Status](https://travis-ci.com/rubs019/urban_dictionary.svg?branch=master)
 
 **Urban Dictionnary** is a school project for ESGI.
 
