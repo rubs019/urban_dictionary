@@ -24,44 +24,57 @@
 </template>
 
 <script>
-  export default {
-    name: "BaseVoteHorizontal",
-    props: {
-      nbVote: Number,
-      nbMaxLike: Number
-    },
-    data: () => ({
-      nbLike: null
-    }),
-    methods: {
-      vote(operande) {
-        if (operande === 'add') {
-          this.addNbVote()
-          return
-        }
-        if (operande === 'reduce') {
-          this.reduceNbVote()
-          return
-        }
-        console.log('Bad operande, received', operande)
-      },
-      addNbVote() {
-        this.nbLike++
-        this.sendVote()
-      },
-      reduceNbVote() {
-        this.nbLike--
-        this.sendVote()
-      },
-      sendVote() {
-        console.log('sendVote = ', this.nbLike)
-        this.$emit('emitVote', this.nbLike)
-      }
-    },
-    mounted() {
-      this.nbLike = this.nbVote
-    }
-  }
+	import FormLogin from "../form/FormLogin"
+	import STORE     from "../../store"
+
+	export default {
+		name: "BaseVoteHorizontal",
+		props: {
+			nbVote: Number,
+			nbMaxLike: Number
+		},
+		data: () => ({
+			nbLike: null
+		}),
+		methods: {
+			imageModal() {
+				this.$modal.open({
+                    component: FormLogin,
+                    hasModalCard: true,
+                    animation: 'zoom-out'
+                })
+			},
+			vote(operande) {
+				if (!STORE.state.isConnected) {
+					this.imageModal()
+                    return
+                }
+				if (operande === 'add') {
+					this.addNbVote()
+					return
+				}
+				if (operande === 'reduce') {
+					this.reduceNbVote()
+					return
+				}
+				console.log('Bad parameter received', operande)
+			},
+			addNbVote() {
+				this.nbLike++
+				this.sendVote()
+			},
+			reduceNbVote() {
+				this.nbLike--
+				this.sendVote()
+			},
+			sendVote() {
+				this.$emit('emitVote', this.nbLike)
+			}
+		},
+		mounted() {
+			this.nbLike = this.nbVote
+		}
+	}
 </script>
 
 <style scoped="scss">
@@ -70,9 +83,11 @@
         flex-direction: column;
         justify-content: space-between;
     }
+
     .icon {
         cursor: pointer;
     }
+
     .divide {
         margin: 0.2em 0;
     }

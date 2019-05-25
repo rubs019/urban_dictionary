@@ -4,10 +4,6 @@
     <div class="content">
       <ul
         v-if="resultList"
-        v-click-outside="{
-          exclude: ['input'],
-          handler: 'onClose'
-        }"
       >
         <!-- On affiche la liste que si nous avons des résultats -->
         <router-link

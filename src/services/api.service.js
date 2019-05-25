@@ -1,12 +1,12 @@
 import axios from "axios"
 
 
-const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "https://underdico-playground.herokuapp.com/api"
-    : "https://underdico-playground.herokuapp.com/api"
+const BASE_URL = process.env.VUE_APP_API
 
-async function get(endpoint) {
+async function get(endpoint = null) {
+  if (!endpoint) {
+    return await axios.get(BASE_URL) // return error if server is down
+  }
   return await axios.get(`${BASE_URL}/${endpoint}`) // return error if server is down
 }
 

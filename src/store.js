@@ -45,6 +45,10 @@ export default {
     if (this.debug) console.log("setConnected triggered with", newValue)
     this.state.isConnected = newValue
   },
+  /**
+   * Use to clear all store
+   * @return undefined
+   */
   clear() {
     this.state.isConnected = false
     this.credentials = null

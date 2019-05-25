@@ -28,6 +28,10 @@ export const API_PATH = {
 	ACCOUNT_LOGIN: `${ENDPOINT.ACCOUNTS}/login`
 }
 
+/**
+ * Form status
+ * @type {{SUCCESS: number, ERROR: number, PENDING: number, DEFAULT: number}}
+ */
 export const STATUS = {
 	DEFAULT: 0,
 	PENDING: 1,

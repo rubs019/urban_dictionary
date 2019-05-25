@@ -10,7 +10,7 @@
     "build": "vue-cli-service build",
     "heroku-prebuild": "npm install",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "test": "vue-cli-service test:unit"
   },
   "engines": {
     "node": "10.15.3",

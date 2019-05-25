@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { STATUS } from "../constants"
+import { STATUS } from "../../constants"
 
 export default {
   name: "FormLogin",

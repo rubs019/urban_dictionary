@@ -10,7 +10,8 @@
                             <div class="notification is-white">
                                 <b-tabs size="is-medium" type="is-boxed" expanded animated>
                                     <b-tab-item label="Mes informations">
-                                        <ProfileInformations @updateUserInformation="updateUser" v-if="store" :credentials="store.credentials"></ProfileInformations>
+                                        <ProfileInformations @updateUserInformation="updateUser" v-if="store"
+                                                             :credentials="store.credentials"></ProfileInformations>
                                     </b-tab-item>
 
                                     <b-tab-item icon-pack="fas" icon="book">
@@ -40,9 +41,9 @@
                                     <figure class="image is-4by3">
                                         <img class="is-rounded" src="http://cdn.onlinewebfonts.com/svg/img_504570.png">
                                     </figure>
-                                     <div class="button is-primary">
-                                         Changer de photo ?
-                                     </div>
+                                    <div class="button is-primary">
+                                        Changer de photo ?
+                                    </div>
                                 </article>
                             </div>
                             <div class="tile is-parent">
@@ -66,10 +67,10 @@
 
 <script>
 	import Store               from "../store"
-    import AppHeroComponent    from "../components/AppHeroComponent"
+	import AppHeroComponent    from "../components/AppHeroComponent"
 	import ProfileInformations from "../components/profile/ProfileInformations"
 	import ProfileDefinitions  from "../components/profile/ProfileDefinitions"
-    import { patch }           from "../services/api.service"
+	import { patch }           from "../services/api.service"
 	import { ENDPOINT }        from "../constants"
 	import DTO                 from "../services/DTO"
 
@@ -78,30 +79,30 @@
 		data() {
 			return {
 				showBooks: false,
-                store: null
+				store: null
 			}
 		},
-        methods: {
+		methods: {
 			async updateUser(user) {
-                try {
+				try {
 					const result = await patch(`${ENDPOINT.ACCOUNTS}/${Store.credentials.id}`, DTO.accountPatchInformation(user))
 
-                    Store.setUser(result.data.username, 'username')
-                    Store.setUser(result.data.email, 'email')
+					Store.setUser(result.data.username, 'username')
+					Store.setUser(result.data.email, 'email')
 
-                } catch (e) {
+				} catch (e) {
 					console.log('AppProfile : updateUser : ', e.response)
-                }
+				}
 
-            }
-        },
-        components: { AppHeroComponent, ProfileDefinitions, ProfileInformations },
-        beforeCreate() {
+			}
+		},
+		components: { AppHeroComponent, ProfileDefinitions, ProfileInformations },
+		beforeCreate() {
 			if (!Store.state.isConnected) {
 				this.$router.push('/')
-            }
+			}
 		},
-        beforeMount() {
+		beforeMount() {
 			this.store = Store
 		}
 	}

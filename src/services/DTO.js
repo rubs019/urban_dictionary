@@ -1,12 +1,9 @@
 export default {
   accountCreate,
   accountLogin,
-  accountLogout,
   addDefinition,
   accountPatchInformation
 }
-
-
 
 function accountCreate(data) {
   return {
@@ -22,10 +19,6 @@ function accountLogin(data) {
     "username": data.login,
     "password": data.pwd
   }
-}
-
-function accountLogout() {
-  return {}
 }
 
 function addDefinition(expression) {

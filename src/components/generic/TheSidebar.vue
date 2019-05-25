@@ -36,9 +36,9 @@
 </template>
 
 <script>
-    import BaseTag from "../BaseTag"
-    import TopExpressions from "../TopExpressions"
-    import Store from "../../store"
+    import BaseTag        from "../tag/BaseTag"
+    import TopExpressions from "../TopExpressionsComponent"
+    import Store          from "../../store"
 
 	export default {
 		name: "TheSidebar",

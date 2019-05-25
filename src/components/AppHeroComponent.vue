@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import SearchComponent from "./searchComponent"
+import SearchComponent               from "./SearchComponent"
 import { APP_NAME, APP_DESCRIPTION } from "../constants"
 
 export default {

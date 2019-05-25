@@ -1,6 +1,6 @@
 import { expect } from "chai"
 import { mount } from "@vue/test-utils"
-import searchComponent from "@/components/searchComponent.vue"
+import searchComponent from "@/components/SearchComponent.vue"
 
 //run "npm run test:unit --runTestsByPath /Users/rubyesgi/Documents/workspace/node/urban_dictionary_proto/app/tests/unit/searchComponent.spec.js"
 

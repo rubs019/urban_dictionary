@@ -85,7 +85,7 @@
 
 <script>
 import BaseVoteHorizontal from "./BaseVoteHorizontal"
-import BaseTagLabel from "../BaseTagLabel"
+import BaseTagLabel       from "../tag/BaseTagLabel"
 
 export default {
   name: "OneDefinitions",

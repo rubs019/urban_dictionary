@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import FormLogin                                 from "../components/FormLogin"
+	import FormLogin                                 from "../components/form/FormLogin"
 	import { post, get }                             from "../services/api.service"
 	import DTO                                       from "../services/DTO"
 	import { ENDPOINT, NOTIF_MSG, API_PATH, STATUS } from "../constants"
@@ -36,6 +36,7 @@
 				console.log('credentials : ', credentials)
 				// Send login and pwd
 
+                // Use to show loader
                 this.form.status = STATUS.PENDING
 
 				try {
@@ -43,26 +44,30 @@
 
 					const userInformation = await get(`${ENDPOINT.ACCOUNTS}/${result.data.userId}`)
 
-					// On ajoute le token aux données que l'on va enregistrer
-					console.log(result)
-					userInformation.data.token = result.data.id
-					userInformation.data.ttl = result.data.ttl
+					setTimeout(async () => {
+                        // On ajoute le token aux données que l'on va enregistrer
+                        console.log(result)
+                        userInformation.data.token = result.data.id
+                        userInformation.data.ttl = result.data.ttl
 
-					Store.setConnected(true)
-					Store.setUser(userInformation.data)
+                        Store.setConnected(true)
+                        Store.setUser(userInformation.data)
 
-					this.setMsgNotification(NOTIF_MSG.SUCCESS_LOGIN)
+                        this.setMsgNotification(NOTIF_MSG.SUCCESS_LOGIN)
 
-					const that = this
-                    setTimeout(() => {
-						that.$router.push('/')
-                    }, 1500)
+                        this.$router.push('/')
+					}, 1500)
 				} catch (e) {
 					console.log('e', e)
+
+                    // Use to show error
+					this.form.status = STATUS.ERROR
+
 					if (e.response.status === 401) {
 						this.setMsgNotification(NOTIF_MSG.ACCOUNT_NOT_EXIST)
 						return
 					}
+
 					this.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
 				}
 			},
