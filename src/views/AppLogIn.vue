@@ -42,7 +42,7 @@
 				try {
 					const result = await post(API_PATH.ACCOUNT_LOGIN, DTO.accountLogin(credentials))
 
-					const userInformation = await get(`${ENDPOINT.ACCOUNTS}/${result.data.userId}`)
+					const userInformation = await get(`${ENDPOINT.USERS}/${result.data.userId}`)
 
 					setTimeout(async () => {
                         // On ajoute le token aux données que l'on va enregistrer

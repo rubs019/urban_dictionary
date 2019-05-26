@@ -85,7 +85,7 @@
 		methods: {
 			async updateUser(user) {
 				try {
-					const result = await patch(`${ENDPOINT.ACCOUNTS}/${Store.credentials.id}`, DTO.accountPatchInformation(user))
+					const result = await patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation(user))
 
 					Store.setUser(result.data.username, 'username')
 					Store.setUser(result.data.email, 'email')

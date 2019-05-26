@@ -2,6 +2,7 @@
 .idea/*
 dist/
 .env
+tests/e2e/reports
 
 ############################
 # OS X

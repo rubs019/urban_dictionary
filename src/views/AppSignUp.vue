@@ -32,32 +32,40 @@
 				// Use to show loader
 				this.form.status = STATUS.PENDING
 
-				if (!this.checkPassword(credentials)) {
-					this.setMsgNotification(NOTIF_MSG.NOT_SAME_PWD)
+				if (!this.validationInput(credentials)) {
 					this.form.status = STATUS.ERROR
-					return
-				}
+                    return
+                }
 
 				try {
-					const result = await post(API_PATH.CREATE_ACCOUNT, DTO.accountCreate(credentials))
+					const result = await post(API_PATH.CREATE_USER, DTO.accountCreate(credentials))
 
 					Store.setConnected(true)
 					Store.setUser(result.data)
 
 					this.setMsgNotification(NOTIF_MSG.SUCCESS)
-
-					this.$router.push("/")
+                    const that = this
+					setTimeout(() => {
+						that.$router.push("/")
+                    }, 1500)
 				} catch (e) {
-					console.log('e', e.response)
-
 					this.form.status = STATUS.ERROR
+					console.log('e', e.response)
+					const that = this
+					setTimeout(() => {
+						if (e.response.data.status === 422) {
+							that.setMsgNotification(NOTIF_MSG.USER_ALREADY_EXIST)
+							return
+						}
 
-					if (e.response.status === 422) {
-						this.setMsgNotification(NOTIF_MSG.USER_ALREADY_EXIST)
-						return
-					}
+						if (e.response.data.statusCode === 409) {
 
-					this.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
+							that.setMsgNotification(NOTIF_MSG.EMAIL_ALREADY_EXIST)
+                            return
+                        }
+
+						that.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
+					}, 1500)
 				}
 
 			},
@@ -68,7 +76,18 @@
 			 */
 			checkPassword(credentials) {
 				// Check if password is the same
+                if (!credentials.pwd || !credentials.pwd2) return false
 				return credentials.pwd === credentials.pwd2
+			},
+			/**
+			 * Check password length
+			 * @param credentials {object}
+			 * @return {boolean}
+			 */
+			checkPasswordLength(credentials) {
+				// Check if password is the same
+                if (!credentials.pwd) return false
+				return credentials.pwd.length >= 6
 			},
 			/**
 			 * Set the message of notification
@@ -79,7 +98,23 @@
 			setMsgNotification(message) {
 				this.form.color = message === NOTIF_MSG.SUCCESS ? 'success' : 'danger'
 				this.form.message = message
-			}
+			},
+			/**
+			 * Check all form
+			 * @param credentials {object}
+			 * @return {boolean}
+			 */
+			validationInput(credentials) {
+				if (this.checkPasswordLength(credentials)) {
+					this.setMsgNotification(NOTIF_MSG.PWD_TOO_SHORT)
+					return false
+				}
+				if (!this.checkPassword(credentials)) {
+					this.setMsgNotification(NOTIF_MSG.NOT_SAME_PWD)
+					return false
+				}
+				return true
+			},
 		}
 	}
 </script>

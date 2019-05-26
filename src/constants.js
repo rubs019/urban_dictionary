@@ -12,20 +12,22 @@ export const MENU_NAME = {
 
 export const NOTIF_MSG = {
 	ACCOUNT_NOT_EXIST: "Le nom d'utilisateur n'existe pas",
+	PWD_TOO_SHORT: "Le mot de passe doit avoir au moins 6 lettres",
 	NOT_SAME_PWD: "Les mots de passent doivent être identiques",
 	USER_ALREADY_EXIST: "Ce nom d'utilisateur existe déjà",
+	EMAIL_ALREADY_EXIST: "Cette email est déjà utilisé",
 	SUCCESS: "Vous allez être redirigé vers la page correspondante",
 	ERROR_SERVER: "Une erreur s'est produite, veuillez réessayer dans quelques instants",
 	SUCCESS_LOGIN: "Connexion réussie..."
 }
 export const ENDPOINT = {
-	ACCOUNTS: "accounts",
+	USERS: "users",
 	WORDS: "words"
 }
 export const API_PATH = {
-	CREATE_ACCOUNT: ENDPOINT.ACCOUNTS,
-	ACCOUNT_LOGOUT: `${ENDPOINT.ACCOUNTS}/logout`,
-	ACCOUNT_LOGIN: `${ENDPOINT.ACCOUNTS}/login`
+	CREATE_USER: ENDPOINT.USERS,
+	ACCOUNT_LOGOUT: `${ENDPOINT.USERS}/logout`,
+	ACCOUNT_LOGIN: `${ENDPOINT.USERS}/login`
 }
 
 /**

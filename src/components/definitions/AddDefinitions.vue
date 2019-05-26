@@ -117,7 +117,7 @@
 				console.log('definition', this.definition)
 
 				try {
-					const result = await post(`${ENDPOINT.ACCOUNTS}/${Store.credentials.id}/words`, DTO.addDefinition(this.definition))
+					const result = await post(`${ENDPOINT.USERS}/${Store.credentials.id}/words`, DTO.addDefinition(this.definition))
 
 					setTimeout(() => {
 						this.formStatus = STATUS.SUCCESS
