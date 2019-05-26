@@ -36,6 +36,11 @@
 				console.log('credentials : ', credentials)
 				// Send login and pwd
 
+				if (!this.checkCredentials(credentials)) {
+					this.setMsgNotification(NOTIF_MSG.PWD_OR_LOGIN_EMPTY)
+					return
+                }
+
                 // Use to show loader
                 this.form.status = STATUS.PENDING
 
@@ -58,10 +63,15 @@
                         this.$router.push('/')
 					}, 1500)
 				} catch (e) {
-					console.log('e', e)
+					console.log('e', e.response)
 
                     // Use to show error
-					this.form.status = STATUS.ERROR
+                    this.form.status = STATUS.ERROR
+
+					if (e.response.data.statusCode === 400) {
+						this.setMsgNotification(NOTIF_MSG.BAD_CREDENTIALS)
+						return
+					}
 
 					if (e.response.status === 401) {
 						this.setMsgNotification(NOTIF_MSG.ACCOUNT_NOT_EXIST)
@@ -80,6 +90,14 @@
 			setMsgNotification(message) {
 				this.form.color = message === NOTIF_MSG.SUCCESS_LOGIN ? 'success' : 'danger'
 				this.form.message = message
+			},
+			/**
+             * Check if credentials is present
+			 * @param credentials
+			 */
+			checkCredentials(credentials) {
+				return !(!credentials.login || !credentials.pwd)
+
 			}
 		}
 	}

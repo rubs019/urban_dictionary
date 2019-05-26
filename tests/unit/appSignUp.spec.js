@@ -2,7 +2,7 @@ import { expect } from "chai"
 import { mount }  from "@vue/test-utils"
 import AppSignUp  from "../../src/views/AppSignUp"
 
-// npm run test:unit --runTestsByPath /Users/rubyesgi/Documents/workspace/node/urban_dictionary_proto/app/tests/unit/signUp.spec.js
+// npm run test:unit --runTestsByPath /Users/rubyesgi/Documents/workspace/node/urban_dictionary_proto/app/tests/unit/appSignUp.spec.js
 
 describe('checkPassword()', () => {
 	describe('I\'m trying to test two different passwords', () => {
