@@ -12,6 +12,7 @@ import AppLogIn          from "./views/AppLogIn"
 import AppSignIn         from "./views/AppSignUp"
 import AppDisconnect     from "./views/AppDisconnect"
 import AppProfile        from "./views/AppProfile"
+import AppNotFound       from "./views/AppNotFound"
 
 Vue.use(Router)
 
@@ -87,6 +88,11 @@ export default new Router({
 			// which is lazy-loaded when the route is visited.
 			component: () =>
 				import(/* webpackChunkName: "about" */ "./views/AppAbout.vue")
+		},
+		{
+			path: "*",
+			name: "AppNotFound",
+			component: AppNotFound
 		}
 	]
 })
