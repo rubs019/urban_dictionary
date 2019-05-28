@@ -9,7 +9,7 @@ import AppContact        from "./views/AppContact"
 import AppDefinitions    from "./views/AppDefinitions"
 import AddDefinitions    from "./components/definitions/AddDefinitions"
 import AppLogIn          from "./views/AppLogIn"
-import AppSignIn         from "./views/AppSignUp"
+import AppSignUp         from "./views/AppSignUp"
 import AppDisconnect     from "./views/AppDisconnect"
 import AppProfile        from "./views/AppProfile"
 import AppNotFound       from "./views/AppNotFound"
@@ -42,7 +42,7 @@ export default new Router({
 		{
 			path: "/signup",
 			name: "AppSignUp",
-			component: AppSignIn
+			component: AppSignUp
 		},
 		{
 			path: "/disconnect",

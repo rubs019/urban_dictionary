@@ -91,8 +91,8 @@ export default {
   data: () => ({
     Status: STATUS,
     user: {
-      login: "Ruben",
-      pwd: "null"
+      login: "admin",
+      pwd: "testtest"
     }
   }),
   props: {

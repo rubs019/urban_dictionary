@@ -7,8 +7,9 @@ export default {
     id: null,
     username: null,
     email: null,
-    realm: null,
-    token: null
+    role: null,
+    token: null,
+    karma: null
   },
   /**
    * Save the user credentials in the store
@@ -28,8 +29,9 @@ export default {
         id: credentials.id ?  credentials.id : null,
         username: credentials.username ? credentials.username : null,
         email: credentials.email ? credentials.email : null,
-        realm: credentials.realm ? credentials.realm : null,
-        token: credentials.token ? credentials.token : null
+        role: credentials.role ? credentials.role : null,
+        token: credentials.token ? credentials.token : null,
+        karma: credentials.karma ? credentials.karma : null
       }
 
       return true
@@ -70,8 +72,9 @@ export default {
       id: null,
       username: null,
       email: null,
-      realm: null,
-      token: null
+      role: null,
+      token: null,
+      karma: null
     }
   }
 }

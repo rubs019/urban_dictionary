@@ -4,9 +4,6 @@
 
 <script>
 	import Store        from "../store"
-	import { post }     from "../services/api.service"
-	import { API_PATH } from "../constants"
-	import DTO     from "../services/DTO"
 
 	export default {
 		name: "AppDisconnect",
@@ -19,10 +16,9 @@
 			console.log("Store.credentials", Store.credentials)
 
 			try {
-				const result = await post(`${API_PATH.ACCOUNT_LOGOUT}`, DTO.accountLogout(null), { token: Store.credentials.token })
-				console.log('appDisconnect : result', result)
 				Store.clear()
 				console.log("Store.credentials2", Store.credentials)
+				console.log("Store.userConnected", Store.state.isConnected)
 
 				const $that = this
 

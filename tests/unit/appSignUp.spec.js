@@ -1,5 +1,6 @@
 import { expect } from "chai"
 import { mount }  from "@vue/test-utils"
+import sinon from 'sinon'
 import AppSignUp  from "../../src/views/AppSignUp"
 
 // npm run test:unit --runTestsByPath /Users/rubyesgi/Documents/workspace/node/urban_dictionary_proto/app/tests/unit/appSignUp.spec.js
@@ -54,3 +55,32 @@ describe('checkPasswordLength()', () => {
 	})
 })
 
+
+// Faire le test de validation input
+
+describe('validationInput()', () => {
+	const stub = sinon.stub(AppSignUp.methods, 'setMsgNotification')
+	beforeEach(() => {
+		stub.returns({})
+	})
+	it('I trying to check credentials, with an invalid password length, should return false', () => {
+		const credentials = {
+			pwd: 'toto'
+		}
+		expect(AppSignUp.methods.validationInput(credentials)).to.be.false
+	})
+	it('I trying to check credentials, with an invalid password length, should return false', () => {
+		const credentials = {
+			pwd: 'totototo',
+			pwd2: 'tatatata'
+		}
+		expect(AppSignUp.methods.validationInput(credentials)).to.be.false
+	})
+	it('I trying to check a correct credentials, should return true', () => {
+		const credentials = {
+			pwd: 'totototo',
+			pwd2: 'totototo'
+		}
+		expect(AppSignUp.methods.validationInput(credentials)).to.be.true
+	})
+})

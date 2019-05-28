@@ -40,13 +40,15 @@
 				try {
 					const result = await post(API_PATH.CREATE_USER, DTO.accountCreate(credentials))
 
+                    console.log('result', result)
+
 					Store.setConnected(true)
 					Store.setUser(result.data)
 
 					this.setMsgNotification(NOTIF_MSG.SUCCESS)
                     const that = this
 					setTimeout(() => {
-						that.$router.push("/")
+						that.$router.push("/login")
                     }, 1500)
 				} catch (e) {
 					this.form.status = STATUS.ERROR
@@ -105,7 +107,7 @@
 			 * @return {boolean}
 			 */
 			validationInput(credentials) {
-				if (this.checkPasswordLength(credentials)) {
+				if (!this.checkPasswordLength(credentials)) {
 					this.setMsgNotification(NOTIF_MSG.PWD_TOO_SHORT)
 					return false
 				}

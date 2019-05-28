@@ -12,7 +12,7 @@ export const MENU_NAME = {
 
 export const NOTIF_MSG = {
 	ACCOUNT_NOT_EXIST: "Le nom d'utilisateur n'existe pas",
-	BAD_CREDENTIALS: "Nom d'utilisateur ou mot de passe incorrecte",
+	BAD_CREDENTIALS: "Nom d'utilisateur ou mot de passe incorrect",
 	PWD_OR_LOGIN_EMPTY: "Le nom d'utilisateur et/ou le password est vide",
 	PWD_TOO_SHORT: "Le mot de passe doit avoir au moins 6 lettres",
 	NOT_SAME_PWD: "Les mots de passent doivent être identiques",

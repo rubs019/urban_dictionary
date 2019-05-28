@@ -47,19 +47,27 @@
 				try {
 					const result = await post(API_PATH.ACCOUNT_LOGIN, DTO.accountLogin(credentials))
 
-					const userInformation = await get(`${ENDPOINT.USERS}/${result.data.userId}`)
+                    console.log('result', result)
+                    const headers = {
+						token: result.data.token
+                    }
+
+					const { data: userInformation } = await get(`${ENDPOINT.USERS}/${result.data.userId}`, headers)
+
+                    console.log('userInformation', userInformation)
+
+                    userInformation.token = result.data.token
+                    console.log(localStorage)
+
+                    if (Store.setUser(userInformation)) {
+                        Store.setConnected(true)
+                    } else {
+                    	throw Error('AppLogin : Erreur lors du stockage des identifiants')
+                    }
+
+                    this.setMsgNotification(NOTIF_MSG.SUCCESS_LOGIN)
 
 					setTimeout(async () => {
-                        // On ajoute le token aux données que l'on va enregistrer
-                        console.log(result)
-                        userInformation.data.token = result.data.id
-                        userInformation.data.ttl = result.data.ttl
-
-                        Store.setConnected(true)
-                        Store.setUser(userInformation.data)
-
-                        this.setMsgNotification(NOTIF_MSG.SUCCESS_LOGIN)
-
                         this.$router.push('/')
 					}, 1500)
 				} catch (e) {
@@ -73,8 +81,8 @@
 						return
 					}
 
-					if (e.response.status === 401) {
-						this.setMsgNotification(NOTIF_MSG.ACCOUNT_NOT_EXIST)
+					if (e.response.status === 422) {
+						this.setMsgNotification(NOTIF_MSG.PWD_TOO_SHORT)
 						return
 					}
 
