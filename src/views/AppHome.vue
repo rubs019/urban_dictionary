@@ -11,7 +11,7 @@
                             <h3 class="title boxed-section-title is-4 has-text-left">
                                 Expression du jour
                             </h3>
-                            <OneDefinition :is-primary="true" :simpleComponent="false"></OneDefinition>
+                            <OneDefinition :is-primary="true" :simpleComponent="false" :expression="dayExpression"></OneDefinition>
                         </div>
                         <div class="expression" id="allExpression">
                             <h3 class="title boxed-section-title is-4 has-text-left">
@@ -39,18 +39,18 @@
 
 <script>
 	// @ is an alias to /src
-	import AppHeroComponent from "../components/AppHeroComponent.vue"
-	import OneDefinition    from "../components/definitions/OneDefinition"
-	import TheSidebar       from "../components/generic/TheSidebar"
-	import { ENDPOINT }     from "../constants"
-	import Store            from "../store"
-	import { get }          from "../services/api.service"
+	import AppHeroComponent       from "../components/AppHeroComponent.vue"
+	import OneDefinition          from "../components/definitions/OneDefinition"
+	import TheSidebar             from "../components/generic/TheSidebar"
+	import { API_PATH, ENDPOINT } from "../constants"
+	import Store                  from "../store"
+	import { get }                from "../services/api.service"
 
 	export default {
 		name: "AppHome",
 		data() {
 			return {
-				OneDefinition: OneDefinition,
+				dayExpression: null,
 				store: Store,
 				definitions: null
 			}
@@ -61,6 +61,23 @@
 			TheSidebar
 		},
 		methods: {
+			async getDayExpression() {
+
+				try {
+					const { data: expressionDuJour } = await get(API_PATH.DAILY_WORD)
+
+					console.log('Expression du jour  = ', expressionDuJour)
+
+					this.dayExpression = expressionDuJour
+                } catch(e) {
+					console.log('AppHome : getDayExpression : ', e.response)
+
+                    if (e.response.data.statusCode === 404) {
+                    	this.dayExpression = false
+                    }
+                }
+
+            },
 			async getExpressions() {
 				try {
 					const result = await get(ENDPOINT.WORDS)
@@ -75,6 +92,7 @@
 		},
 		mounted() {
 			this.getExpressions()
+            this.getDayExpression()
 		}
 	}
 </script>

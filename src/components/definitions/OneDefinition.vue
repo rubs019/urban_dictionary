@@ -71,11 +71,19 @@
         </article>
       </div>
     </template>
+    <template v-else-if="expression === false">
+      <div class="tile is-parent">
+        <article class="tile is-child notification is-primary">
+          <p class="title">Oups...</p>
+          <p class="subtitle has-text-left">Il n'existe pas d'expression</p>
+        </article>
+      </div>
+    </template>
     <template v-else>
       <div class="tile is-parent">
         <article class="tile is-child notification is-primary">
-          <p class="title">Chargement...</p>
-          <p class="subtitle left"><span class="loader"></span></p>
+          <p class="title">Chargement...</p><span class="loader"></span>
+          <p class="subtitle left"></p>
         </article>
       </div>
     </template>

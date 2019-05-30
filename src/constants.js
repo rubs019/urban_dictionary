@@ -27,6 +27,7 @@ export const ENDPOINT = {
 	WORDS: "words"
 }
 export const API_PATH = {
+	DAILY_WORD: `${ENDPOINT.WORDS}/daily`,
 	CREATE_USER: ENDPOINT.USERS,
 	ACCOUNT_LOGOUT: `${ENDPOINT.USERS}/logout`,
 	ACCOUNT_LOGIN: `${ENDPOINT.USERS}/token`

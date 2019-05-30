@@ -2,7 +2,6 @@
     <div class="sidebar">
         <div class="tile is-parent">
             <router-link
-                    v-if="store.state.isConnected"
                     :to="{name: 'AddDefinitions'}"
                     class="button is-primary is-fullwidth"
             >
