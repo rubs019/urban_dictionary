@@ -3,8 +3,9 @@ import Router            from "vue-router"
 import AppHome           from "./views/AppHome.vue"
 import HealthCheck       from "./views/AppHealthCheck.vue"
 import Games             from "./views/games/Games"
-import OneDefinitions    from "./components/definitions/OneDefinitions"
+import OneDefinition     from "./components/definitions/OneDefinition"
 import UpdateDefinitions from "./components/definitions/UpdateDefinitions"
+import RandomDefinition  from "./components/definitions/randomDefinition"
 import AppContact        from "./views/AppContact"
 import AppDefinitions    from "./views/AppDefinitions"
 import AddDefinitions    from "./components/definitions/AddDefinitions"
@@ -55,6 +56,20 @@ export default new Router({
 			component: AppProfile
 		},
 		{
+			path: "/healthcheck",
+			name: "AppHealthCheck",
+			component: HealthCheck
+		},
+		{
+			path: "/about",
+			name: "AppAbout",
+			// route level code-splitting
+			// this generates a separate chunk (about.[hash].js) for this route
+			// which is lazy-loaded when the route is visited.
+			component: () =>
+				import(/* webpackChunkName: "about" */ "./views/AppAbout.vue")
+		},
+		{
 			path: "/definitions",
 			name: "AppDefinitions",
 			component: AppDefinitions,
@@ -69,25 +84,16 @@ export default new Router({
 					component: UpdateDefinitions
 				},
 				{
+					path: "random",
+					name: 'random',
+					component: RandomDefinition
+				},
+				{
 					path: ":name",
 					name: "OneDefinition",
-					component: OneDefinitions
+					component: OneDefinition
 				}
 			]
-		},
-		{
-			path: "/healthcheck",
-			name: "AppHealthCheck",
-			component: HealthCheck
-		},
-		{
-			path: "/about",
-			name: "AppAbout",
-			// route level code-splitting
-			// this generates a separate chunk (about.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () =>
-				import(/* webpackChunkName: "about" */ "./views/AppAbout.vue")
 		},
 		{
 			path: "*",

@@ -9,7 +9,7 @@
 
 <script>
 	import FormSignUp                      from "../components/form/FormSignUp"
-	import { post }                        from "../services/api.service"
+	import { Post }                        from "../services/api.service"
 	import DTO                             from "../services/DTO"
 	import Store                           from "../store"
 	import { NOTIF_MSG, API_PATH, STATUS } from "../constants"
@@ -38,7 +38,7 @@
                 }
 
 				try {
-					const result = await post(API_PATH.CREATE_USER, DTO.accountCreate(credentials))
+					const result = await Post(API_PATH.CREATE_USER, DTO.accountCreate(credentials))
 
                     console.log('result', result)
 

@@ -1,14 +1,13 @@
 <template>
-  <router-link tag="span" to="/tag" class="tag is-light">{{
-    name
-  }}</router-link>
+  <b-tag rounded :type="[colors ? 'is-info' : 'is-light']">{{ name }}</b-tag>
 </template>
 
 <script>
 export default {
   name: "BaseTagLabel",
   props: {
-    name
+    name: String,
+    colors: Boolean
   }
 }
 </script>

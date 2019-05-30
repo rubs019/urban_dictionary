@@ -27,6 +27,7 @@ export const ENDPOINT = {
 	WORDS: "words"
 }
 export const API_PATH = {
+	RANDOM_WORD: `${ENDPOINT.WORDS}/random`,
 	DAILY_WORD: `${ENDPOINT.WORDS}/daily`,
 	CREATE_USER: ENDPOINT.USERS,
 	ACCOUNT_LOGOUT: `${ENDPOINT.USERS}/logout`,
@@ -45,4 +46,4 @@ export const STATUS = {
 }
 
 export const APP_NAME = "UnderDico"
-export const APP_DESCRIPTION = "Le dictionnaire complet de l'argot"
+export const APP_DESCRIPTION = "Bienvenue sur Underdico, le dictionnaire de référence de l'argot"

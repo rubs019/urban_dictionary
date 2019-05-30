@@ -5,9 +5,11 @@
             <div class="container">
                 <div class="columns">
                     <div class="column is-8">
-                        <p class="title" v-if="store.state.isConnected"> Welcome back, {{ store.credentials.username
-                            }} </p>
-                        <div class="expression" id="topExpression">
+                        <div class="description has-text-left">
+                            <p class="title" v-if="store.state.isConnected"> Welcome back, {{ store.credentials.username }} </p>
+                            <p>{{ AppDescription }}</p>
+                        </div>
+                        <div class="expression" id="topExpression" v-if="dayExpression">
                             <h3 class="title boxed-section-title is-4 has-text-left">
                                 Expression du jour
                             </h3>
@@ -42,9 +44,9 @@
 	import AppHeroComponent       from "../components/AppHeroComponent.vue"
 	import OneDefinition          from "../components/definitions/OneDefinition"
 	import TheSidebar             from "../components/generic/TheSidebar"
-	import { API_PATH, ENDPOINT } from "../constants"
+	import { API_PATH, ENDPOINT, APP_DESCRIPTION } from "../constants"
 	import Store                  from "../store"
-	import { get }                from "../services/api.service"
+	import { Get }                from "../services/api.service"
 
 	export default {
 		name: "AppHome",
@@ -52,6 +54,7 @@
 			return {
 				dayExpression: null,
 				store: Store,
+                AppDescription: APP_DESCRIPTION,
 				definitions: null
 			}
 		},
@@ -64,7 +67,7 @@
 			async getDayExpression() {
 
 				try {
-					const { data: expressionDuJour } = await get(API_PATH.DAILY_WORD)
+					const { data: expressionDuJour } = await Get(API_PATH.DAILY_WORD)
 
 					console.log('Expression du jour  = ', expressionDuJour)
 
@@ -80,7 +83,7 @@
             },
 			async getExpressions() {
 				try {
-					const result = await get(ENDPOINT.WORDS)
+					const result = await Get(ENDPOINT.WORDS)
 
 					console.log('result.data', result.data)
 

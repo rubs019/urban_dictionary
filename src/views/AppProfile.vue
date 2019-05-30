@@ -70,7 +70,7 @@
 	import AppHeroComponent    from "../components/AppHeroComponent"
 	import ProfileInformations from "../components/profile/ProfileInformations"
 	import ProfileDefinitions  from "../components/profile/ProfileDefinitions"
-	import { patch }           from "../services/api.service"
+	import { Patch }           from "../services/api.service"
 	import { ENDPOINT }        from "../constants"
 	import DTO                 from "../services/DTO"
 
@@ -85,7 +85,7 @@
 		methods: {
 			async updateUser(user) {
 				try {
-					const result = await patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation(user))
+					const result = await Patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation(user))
 
 					Store.setUser(result.data.username, 'username')
 					Store.setUser(result.data.email, 'email')

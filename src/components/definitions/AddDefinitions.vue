@@ -59,7 +59,7 @@
 </template>
 
 <script>
-	import { post }             from "../../services/api.service"
+	import { Post }             from "../../services/api.service"
 	import { ENDPOINT, STATUS } from "../../constants"
 	import Store                from "../../store"
 	import DTO                  from "../../services/DTO"
@@ -107,7 +107,7 @@
 
 				try {
 					// Token require
-					const result = await post(
+					const result = await Post(
 						ENDPOINT.WORDS,
 						DTO.addDefinition(this.definition),
 						{ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbi10ZXN0QG1haWwuY29tIiwicm9sZSI6IlVzZXIiLCJpZCI6IjVjZWQ4MzAxMWQ3NjRhMDdjMDQ0NTA2MiIsImlhdCI6MTU1OTIzOTgxOCwiZXhwIjoxNTU5MjQzNDE4LCJpc3MiOiJ1bmRlcmRpY28uY29tIiwic3ViIjoiNWNlZDgzMDExZDc2NGEwN2MwNDQ1MDYyIiwianRpIjoiMzE5NGUwOWEtNzBjMy00NWM5LTllZmItMTQ1NTM1ZWU0ODQyIn0.xlsaXkwTByHSYGySuzCr3dnTMTCMCoIcfPXq42owCEE' }

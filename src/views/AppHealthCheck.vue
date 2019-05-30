@@ -79,7 +79,7 @@
 				}
 				this.setNotification(STATUS_INITIAL)
 				try {
-					await APIService.get()
+					await APIService.Get()
 
 					if (lazy) {
 						// Use to simulate a server latency

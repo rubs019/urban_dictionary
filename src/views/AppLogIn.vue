@@ -8,7 +8,7 @@
 
 <script>
 	import FormLogin                                 from "../components/form/FormLogin"
-	import { post, get }                             from "../services/api.service"
+	import { Post, Get }                             from "../services/api.service"
 	import DTO                                       from "../services/DTO"
 	import { ENDPOINT, NOTIF_MSG, API_PATH, STATUS } from "../constants"
 	import Store                                     from "../store"
@@ -45,14 +45,14 @@
                 this.form.status = STATUS.PENDING
 
 				try {
-					const result = await post(API_PATH.ACCOUNT_LOGIN, DTO.accountLogin(credentials))
+					const result = await Post(API_PATH.ACCOUNT_LOGIN, DTO.accountLogin(credentials))
 
                     console.log('result', result)
                     const headers = {
 						token: result.data.token
                     }
 
-					const { data: userInformation } = await get(`${ENDPOINT.USERS}/${result.data.userId}`, headers)
+					const { data: userInformation } = await Get(`${ENDPOINT.USERS}/${result.data.userId}`, headers)
 
                     console.log('userInformation', userInformation)
 

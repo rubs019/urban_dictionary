@@ -64,7 +64,7 @@ export default {
   }),
   async mounted() {
     try {
-      const definitions = await APIService.get(ENDPOINT)
+      const definitions = await APIService.Get(ENDPOINT)
 
       this.definitions = definitions.data
       console.log(definitions.data)
