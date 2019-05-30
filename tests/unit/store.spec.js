@@ -84,13 +84,15 @@ describe("Storage", () => {
             id: 'toto',
             username: 'toto',
             email: 'toto',
-            realm: 'toto',
+            role: 'toto',
+            karma: 'toto',
             token: 'toto'
           }
 
           expect(Storage.setUser(allCredentials)).to.be.true
 
           _.forEach(Storage.credentials, (credential) => {
+            console.log('credential', credential)
             expect(credential).to.be.equal('toto')
           })
         })
