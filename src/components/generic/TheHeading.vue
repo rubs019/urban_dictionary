@@ -11,9 +11,10 @@
       <a
         role="button"
         class="navbar-burger burger"
+        :class="[burgerMenu ? 'is-active' : '']"
         aria-label="menu"
-        aria-expanded="false"
-        data-target="navbarBasicExample"
+        aria-expanded="true"
+        v-on:click="toggleBurgerMenu()"
       >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -21,29 +22,29 @@
       </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-menu" :class="[burgerMenu ? 'is-active' : '']">
       <div class="navbar-end">
         <router-link :to="{ name: 'AppHome' }" class="navbar-item">{{
           MenuName.home
-        }}</router-link>
+          }}</router-link>
 
         <router-link :to="{ name: 'AppDefinitions' }" class="navbar-item">{{
           MenuName.expression
-        }}</router-link>
+          }}</router-link>
         <router-link :to="{ name: 'AppAbout' }" class="navbar-item">{{
           MenuName.about
-        }}</router-link>
+          }}</router-link>
         <router-link
-          :to="{ name: 'AppLogIn' }"
-          class="navbar-item"
-          v-if="!Storage.state.isConnected"
+                :to="{ name: 'AppLogIn' }"
+                class="navbar-item"
+                v-if="!Storage.state.isConnected"
         >
           {{ MenuName.login }}
         </router-link>
         <router-link
-          class="navbar-item"
-          :to="{ name: 'AppDisconnect' }"
-          v-if="Storage.state.isConnected"
+                class="navbar-item"
+                :to="{ name: 'AppDisconnect' }"
+                v-if="Storage.state.isConnected"
         >
           {{ MenuName.logout }}
         </router-link>
@@ -76,13 +77,17 @@ export default {
   data: () => ({
     AppName: APP_NAME,
     MenuName: MENU_NAME,
-    Storage: Store
+    Storage: Store,
+    burgerMenu: false
   }),
   methods: {
     disconnectUser() {
       Store.clear()
       this.$router.push('/')
-    }
+    },
+    toggleBurgerMenu() {
+      this.burgerMenu = !this.burgerMenu
+    },
   }
 }
 </script>
