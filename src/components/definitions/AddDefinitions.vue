@@ -61,8 +61,8 @@
 <script>
 	import { Post }             from "../../services/api.service"
 	import { ENDPOINT, STATUS } from "../../constants"
-	import Store                from "../../store"
 	import DTO                  from "../../services/DTO"
+	import Logger from "../../services/logger"
 
 
 	export default {
@@ -103,7 +103,7 @@
 			},
 			async sendExpression() {
 				this.formStatus = STATUS.PENDING
-				console.log('definition', this.definition)
+				Logger('definition', this.definition)
 
 				try {
 					// Token require
@@ -118,7 +118,7 @@
 						this.successToast("L'expression à bien été ajoutée")
 						this.cleanForm()
 					}, 1500)
-					console.log('AddDefinitions: result', result)
+					Logger('AddDefinitions: result', result)
 				} catch (e) {
 					this.formStatus = STATUS.ERROR
 					if (e.response.status === 422) {
@@ -126,7 +126,7 @@
 						return
 					}
 					this.errorToast("Une erreur s'est produite")
-					console.log('AddDefinitions: Error: ', e.response)
+					Logger('AddDefinitions: Error: ', e.response)
 				}
 			}
 		}

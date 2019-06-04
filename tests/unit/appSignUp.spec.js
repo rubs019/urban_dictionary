@@ -1,5 +1,4 @@
 import { expect } from "chai"
-import { mount }  from "@vue/test-utils"
 import sinon from 'sinon'
 import AppSignUp  from "../../src/views/AppSignUp"
 

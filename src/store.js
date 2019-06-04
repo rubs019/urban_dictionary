@@ -1,3 +1,4 @@
+const Logger = require('./services/logger')
 export default {
   debug: true,
   state: {
@@ -23,7 +24,7 @@ export default {
 
     if (!fieldName) {
 
-      if (this.debug) console.log('SetUser triggered with no fieldName,', credentials)
+      if (this.debug) Logger('SetUser triggered with no fieldName,', credentials)
 
       this.credentials = {
         id: credentials.id ?  credentials.id : null,
@@ -37,7 +38,7 @@ export default {
       return true
     }
 
-    if (this.debug) console.log(`SetUser triggered with fieldName = ${fieldName}`, credentials)
+    if (this.debug) Logger(`SetUser triggered with fieldName = ${fieldName}`, credentials)
 
     // Check if the property exist on credentials
     if (!this.credentials.hasOwnProperty(fieldName)) return false
@@ -53,13 +54,13 @@ export default {
   setConnected(newValue) {
     if (typeof newValue !== "boolean") {
       if (this.debug)
-        console.log(
+        Logger(
           `setConnected require a boolean but received a ${typeof newValue}`,
           newValue
         )
       return
     }
-    if (this.debug) console.log("setConnected triggered with", newValue)
+    if (this.debug) Logger("setConnected triggered with", newValue)
     this.state.isConnected = newValue
   },
   /**

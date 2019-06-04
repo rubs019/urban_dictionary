@@ -1,47 +1,48 @@
 <template>
-    <div class="healthcheck">
-        <div class="columns">
-            <div class="column">
-                <p class="title">Check if server is up :</p>
-                <button
-                        v-on:click="UICheck(true, 1500)"
-                        class="button is-medium is-primary"
-                >
-                    Check
-                </button>
-                <div class="columns">
-                    <div class="column is-half is-offset-3">
-                        <article
-                                class="message"
-                                v-if="isChecked"
-                                v-bind:class="{
+  <div class="healthcheck">
+	<div class="columns">
+	  <div class="column">
+		<p class="title">Check if server is up :</p>
+		<button
+				v-on:click="UICheck(true, 1500)"
+				class="button is-medium is-primary"
+		>
+		  Check
+		</button>
+		<div class="columns">
+		  <div class="column is-half is-offset-3">
+			<article
+					class="message"
+					v-if="isChecked"
+					v-bind:class="{
                 'is-success': isUp === 1,
                 'is-danger': isUp === 2,
                 'is-info': isUp === 0
               }"
-                        >
-                            <div class="message-header">
-                                <p>{{ msgNotif.title }}</p>
-                                <span v-if="msgNotif.loader" class="loader"></span>
-                                <button
-                                        class="delete"
-                                        aria-label="delete"
-                                        v-on:click="UICloseNotificationOnClick()"
-                                ></button>
-                            </div>
-                            <div class="message-body">
-                                {{ msgNotif.content }}
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+			>
+			  <div class="message-header">
+				<p>{{ msgNotif.title }}</p>
+				<span v-if="msgNotif.loader" class="loader"></span>
+				<button
+						class="delete"
+						aria-label="delete"
+						v-on:click="UICloseNotificationOnClick()"
+				></button>
+			  </div>
+			  <div class="message-body">
+				{{ msgNotif.content }}
+			  </div>
+			</article>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
 </template>
 
 <script>
 	import * as APIService from "../services/api.service"
+	import Logger          from "../services/logger"
 
 	const STATUS_INITIAL = 0,
 		STATUS_UP = 1,
@@ -105,7 +106,7 @@
 				this.msgNotif = this.statusNotif.resolve
 			},
 			errorNotification: function (err) {
-				console.log(err)
+				Logger(err)
 				this.isChecked = true
 				this.isUp = STATUS_DOWN
 				this.msgNotif = this.statusNotif.reject
@@ -129,7 +130,7 @@
 					return
 				}
 
-				console.log("SetNotification Error")
+				Logger("SetNotification Error")
 			}
 		},
 		mounted() {
@@ -139,7 +140,7 @@
 </script>
 
 <style scoped>
-    .message {
-        margin: 10px;
-    }
+  .message {
+	margin: 10px;
+  }
 </style>

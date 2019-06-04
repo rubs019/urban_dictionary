@@ -1,16 +1,17 @@
 <template>
-    <div class="columns">
-        <div class="column is-6 is-offset-3">
-            <FormSignUp @tryRegister="register" :message="form.message" :color="form.color"
-                        :status="form.status"></FormSignUp>
-        </div>
-    </div>
+  <div class="columns">
+	<div class="column is-6 is-offset-3">
+	  <FormSignUp @tryRegister="register" :message="form.message" :color="form.color"
+				  :status="form.status"></FormSignUp>
+	</div>
+  </div>
 </template>
 
 <script>
 	import FormSignUp                      from "../components/form/FormSignUp"
 	import { Post }                        from "../services/api.service"
 	import DTO                             from "../services/DTO"
+	import Logger                          from "../services/logger"
 	import Store                           from "../store"
 	import { NOTIF_MSG, API_PATH, STATUS } from "../constants"
 
@@ -34,25 +35,25 @@
 
 				if (!this.validationInput(credentials)) {
 					this.form.status = STATUS.ERROR
-                    return
-                }
+					return
+				}
 
 				try {
 					const result = await Post(API_PATH.CREATE_USER, DTO.accountCreate(credentials))
 
-                    console.log('result', result)
+					Logger('result', result)
 
 					Store.setConnected(true)
 					Store.setUser(result.data)
 
 					this.setMsgNotification(NOTIF_MSG.SUCCESS)
-                    const that = this
+					const that = this
 					setTimeout(() => {
 						that.$router.push("/login")
-                    }, 1500)
+					}, 1500)
 				} catch (e) {
 					this.form.status = STATUS.ERROR
-					console.log('e', e.response)
+					Logger('e', e.response)
 					const that = this
 					setTimeout(() => {
 						if (e.response.data.status === 422) {
@@ -63,8 +64,8 @@
 						if (e.response.data.statusCode === 409) {
 
 							that.setMsgNotification(NOTIF_MSG.EMAIL_ALREADY_EXIST)
-                            return
-                        }
+							return
+						}
 
 						that.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
 					}, 1500)
@@ -78,7 +79,7 @@
 			 */
 			checkPassword(credentials) {
 				// Check if password is the same
-                if (!credentials.pwd || !credentials.pwd2) return false
+				if (!credentials.pwd || !credentials.pwd2) return false
 				return credentials.pwd === credentials.pwd2
 			},
 			/**
@@ -88,7 +89,7 @@
 			 */
 			checkPasswordLength(credentials) {
 				// Check if password is the same
-                if (!credentials.pwd) return false
+				if (!credentials.pwd) return false
 				return credentials.pwd.length >= 6
 			},
 			/**
@@ -122,7 +123,7 @@
 </script>
 
 <style scoped>
-    .tile {
-        margin-top: 10%;
-    }
+  .tile {
+	margin-top: 10%;
+  }
 </style>

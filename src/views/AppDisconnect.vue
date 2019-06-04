@@ -4,6 +4,7 @@
 
 <script>
 	import Store        from "../store"
+    import Logger from "../services/logger"
 
 	export default {
 		name: "AppDisconnect",
@@ -13,12 +14,12 @@
 			}
 		},
 		async beforeMount() {
-			console.log("Store.credentials", Store.credentials)
+			Logger("Store.credentials", Store.credentials)
 
 			try {
 				Store.clear()
-				console.log("Store.credentials2", Store.credentials)
-				console.log("Store.userConnected", Store.state.isConnected)
+				Logger("Store.credentials2", Store.credentials)
+				Logger("Store.userConnected", Store.state.isConnected)
 
 				const $that = this
 
@@ -26,7 +27,7 @@
 					$that.$router.push("/")
 				}, 1500)
 			} catch (e) {
-				console.log('appDisconnect: Error:', e.response)
+				Logger('appDisconnect: Error:', e.response)
 				this.message = "Une erreur s'est produite, veuillez recharger la page"
 			}
 		}

@@ -81,10 +81,6 @@ export default {
     burgerMenu: false
   }),
   methods: {
-    disconnectUser() {
-      Store.clear()
-      this.$router.push('/')
-    },
     toggleBurgerMenu() {
       this.burgerMenu = !this.burgerMenu
     },

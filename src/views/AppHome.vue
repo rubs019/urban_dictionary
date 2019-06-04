@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="home">
         <AppHeroComponent></AppHeroComponent>
         <section class="section">
@@ -37,6 +38,44 @@
             </div>
         </section>
     </div>
+=======
+  <div class="home">
+	<AppHeroComponent></AppHeroComponent>
+	<section class="section">
+	  <div class="container">
+		<div class="columns">
+		  <div class="column is-8">
+			<p class="title" v-if="store.state.isConnected"> Welcome back, {{ store.credentials.username
+			  }} </p>
+			<div class="expression" id="topExpression">
+			  <h3 class="title boxed-section-title is-4 has-text-left">
+				Expression du jour
+			  </h3>
+			  <OneDefinition :is-primary="true" :simpleComponent="false" :expression="dayExpression"></OneDefinition>
+			</div>
+			<div class="expression" id="allExpression">
+			  <h3 class="title boxed-section-title is-4 has-text-left">
+				Toutes les expressions
+			  </h3>
+			  <template v-if="definitions">
+				<div v-for="(definition, index) in definitions" :key="index">
+				  <OneDefinition :is-primary="false" :simpleComponent="true"
+								 :expression="definition"></OneDefinition>
+				</div>
+			  </template>
+			  <template v-else>
+				<OneDefinition :is-primary="false" :simpleComponent="true"></OneDefinition>
+			  </template>
+			</div>
+		  </div>
+		  <div class="column is-4">
+			<TheSidebar></TheSidebar>
+		  </div>
+		</div>
+	  </div>
+	</section>
+  </div>
+>>>>>>> (feat): add production logger
 </template>
 
 <script>
@@ -47,6 +86,7 @@
 	import { API_PATH, ENDPOINT, APP_DESCRIPTION } from "../constants"
 	import Store                  from "../store"
 	import { Get }                from "../services/api.service"
+	import Logger                 from "../services/logger"
 
 	export default {
 		name: "AppHome",
@@ -67,45 +107,45 @@
 			async getDayExpression() {
 
 				try {
-					const { data: expressionDuJour } = await Get(API_PATH.DAILY_WORD)
+					const {data: expressionDuJour} = await Get(API_PATH.DAILY_WORD)
 
-					console.log('Expression du jour  = ', expressionDuJour)
+					Logger('Expression du jour  = ', expressionDuJour)
 
 					this.dayExpression = expressionDuJour
-                } catch(e) {
-					console.log('AppHome : getDayExpression : ', e.response)
+				} catch (e) {
+					Logger('AppHome : getDayExpression : ', e.response)
 
-                    if (e.response.data.statusCode === 404) {
-                    	this.dayExpression = false
-                    }
-                }
+					if (e.response.data.statusCode === 404) {
+						this.dayExpression = false
+					}
+				}
 
-            },
+			},
 			async getExpressions() {
 				try {
 					const result = await Get(ENDPOINT.WORDS)
 
-					console.log('result.data', result.data)
+					Logger('result.data', result.data)
 
 					this.definitions = result.data
 				} catch (e) {
-					console.log('AppHome : getExpressions : ', e.response)
+					Logger('AppHome : getExpressions : ', e.response)
 				}
 			}
 		},
 		mounted() {
 			this.getExpressions()
-            this.getDayExpression()
+			this.getDayExpression()
 		}
 	}
 </script>
 
 <style scoped>
-    .home {
-        background-color: #f6f9fc;
-    }
+  .home {
+	background-color: #f6f9fc;
+  }
 
-    .expression {
-        padding: 40px 0;
-    }
+  .expression {
+	padding: 40px 0;
+  }
 </style>

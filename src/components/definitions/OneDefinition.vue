@@ -68,7 +68,11 @@
               <BaseTagLabel :name="label" :colors="!!simpleComponent"></BaseTagLabel>
             </span>
 		  </div>
+<<<<<<< HEAD
 		  <BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 "></BaseVoteHorizontal>
+=======
+		  <BaseVoteHorizontal :nb-vote="expression ? expression.score : 92 "></BaseVoteHorizontal>
+>>>>>>> (feat): add production logger
 		</article>
 	  </div>
 	</template>

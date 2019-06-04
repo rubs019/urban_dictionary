@@ -10,6 +10,7 @@
 	import FormLogin                                 from "../components/form/FormLogin"
 	import { Post, Get }                             from "../services/api.service"
 	import DTO                                       from "../services/DTO"
+	import Logger                                      from "../services/logger"
 	import { ENDPOINT, NOTIF_MSG, API_PATH, STATUS } from "../constants"
 	import Store                                     from "../store"
 
@@ -33,7 +34,7 @@
 			 */
 			async login(credentials) {
 				// this.form.message = "Identifiant ou mot de passe incorrect"
-				console.log('credentials : ', credentials)
+				Logger('credentials : ', credentials)
 				// Send login and pwd
 
 				if (!this.checkCredentials(credentials)) {
@@ -47,17 +48,17 @@
 				try {
 					const result = await Post(API_PATH.ACCOUNT_LOGIN, DTO.accountLogin(credentials))
 
-                    console.log('result', result)
+                    Logger('result', result)
                     const headers = {
 						token: result.data.token
                     }
 
 					const { data: userInformation } = await Get(`${ENDPOINT.USERS}/${result.data.userId}`, headers)
 
-                    console.log('userInformation', userInformation)
+                    Logger('userInformation', userInformation)
 
                     userInformation.token = result.data.token
-                    console.log(localStorage)
+                    Logger(localStorage)
 
                     if (Store.setUser(userInformation)) {
                         Store.setConnected(true)
@@ -71,7 +72,7 @@
                         this.$router.push('/')
 					}, 1500)
 				} catch (e) {
-					console.log('e', e.response)
+					Logger('e', e.response)
 
                     // Use to show error
                     this.form.status = STATUS.ERROR

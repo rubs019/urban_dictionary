@@ -55,8 +55,10 @@
 </template>
 
 <script>
-import * as APIService from "@/services/api.service"
+import * as APIService from "../../services/api.service"
+import Logger from "../../services/logger"
 const ENDPOINT = "definitions"
+
 export default {
   name: "ListDefinitions",
   data: () => ({
@@ -67,9 +69,9 @@ export default {
       const definitions = await APIService.Get(ENDPOINT)
 
       this.definitions = definitions.data
-      console.log(definitions.data)
+      Logger(definitions.data)
     } catch (err) {
-      console.log(err)
+      Logger(err)
     }
   }
 }

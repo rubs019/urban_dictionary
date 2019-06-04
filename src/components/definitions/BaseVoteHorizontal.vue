@@ -25,7 +25,7 @@
 
 <script>
 	import FormLogin from "../form/FormLogin"
-	import STORE     from "../../store"
+	import Logger from "../../services/logger"
 
 	export default {
 		name: "BaseVoteHorizontal",
@@ -45,7 +45,8 @@
                 })
 			},
 			vote(operande) {
-				if (!STORE.state.isConnected) {
+			    const theUserIsConnected = false
+				if (theUserIsConnected) {
 					this.imageModal()
                     return
                 }
@@ -57,7 +58,7 @@
 					this.reduceNbVote()
 					return
 				}
-				console.log('Bad parameter received', operande)
+				Logger('Bad parameter received', operande)
 			},
 			addNbVote() {
 				this.nbLike++
