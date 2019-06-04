@@ -69,10 +69,14 @@
             </span>
 		  </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 		  <BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 "></BaseVoteHorizontal>
 =======
 		  <BaseVoteHorizontal :nb-vote="expression ? expression.score : 92 "></BaseVoteHorizontal>
 >>>>>>> (feat): add production logger
+=======
+		  <BaseVoteHorizontal :nb-vote="expression ? expression.score : 92 " :id-expression="expression.id"></BaseVoteHorizontal>
+>>>>>>> (fea): add toast for vote
 		</article>
 	  </div>
 	</template>

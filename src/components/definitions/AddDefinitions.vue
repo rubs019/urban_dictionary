@@ -62,7 +62,8 @@
 	import { Post }             from "../../services/api.service"
 	import { ENDPOINT, STATUS } from "../../constants"
 	import DTO                  from "../../services/DTO"
-	import Logger from "../../services/logger"
+	import Logger               from "../../services/logger"
+	import STORE                from "../../store"
 
 
 	export default {
@@ -110,7 +111,7 @@
 					const result = await Post(
 						ENDPOINT.WORDS,
 						DTO.addDefinition(this.definition),
-						{ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbi10ZXN0QG1haWwuY29tIiwicm9sZSI6IlVzZXIiLCJpZCI6IjVjZWQ4MzAxMWQ3NjRhMDdjMDQ0NTA2MiIsImlhdCI6MTU1OTIzOTgxOCwiZXhwIjoxNTU5MjQzNDE4LCJpc3MiOiJ1bmRlcmRpY28uY29tIiwic3ViIjoiNWNlZDgzMDExZDc2NGEwN2MwNDQ1MDYyIiwianRpIjoiMzE5NGUwOWEtNzBjMy00NWM5LTllZmItMTQ1NTM1ZWU0ODQyIn0.xlsaXkwTByHSYGySuzCr3dnTMTCMCoIcfPXq42owCEE' }
+						{ token: STORE.credentials.token }
 					)
 
 					setTimeout(() => {
@@ -120,13 +121,13 @@
 					}, 1500)
 					Logger('AddDefinitions: result', result)
 				} catch (e) {
+					Logger('AddDefinitions: Error: ', e.response)
 					this.formStatus = STATUS.ERROR
 					if (e.response.status === 422) {
 						this.errorToast("Les champs ne doivent pas être vides")
 						return
 					}
 					this.errorToast("Une erreur s'est produite")
-					Logger('AddDefinitions: Error: ', e.response)
 				}
 			}
 		}

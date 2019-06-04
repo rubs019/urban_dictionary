@@ -27,6 +27,7 @@ export const ENDPOINT = {
 	WORDS: "words"
 }
 export const API_PATH = {
+	ADD_VOTE: `${ENDPOINT.WORDS}//votes`,
 	RANDOM_WORD: `${ENDPOINT.WORDS}/random`,
 	DAILY_WORD: `${ENDPOINT.WORDS}/daily`,
 	CREATE_USER: ENDPOINT.USERS,
