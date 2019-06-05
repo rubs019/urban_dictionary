@@ -42,7 +42,7 @@
 				  <p class="title">Vous...</p>
 				  <p class="subtitle">Une image de vous...</p>
 				  <figure class="image is-4by3">
-					<img class="is-rounded" src="http://cdn.onlinewebfonts.com/svg/img_504570.png">
+					<img class="is-rounded" :src="currentPhoto || 'http://cdn.onlinewebfonts.com/svg/img_504570.png'">
 				  </figure>
 					<div class="upload-image">
 					  <b-field class="file" :input="checkFile">
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 	import Store                  from "../store"
 	import { API_PATH, ENDPOINT } from "../constants"
 	import AppHeroComponent       from "../components/AppHeroComponent"
@@ -86,6 +87,17 @@
 	import { Put }        from "../services/api.service"
 	import Logger                 from "../services/logger"
 	import DTO                    from "../services/DTO"
+=======
+	import Store                        from "../store"
+	import { API_PATH, ENDPOINT }       from "../constants"
+	import AppHeroComponent             from "../components/AppHeroComponent"
+	import ProfileInformations          from "../components/profile/ProfileInformations"
+	import ProfileDefinitions           from "../components/profile/ProfileDefinitions"
+	import { Get, Put }                 from "../services/api.service"
+	import Logger                       from "../services/logger"
+	import DTO                          from "../services/DTO"
+	import { errorToast, successToast } from "../helpers/toast"
+>>>>>>> (feat): upload photo
 
 	export default {
 		name: "AppProfile",
@@ -93,7 +105,12 @@
 			return {
 				showBooks: false,
 				store: null,
+<<<<<<< HEAD
 				file: null
+=======
+				file: null,
+				currentPhoto: null
+>>>>>>> (feat): upload photo
 			}
 		},
 		methods: {
@@ -122,6 +139,7 @@
 				}
 				formData.append('file', this.file)
 
+<<<<<<< HEAD
 				Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
 					.then(function() {
 						console.log('SUCCESS!!')
@@ -129,6 +147,29 @@
 					.catch(function() {
 						console.log('FAILURE!!')
 					})
+=======
+				try {
+					await Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
+					// Afficher popup
+					successToast(this, 'Votre photo a bien été upload')
+
+				} catch (e) {
+					Logger('AppProfile : uploadPhoto : Error', e)
+					errorToast(this, "Une erreur s'est produite lors de l'upload de la photo")
+					// Afficher popup
+				}
+			},
+			async fetchUserPhoto() {
+				try {
+					const { data: userPhoto } = await Get(API_PATH.UPLOAD_FILE(this.store.credentials.id))
+					Logger('AppProfile : fetchUserPhoto : userPhoto', userPhoto)
+					// Afficher popup
+
+				} catch (e) {
+					Logger('AppProfile : uploadPhoto : Error', e)
+					// Afficher popup
+				}
+>>>>>>> (feat): upload photo
 			}
 		},
 		components: {AppHeroComponent, ProfileDefinitions, ProfileInformations},
@@ -139,6 +180,7 @@
 		},
 		beforeMount() {
 			this.store = Store
+			this.fetchUserPhoto()
 		}
 	}
 </script>

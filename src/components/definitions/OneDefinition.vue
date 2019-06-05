@@ -64,6 +64,7 @@
 		  </div>
 		  <div id="tag-items" class="has-text-left">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <span id="label-items" v-for="(label, index) in expression.tags" :key="index">
               <BaseTagLabel :name="label" :colors="!!simpleComponent"></BaseTagLabel>
             </span>
@@ -85,6 +86,14 @@
 		  <BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 "
 							  :id-expression="definition.id"></BaseVoteHorizontal>
 >>>>>>> WIP upload photo
+=======
+            <span id="label-items" v-for="(label, index) in definition.tags" :key="index">
+              <BaseTagLabel :name="label"></BaseTagLabel>
+            </span>
+		  </div>
+		  <BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 "
+							  :id-expression="definition.id"></BaseVoteHorizontal>
+>>>>>>> (feat): upload photo
 		</article>
 	  </div>
 	</template>
@@ -118,7 +127,10 @@
 	import { Get }            from "../../services/api.service"
 	import Logger             from "../../services/logger"
 	import { ENDPOINT }       from "../../constants"
+<<<<<<< HEAD
 >>>>>>> WIP upload photo
+=======
+>>>>>>> (feat): upload photo
 
 	export default {
 		name: "OneDefinition",
@@ -128,11 +140,14 @@
 			simpleComponent: Boolean,
 			expression: [Object, Boolean]
 <<<<<<< HEAD
+<<<<<<< HEAD
 		},
 		data: function() {
 			return {
 				definition: this.expression
 =======
+=======
+>>>>>>> (feat): upload photo
 		},
 		data: function () {
 			return {
@@ -152,8 +167,12 @@
 					})
 			} else {
 				Logger('OneDefinition : beforeMount : this.expression', this.expression)
+<<<<<<< HEAD
 				// if (this.expression) this.definition = this.expression
 >>>>>>> WIP upload photo
+=======
+				if (this.expression) this.definition = this.expression
+>>>>>>> (feat): upload photo
 			}
 		}
 	}

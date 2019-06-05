@@ -26,10 +26,18 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 	import Logger       from "../../services/logger"
 	import { Post }     from "../../services/api.service"
 	import { ENDPOINT } from "../../constants"
 	import Store        from "../../store"
+=======
+	import Logger         from "../../services/logger"
+	import { Post }       from "../../services/api.service"
+	import { ENDPOINT }   from "../../constants"
+	import Store          from "../../store"
+	import { errorToast } from "../../helpers/toast"
+>>>>>>> (feat): upload photo
 
 	export default {
 		name: "BaseVoteHorizontal",
@@ -85,11 +93,7 @@
 					value ? this.nbLike++ : this.nbLike--
 				} catch (e) {
 					Logger('BaseVoteHorizontal : SendVote : Error', e)
-					this.$toast.open({
-						message: "Une erreur s'est produite lors du vote, veuillez réessayer plus tard",
-						type: 'is-danger',
-						duration: 4000
-					})
+					errorToast(this, "Une erreur s'est produite lors du vote, veuillez réessayer plus tard")
 				}
 			}
 		},

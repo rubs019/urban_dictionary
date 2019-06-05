@@ -59,11 +59,12 @@
 </template>
 
 <script>
-	import { Post }             from "../../services/api.service"
-	import { ENDPOINT, STATUS } from "../../constants"
-	import DTO                  from "../../services/DTO"
-	import Logger               from "../../services/logger"
-	import STORE                from "../../store"
+	import { Post }                     from "../../services/api.service"
+	import { ENDPOINT, STATUS }         from "../../constants"
+	import DTO                          from "../../services/DTO"
+	import Logger                       from "../../services/logger"
+	import STORE                        from "../../store"
+	import { errorToast, successToast } from "../../helpers/toast"
 
 
 	export default {
@@ -84,19 +85,6 @@
 			}
 		},
 		methods: {
-			successToast(message) {
-				this.$toast.open({
-					message: message,
-					type: 'is-success'
-				})
-			},
-			errorToast(message) {
-				this.$toast.open({
-					message,
-					type: 'is-danger',
-					duration: 4000
-				})
-			},
 			cleanForm() {
 				this.definition.name = null
 				this.definition.tags = []
@@ -116,7 +104,7 @@
 
 					setTimeout(() => {
 						this.formStatus = STATUS.SUCCESS
-						this.successToast("L'expression à bien été ajoutée")
+						successToast("L'expression à bien été ajoutée")
 						this.cleanForm()
 					}, 1500)
 					Logger('AddDefinitions: result', result)
@@ -124,10 +112,10 @@
 					Logger('AddDefinitions: Error: ', e.response)
 					this.formStatus = STATUS.ERROR
 					if (e.response.status === 422) {
-						this.errorToast("Les champs ne doivent pas être vides")
+						errorToast("Les champs ne doivent pas être vides")
 						return
 					}
-					this.errorToast("Une erreur s'est produite")
+					errorToast("Une erreur s'est produite")
 				}
 			}
 		}
