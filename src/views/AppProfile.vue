@@ -79,6 +79,9 @@
 
 <script>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> WIP upload photo
 	import Store                  from "../store"
 	import { API_PATH, ENDPOINT } from "../constants"
 	import AppHeroComponent       from "../components/AppHeroComponent"
@@ -87,6 +90,7 @@
 	import { Put }        from "../services/api.service"
 	import Logger                 from "../services/logger"
 	import DTO                    from "../services/DTO"
+<<<<<<< HEAD
 =======
 	import Store                        from "../store"
 	import { API_PATH, ENDPOINT }       from "../constants"
@@ -96,6 +100,8 @@
 	import { Get, Put }                 from "../services/api.service"
 	import Logger                       from "../services/logger"
 	import DTO                          from "../services/DTO"
+=======
+>>>>>>> WIP upload photo
 	import { errorToast, successToast } from "../helpers/toast"
 >>>>>>> (feat): upload photo
 
@@ -138,6 +144,7 @@
 					Authorization: this.store.credentials.token ? `Bearer ${this.store.credentials.token}` : undefined
 				}
 				formData.append('file', this.file)
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 				Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
@@ -148,6 +155,8 @@
 						console.log('FAILURE!!')
 					})
 =======
+=======
+>>>>>>> WIP upload photo
 				try {
 					await Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
 					// Afficher popup
@@ -169,7 +178,17 @@
 					Logger('AppProfile : uploadPhoto : Error', e)
 					// Afficher popup
 				}
+<<<<<<< HEAD
 >>>>>>> (feat): upload photo
+=======
+				Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
+					.then(function() {
+						console.log('SUCCESS!!')
+					})
+					.catch(function() {
+						console.log('FAILURE!!')
+					})
+>>>>>>> WIP upload photo
 			}
 		},
 		components: {AppHeroComponent, ProfileDefinitions, ProfileInformations},
