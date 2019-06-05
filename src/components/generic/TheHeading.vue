@@ -27,19 +27,15 @@
         <router-link :to="{ name: 'AppHome' }" class="navbar-item">{{
           MenuName.home
           }}</router-link>
-
-        <router-link :to="{ name: 'AppDefinitions' }" class="navbar-item">{{
-          MenuName.expression
-          }}</router-link>
-        <router-link :to="{ name: 'AppAbout' }" class="navbar-item">{{
-          MenuName.about
-          }}</router-link>
         <router-link
                 :to="{ name: 'AppLogIn' }"
                 class="navbar-item"
                 v-if="!Storage.state.isConnected"
         >
           {{ MenuName.login }}
+        </router-link>
+        <router-link v-if="Storage.state.isConnected" :to="{ name: 'AppProfile' }" class="navbar-item">
+          {{ MenuName.profile }}
         </router-link>
         <router-link
                 class="navbar-item"
@@ -51,14 +47,14 @@
         <router-link v-if="!Storage.state.isConnected" :to="{ name: 'AppSignUp' }" class="navbar-item">
           {{ MenuName.signup }}
         </router-link>
-        <router-link v-if="Storage.state.isConnected" :to="{ name: 'AppProfile' }" class="navbar-item">
-          {{ MenuName.profile }}
+        <router-link :to="{ name: 'AppAbout' }" class="navbar-item">
+          {{ MenuName.about }}
         </router-link>
         <div class="navbar-item">
           <div class="buttons">
             <a class="button is-primary">
               <router-link to="/games">
-                <strong>{{ MenuName.games }}</strong>
+                <strong class="has-text-white">{{ MenuName.games }}</strong>
               </router-link>
             </a>
           </div>

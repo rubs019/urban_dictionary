@@ -26,7 +26,6 @@
 </template>
 
 <script>
-	import FormLogin    from "../form/FormLogin"
 	import Logger       from "../../services/logger"
 	import { Post }     from "../../services/api.service"
 	import { ENDPOINT } from "../../constants"
@@ -41,19 +40,25 @@
 		},
 		data: () => ({
 			voteUpdate: false,
+			id: null,
 			nbLike: null
 		}),
 		methods: {
 			imageModal() {
-				this.$modal.open({
-					component: FormLogin,
-					hasModalCard: true,
-					animation: 'zoom-out'
+				this.$dialog.alert({
+					title: "Oups...",
+					message: "<span class='has-text-centered'>Vous devez vous <a href='/login'>connecter</a> pour accéder à cette fonctionnalité</span>",
+					confirmText: "Promis, je me connecterais !",
+					type: 'is-danger',
+					hasIcon: true,
+					icon: 'times-circle',
+					iconPack: 'fa',
+					canCancel: ['outside']
 				})
 			},
 			vote(operande) {
-				const theUserIsConnected = false
-				if (theUserIsConnected) {
+				const theUserIsConnected = Store.state.isConnected
+				if (!theUserIsConnected) {
 					this.imageModal()
 					return
 				}
@@ -89,6 +94,8 @@
 			}
 		},
 		mounted() {
+			Logger('this.idExpression', this.idExpression)
+			this.id = this.idExpression
 			this.nbLike = this.nbVote
 		}
 	}

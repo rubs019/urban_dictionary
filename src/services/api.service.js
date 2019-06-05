@@ -30,12 +30,22 @@ async function Post(endpoint, data = null, headers = null) {
     },
     data
   }
-  return await axios( options)
+  return await axios(options)
 }
 
 async function Patch(endpoint, data = null) {
   return await axios.patch(`${BASE_URL}/${endpoint}`, data)
 }
 
-export { Get, Post, Patch }
+async function Put(endpoint, data, headers = null) {
+  const options = {
+    url: `${BASE_URL}/${endpoint}`,
+    method: 'PUT',
+    headers: headers,
+    data
+  }
+  return await axios(options)
+}
+
+export { Get, Post, Patch, Put }
 

@@ -51,7 +51,9 @@
 			  <h3 class="title boxed-section-title is-4 has-text-left">
 				Expression du jour
 			  </h3>
-			  <OneDefinition :is-primary="true" :simpleComponent="false" :expression="dayExpression"></OneDefinition>
+			  <template v-if="dayExpression">
+			  	<OneDefinition :is-primary="true" :simpleComponent="false" :expression="dayExpression"></OneDefinition>
+			  </template>
 			</div>
 			<div class="expression" id="allExpression">
 			  <h3 class="title boxed-section-title is-4 has-text-left">
@@ -79,7 +81,6 @@
 </template>
 
 <script>
-	// @ is an alias to /src
 	import AppHeroComponent       from "../components/AppHeroComponent.vue"
 	import OneDefinition          from "../components/definitions/OneDefinition"
 	import TheSidebar             from "../components/generic/TheSidebar"
@@ -107,7 +108,7 @@
 			async getDayExpression() {
 
 				try {
-					const {data: expressionDuJour} = await Get(API_PATH.DAILY_WORD)
+					const { data: expressionDuJour } = await Get(API_PATH.DAILY_WORD)
 
 					Logger('Expression du jour  = ', expressionDuJour)
 

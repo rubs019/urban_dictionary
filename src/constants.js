@@ -7,7 +7,7 @@ export const MENU_NAME = {
 	contact: "Contact",
 	expression: "Expression",
 	about: "A propos",
-	profile: "Profile"
+	profile: "Mon profil"
 }
 
 export const NOTIF_MSG = {
@@ -27,7 +27,7 @@ export const ENDPOINT = {
 	WORDS: "words"
 }
 export const API_PATH = {
-	ADD_VOTE: `${ENDPOINT.WORDS}//votes`,
+	UPLOAD_FILE: (userId) => `${ENDPOINT.USERS}/${userId}/avatar`,
 	RANDOM_WORD: `${ENDPOINT.WORDS}/random`,
 	DAILY_WORD: `${ENDPOINT.WORDS}/daily`,
 	CREATE_USER: ENDPOINT.USERS,

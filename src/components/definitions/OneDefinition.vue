@@ -1,7 +1,6 @@
 <template>
   <div class="one-definitions">
-
-	<template v-if="expression">
+	<template v-if="definition">
 	  <div class="tile is-parent">
 		<article
 				class="tile is-child notification"
@@ -11,7 +10,7 @@
 			  <div class="item">
 				<router-link
 						class="title"
-						:to="{ name: 'OneDefinition', params: { name: expression.name } }">{{ expression.name }}
+						:to="{ name: 'OneDefinition', params: { name: definition.name } }">{{ definition.name }}
 				</router-link>
 			  </div>
 			</div>
@@ -57,13 +56,14 @@
 				  tag="p"
 				  class="subtitle has-text-left is-size-6"
 				  v-if="!simpleComponent"
-				  :to="{ name: 'OneDefintion', params: { name: expression.accountId } }">@{{ expression.accountId }}
+				  :to="{ name: 'OneDefintion', params: { name: definition.user.username } }">@{{ definition.user.username }}
 		  </router-link>
 		  <div class="content has-text-left">
 			<!-- Content -->
-			{{ expression.definition }}
+			{{ definition.definition }}
 		  </div>
 		  <div id="tag-items" class="has-text-left">
+<<<<<<< HEAD
             <span id="label-items" v-for="(label, index) in expression.tags" :key="index">
               <BaseTagLabel :name="label" :colors="!!simpleComponent"></BaseTagLabel>
             </span>
@@ -77,11 +77,19 @@
 =======
 		  <BaseVoteHorizontal :nb-vote="expression ? expression.score : 92 " :id-expression="expression.id"></BaseVoteHorizontal>
 >>>>>>> (fea): add toast for vote
+=======
+            <span id="label-items" v-for="(label, index) in definition.tags" :key="index">
+              <BaseTagLabel :name="label"></BaseTagLabel>
+            </span>
+		  </div>
+		  <BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 "
+							  :id-expression="definition.id"></BaseVoteHorizontal>
+>>>>>>> WIP upload photo
 		</article>
 	  </div>
 	</template>
 
-	<template v-else-if="expression === false">
+	<template v-else-if="definition === false">
 	  <div class="tile is-parent">
 		<article class="tile is-child notification is-primary">
 		  <p class="title">Oups...</p>
@@ -105,6 +113,12 @@
 <script>
 	import BaseVoteHorizontal from "./BaseVoteHorizontal"
 	import BaseTagLabel       from "../tag/BaseTagLabel"
+<<<<<<< HEAD
+=======
+	import { Get }            from "../../services/api.service"
+	import Logger             from "../../services/logger"
+	import { ENDPOINT }       from "../../constants"
+>>>>>>> WIP upload photo
 
 	export default {
 		name: "OneDefinition",
@@ -113,10 +127,33 @@
 			isPrimary: Boolean,
 			simpleComponent: Boolean,
 			expression: [Object, Boolean]
+<<<<<<< HEAD
 		},
 		data: function() {
 			return {
 				definition: this.expression
+=======
+		},
+		data: function () {
+			return {
+				definition: this.expression
+			}
+		},
+		beforeMount() {
+			const name = this.$route.params ? this.$route.params.name : undefined
+			if (name) {
+				Get(`${ENDPOINT.WORDS}?where={"name": "${name}"}`)
+					.then(result => {
+						Logger('OneDefinition : beforeMount : result', result.data[0])
+						this.definition = result.data[0]
+					})
+					.catch(error => {
+						Logger('Error', error)
+					})
+			} else {
+				Logger('OneDefinition : beforeMount : this.expression', this.expression)
+				// if (this.expression) this.definition = this.expression
+>>>>>>> WIP upload photo
 			}
 		}
 	}
