@@ -23,6 +23,7 @@
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "vue": "^2.6.6",
+    "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
