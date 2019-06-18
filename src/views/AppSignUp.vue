@@ -1,8 +1,10 @@
 <template>
   <div class="columns">
 	<div class="column is-6 is-offset-3">
-	  <FormSignUp @tryRegister="register" :message="form.message" :color="form.color"
-				  :status="form.status"></FormSignUp>
+	  <FormSignUp @tryRegister="register"
+		:message="form.message"
+		:color="form.color"
+		:status="form.status"></FormSignUp>
 	</div>
   </div>
 </template>
@@ -53,9 +55,13 @@
 					}, 1500)
 				} catch (e) {
 					this.form.status = STATUS.ERROR
-					Logger('e', e.response)
+					Logger('e', e)
 					const that = this
 					setTimeout(() => {
+						if (!e || !e.response || !e.response.data) {
+							that.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
+							return
+						}
 						if (e.response.data.status === 422) {
 							that.setMsgNotification(NOTIF_MSG.USER_ALREADY_EXIST)
 							return
@@ -66,8 +72,6 @@
 							that.setMsgNotification(NOTIF_MSG.EMAIL_ALREADY_EXIST)
 							return
 						}
-
-						that.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
 					}, 1500)
 				}
 

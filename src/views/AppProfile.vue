@@ -78,32 +78,15 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> WIP upload photo
-	import Store                  from "../store"
-	import { API_PATH, ENDPOINT } from "../constants"
-	import AppHeroComponent       from "../components/AppHeroComponent"
-	import ProfileInformations    from "../components/profile/ProfileInformations"
-	import ProfileDefinitions     from "../components/profile/ProfileDefinitions"
-	import { Put }        from "../services/api.service"
-	import Logger                 from "../services/logger"
-	import DTO                    from "../services/DTO"
-<<<<<<< HEAD
-=======
 	import Store                        from "../store"
 	import { API_PATH, ENDPOINT }       from "../constants"
 	import AppHeroComponent             from "../components/AppHeroComponent"
 	import ProfileInformations          from "../components/profile/ProfileInformations"
 	import ProfileDefinitions           from "../components/profile/ProfileDefinitions"
-	import { Get, Put }                 from "../services/api.service"
+	import { Get, Patch, Put }          from "../services/api.service"
 	import Logger                       from "../services/logger"
 	import DTO                          from "../services/DTO"
-=======
->>>>>>> WIP upload photo
 	import { errorToast, successToast } from "../helpers/toast"
->>>>>>> (feat): upload photo
 
 	export default {
 		name: "AppProfile",
@@ -111,12 +94,8 @@
 			return {
 				showBooks: false,
 				store: null,
-<<<<<<< HEAD
-				file: null
-=======
 				file: null,
 				currentPhoto: null
->>>>>>> (feat): upload photo
 			}
 		},
 		methods: {
@@ -124,11 +103,16 @@
 				Logger('checkFile', file)
 			},
 			async updateUser(user) {
+				Logger('AppProfile : updateUser : User', user)
 				try {
-					const result = await Patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation(user))
+					const result = await Patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation(user), {
+						token: Store.credentials.token
+					})
 
 					Store.setUser(result.data.username, 'username')
 					Store.setUser(result.data.email, 'email')
+
+					successToast(this, 'Vos informations ont bien été mise à jour')
 
 				} catch (e) {
 					Logger('AppProfile : updateUser : ', e.response)
@@ -144,9 +128,6 @@
 					Authorization: this.store.credentials.token ? `Bearer ${this.store.credentials.token}` : undefined
 				}
 				formData.append('file', this.file)
-<<<<<<< HEAD
-
-<<<<<<< HEAD
 				Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
 					.then(function() {
 						console.log('SUCCESS!!')
@@ -154,9 +135,6 @@
 					.catch(function() {
 						console.log('FAILURE!!')
 					})
-=======
-=======
->>>>>>> WIP upload photo
 				try {
 					await Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
 					// Afficher popup
@@ -178,9 +156,7 @@
 					Logger('AppProfile : uploadPhoto : Error', e)
 					// Afficher popup
 				}
-<<<<<<< HEAD
->>>>>>> (feat): upload photo
-=======
+
 				Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
 					.then(function() {
 						console.log('SUCCESS!!')
@@ -188,7 +164,6 @@
 					.catch(function() {
 						console.log('FAILURE!!')
 					})
->>>>>>> WIP upload photo
 			}
 		},
 		components: {AppHeroComponent, ProfileDefinitions, ProfileInformations},

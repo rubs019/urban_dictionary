@@ -1,120 +1,97 @@
 <template>
   <div class="one-definitions">
-	<template v-if="definition">
-	  <div class="tile is-parent">
-		<article
-				class="tile is-child notification"
-				v-bind:class="[isPrimary ? 'is-primary' : ''  ]">
-		  <div class="level">
-			<div class="level-left">
-			  <div class="item">
-				<router-link
-						class="title"
-						:to="{ name: 'OneDefinition', params: { name: definition.name } }">{{ definition.name }}
-				</router-link>
+	<transition name="component-fade" mode="out-in">
+	  <template v-if="definition">
+		<div class="tile is-parent">
+		  <article
+				  class="tile is-child notification"
+				  v-bind:class="[isPrimary ? 'is-primary' : ''  ]">
+			<div class="level">
+			  <div class="level-left">
+				<div class="item">
+				  <router-link
+						  class="title"
+						  :to="{ name: 'OneDefinition', params: { name: definition.name } }">{{ definition.name }}
+				  </router-link>
+				</div>
 			  </div>
-			</div>
-			<div class="level-right">
-			  <div class="dropdown is-hoverable">
-				<div class="dropdown-trigger">
-				  <div
-						  class="dropdown-definition"
-						  aria-haspopup="true"
-						  aria-controls="dropdown-menu4"
-				  >
+			  <div class="level-right">
+				<div class="dropdown is-hoverable">
+				  <div class="dropdown-trigger">
+					<div
+							class="dropdown-definition"
+							aria-haspopup="true"
+							aria-controls="dropdown-menu4"
+					>
                         <span class="icon">
                           <i class="fas fa-angle-down" aria-hidden="true"></i>
                         </span>
+					</div>
 				  </div>
-				</div>
-				<div class="dropdown-menu" id="dropdown-menu4" role="menu">
-				  <div class="dropdown-content">
-					<a href="#" class="dropdown-item">
+				  <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+					<div class="dropdown-content">
+					  <a href="#" class="dropdown-item">
                       <span class="icon">
                           <i class="fas fa-flag" aria-hidden="true"></i>
                         </span>
-					  Autre langue
-					</a>
-					<a href="#" class="dropdown-item">
+						Autre langue
+					  </a>
+					  <a href="#" class="dropdown-item">
                       <span class="icon">
                         <i class="fas fa-book"></i>
                       </span>
-					  Proposez une définition
-					</a>
-					<a href="" class="dropdown-item">
+						Proposez une définition
+					  </a>
+					  <a href="" class="dropdown-item">
                       <span class="icon">
                         <i class="fas fa-volume-up"></i>
                       </span>
-					  Ecouter l'audio
-					</a>
+						Ecouter l'audio
+					  </a>
+					</div>
 				  </div>
 				</div>
 			  </div>
 			</div>
-		  </div>
-		  <router-link
-				  tag="p"
-				  class="subtitle has-text-left is-size-6"
-				  v-if="!simpleComponent"
-				  :to="{ name: 'OneDefintion', params: { name: definition.user.username } }">@{{ definition.user.username }}
-		  </router-link>
-		  <div class="content has-text-left">
-			<!-- Content -->
-			{{ definition.definition }}
-		  </div>
-		  <div id="tag-items" class="has-text-left">
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <span id="label-items" v-for="(label, index) in expression.tags" :key="index">
+			<!--	COnditional rendering username	  -->
+			<template v-if="!simpleComponent">
+			  <router-link
+					  tag="p"
+					  id="userLink"
+					  class="subtitle has-text-left is-size-6"
+					  :to="{ name: 'OneDefinition', params: { name: definition.user.username } }">@{{ definition.user.username }}
+			  </router-link>
+			</template>
+			<div class="content has-text-left">
+			  <!-- Content -->
+			  {{ definition.definition }}
+			</div>
+			<div id="tag-items" class="has-text-left">
+            <span id="label-items" v-for="(label, index) in definition.tags" :key="index">
               <BaseTagLabel :name="label" :colors="!!simpleComponent"></BaseTagLabel>
             </span>
-		  </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-		  <BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 "></BaseVoteHorizontal>
-=======
-		  <BaseVoteHorizontal :nb-vote="expression ? expression.score : 92 "></BaseVoteHorizontal>
->>>>>>> (feat): add production logger
-=======
-		  <BaseVoteHorizontal :nb-vote="expression ? expression.score : 92 " :id-expression="expression.id"></BaseVoteHorizontal>
->>>>>>> (fea): add toast for vote
-=======
-            <span id="label-items" v-for="(label, index) in definition.tags" :key="index">
-              <BaseTagLabel :name="label"></BaseTagLabel>
-            </span>
-		  </div>
-		  <BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 "
-							  :id-expression="definition.id"></BaseVoteHorizontal>
->>>>>>> WIP upload photo
-=======
-            <span id="label-items" v-for="(label, index) in definition.tags" :key="index">
-              <BaseTagLabel :name="label"></BaseTagLabel>
-            </span>
-		  </div>
-		  <BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 "
-							  :id-expression="definition.id"></BaseVoteHorizontal>
->>>>>>> (feat): upload photo
-		</article>
-	  </div>
-	</template>
-
-	<template v-else-if="definition === false">
-	  <div class="tile is-parent">
-		<article class="tile is-child notification is-primary">
-		  <p class="title">Oups...</p>
-		  <p class="subtitle has-text-left">Il n'existe pas d'expression</p>
-		</article>
-	  </div>
-	</template>
-
-	<template v-else>
-	  <div class="tile is-parent">
-		<article class="tile is-child notification is-primary">
-		  <p class="title">Chargement...</p><span class="loader"></span>
-		  <p class="subtitle left"></p>
-		</article>
-	  </div>
-	</template>
+			</div>
+			<BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 " :id-expression="definition.id"></BaseVoteHorizontal>
+		  </article>
+		</div>
+	  </template>
+	  <template v-else-if="definition === false">
+		<div class="tile is-parent">
+		  <article class="tile is-child notification is-primary">
+			<p class="title">Oups...</p>
+			<p class="subtitle has-text-left">Il n'existe pas d'expression</p>
+		  </article>
+		</div>
+	  </template>
+	  <template v-else>
+		<div class="tile is-parent">
+		  <article class="tile is-child notification is-primary">
+			<p class="title">Chargement...</p><span class="loader"></span>
+			<p class="subtitle left"></p>
+		  </article>
+		</div>
+	  </template>
+	</transition>
 
   </div>
 </template>
@@ -122,15 +99,9 @@
 <script>
 	import BaseVoteHorizontal from "./BaseVoteHorizontal"
 	import BaseTagLabel       from "../tag/BaseTagLabel"
-<<<<<<< HEAD
-=======
 	import { Get }            from "../../services/api.service"
 	import Logger             from "../../services/logger"
 	import { ENDPOINT }       from "../../constants"
-<<<<<<< HEAD
->>>>>>> WIP upload photo
-=======
->>>>>>> (feat): upload photo
 
 	export default {
 		name: "OneDefinition",
@@ -139,15 +110,6 @@
 			isPrimary: Boolean,
 			simpleComponent: Boolean,
 			expression: [Object, Boolean]
-<<<<<<< HEAD
-<<<<<<< HEAD
-		},
-		data: function() {
-			return {
-				definition: this.expression
-=======
-=======
->>>>>>> (feat): upload photo
 		},
 		data: function () {
 			return {
@@ -155,7 +117,7 @@
 			}
 		},
 		beforeMount() {
-			const name = this.$route.params ? this.$route.params.name : undefined
+			const name = this.$route && this.$route.params ? this.$route.params.name : undefined
 			if (name) {
 				Get(`${ENDPOINT.WORDS}?where={"name": "${name}"}`)
 					.then(result => {
@@ -167,13 +129,27 @@
 					})
 			} else {
 				Logger('OneDefinition : beforeMount : this.expression', this.expression)
-<<<<<<< HEAD
-				// if (this.expression) this.definition = this.expression
->>>>>>> WIP upload photo
-=======
-				if (this.expression) this.definition = this.expression
->>>>>>> (feat): upload photo
+				if (this.expression) {
+					this.definition = this.expression
+					return
+				}
+		  		Logger("OneDefinition : beforeMount : Expression was not found")
 			}
+		},
+		async beforeRouteUpdate(to, from, next) {
+			// react to route changes...
+			// don't forget to call next()
+			console.log(to, from)
+			Get(`${ENDPOINT.WORDS}?where={"name": "${to.params.name}"}`)
+				.then(result => {
+					Logger('OneDefinition : beforeRouteUpdate : result', result.data[0])
+					this.definition = result.data[0]
+				})
+				.catch(error => {
+					Logger('Error', error)
+				})
+			console.log("done")
+			next()
 		}
 	}
 </script>
@@ -213,5 +189,12 @@
 	span {
 	  margin: 0 .2em;
 	}
+  }
+  .fade-enter-active, .component-fade-leave-active {
+	transition: opacity .3s ease;
+  }
+  .fade-enter, .component-fade-leave-to
+	/* .component-fade-leave-active avant la 2.1.8 */ {
+	opacity: 0;
   }
 </style>

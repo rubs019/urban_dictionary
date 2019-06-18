@@ -5,15 +5,16 @@ import HealthCheck       from "./views/AppHealthCheck.vue"
 import Games             from "./views/games/Games"
 import OneDefinition     from "./components/definitions/OneDefinition"
 import UpdateDefinitions from "./components/definitions/UpdateDefinitions"
-import RandomDefinition  from "./components/definitions/randomDefinition"
-import AppContact        from "./views/AppContact"
-import AppDefinitions    from "./views/AppDefinitions"
-import AddDefinitions    from "./components/definitions/AddDefinitions"
-import AppLogIn          from "./views/AppLogIn"
-import AppSignUp         from "./views/AppSignUp"
-import AppDisconnect     from "./views/AppDisconnect"
-import AppProfile        from "./views/AppProfile"
-import AppNotFound       from "./views/AppNotFound"
+import RandomDefinition from "./components/definitions/randomDefinition"
+import AppContact       from "./views/AppContact"
+import AppDefinitions   from "./views/AppDefinitions"
+import AddDefinitions   from "./components/definitions/AddDefinitions"
+import AppLogIn         from "./views/AppLogIn"
+import AppSignUp        from "./views/AppSignUp"
+import AppDisconnect    from "./views/AppDisconnect"
+import AppProfile       from "./views/AppProfile"
+import AppNotFound      from "./views/AppNotFound"
+import AppDashboard     from "./views/AppDashboard"
 
 Vue.use(Router)
 
@@ -94,6 +95,11 @@ export default new Router({
 					component: OneDefinition
 				}
 			]
+		},
+		{
+			path: "/dashboard",
+			name: "AppDashboard",
+			component: AppDashboard
 		},
 		{
 			path: "*",

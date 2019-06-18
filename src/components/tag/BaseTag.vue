@@ -8,6 +8,7 @@
             v-for="(tag, index) in tags"
             :key="index"
             :name="tag"
+            :colors="false"
           ></BaseTagLabel>
         </div>
       </div>

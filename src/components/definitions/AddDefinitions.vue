@@ -104,7 +104,7 @@
 
 					setTimeout(() => {
 						this.formStatus = STATUS.SUCCESS
-						successToast("L'expression à bien été ajoutée")
+						successToast(this, "L'expression à bien été ajoutée")
 						this.cleanForm()
 					}, 1500)
 					Logger('AddDefinitions: result', result)
@@ -112,7 +112,7 @@
 					Logger('AddDefinitions: Error: ', e.response)
 					this.formStatus = STATUS.ERROR
 					if (e.response.status === 422) {
-						errorToast("Les champs ne doivent pas être vides")
+						errorToast(this, "Les champs ne doivent pas être vides")
 						return
 					}
 					errorToast("Une erreur s'est produite")

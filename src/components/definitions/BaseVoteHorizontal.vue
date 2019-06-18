@@ -26,24 +26,11 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> WIP upload photo
-	import Logger       from "../../services/logger"
 	import { Post }     from "../../services/api.service"
 	import { ENDPOINT } from "../../constants"
-	import Store        from "../../store"
-<<<<<<< HEAD
-=======
 	import Logger         from "../../services/logger"
-	import { Post }       from "../../services/api.service"
-	import { ENDPOINT }   from "../../constants"
 	import Store          from "../../store"
 	import { errorToast } from "../../helpers/toast"
->>>>>>> (feat): upload photo
-=======
->>>>>>> WIP upload photo
 
 	export default {
 		name: "BaseVoteHorizontal",

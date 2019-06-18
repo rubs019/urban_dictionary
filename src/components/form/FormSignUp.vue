@@ -69,7 +69,9 @@
 
 <script>
 
-	import { NOTIF_MSG, STATUS } from "../../constants"
+	import { STATUS } from "../../constants"
+    import Logger from "../../services/logger"
+
 
 	export default {
 		name: "FormSignup",
@@ -94,7 +96,8 @@
 			}
 		},
 		methods: {
-			register() {
+			register: function() {
+			    Logger('FormSignUp : Register : ', this.user)
 				this.$emit("tryRegister", this.user)
 			}
 		}

@@ -1,5 +1,5 @@
 <template>
-  <b-tag rounded :type="[colors ? 'is-info' : 'is-light']">{{ name }}</b-tag>
+  <b-tag rounded :type="colors ? 'is-info' : 'is-light'">{{ name }}</b-tag>
 </template>
 
 <script>

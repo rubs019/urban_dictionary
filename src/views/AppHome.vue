@@ -1,59 +1,19 @@
 <template>
-<<<<<<< HEAD
-    <div class="home">
-        <AppHeroComponent></AppHeroComponent>
-        <section class="section">
-            <div class="container">
-                <div class="columns">
-                    <div class="column is-8">
-                        <div class="description has-text-left">
-                            <p class="title" v-if="store.state.isConnected"> Welcome back, {{ store.credentials.username }} </p>
-                            <p>{{ AppDescription }}</p>
-                        </div>
-                        <div class="expression" id="topExpression" v-if="dayExpression">
-                            <h3 class="title boxed-section-title is-4 has-text-left">
-                                Expression du jour
-                            </h3>
-                            <OneDefinition :is-primary="true" :simpleComponent="false" :expression="dayExpression"></OneDefinition>
-                        </div>
-                        <div class="expression" id="allExpression">
-                            <h3 class="title boxed-section-title is-4 has-text-left">
-                                Toutes les expressions
-                            </h3>
-                            <template v-if="definitions">
-                                <div v-for="(definition, index) in definitions" :key="index">
-                                    <OneDefinition :is-primary="false" :simpleComponent="true"
-                                                   :expression="definition"></OneDefinition>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <OneDefinition :is-primary="false" :simpleComponent="true"></OneDefinition>
-                            </template>
-                        </div>
-                    </div>
-                    <div class="column is-4">
-                        <TheSidebar></TheSidebar>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-=======
   <div class="home">
 	<AppHeroComponent></AppHeroComponent>
 	<section class="section">
 	  <div class="container">
 		<div class="columns">
 		  <div class="column is-8">
-			<p class="title" v-if="store.state.isConnected"> Welcome back, {{ store.credentials.username
-			  }} </p>
-			<div class="expression" id="topExpression">
+			<div class="has-text-left">
+			  <p class="title" v-if="store.state.isConnected"> Welcome back, {{ store.credentials.username }} </p>
+			  <p> {{ AppDescription }}</p>
+			</div>
+			<div class="expression" id="topExpression" v-if="dayExpression">
 			  <h3 class="title boxed-section-title is-4 has-text-left">
 				Expression du jour
 			  </h3>
-			  <template v-if="dayExpression">
-			  	<OneDefinition :is-primary="true" :simpleComponent="false" :expression="dayExpression"></OneDefinition>
-			  </template>
+			  <OneDefinition :is-primary="true" :simpleComponent="false" :expression="dayExpression"></OneDefinition>
 			</div>
 			<div class="expression" id="allExpression">
 			  <h3 class="title boxed-section-title is-4 has-text-left">
@@ -77,7 +37,6 @@
 	  </div>
 	</section>
   </div>
->>>>>>> (feat): add production logger
 </template>
 
 <script>
@@ -106,37 +65,37 @@
 		},
 		methods: {
 			async getDayExpression() {
-
+				Logger('getDayExpression() =>')
 				try {
 					const { data: expressionDuJour } = await Get(API_PATH.DAILY_WORD)
 
 					Logger('Expression du jour  = ', expressionDuJour)
 
-					this.dayExpression = expressionDuJour
+					return expressionDuJour
 				} catch (e) {
 					Logger('AppHome : getDayExpression : ', e.response)
-
-					if (e.response.data.statusCode === 404) {
-						this.dayExpression = false
-					}
+					return null
 				}
 
 			},
 			async getExpressions() {
 				try {
-					const result = await Get(ENDPOINT.WORDS)
+					const {data: result} = await Get(ENDPOINT.WORDS)
 
-					Logger('result.data', result.data)
+					Logger('AppHome : getExpressions() : result.data', result)
 
-					this.definitions = result.data
+					return result
 				} catch (e) {
 					Logger('AppHome : getExpressions : ', e.response)
+					return null
 				}
 			}
 		},
-		mounted() {
-			this.getExpressions()
-			this.getDayExpression()
+		async created() {
+			Logger('this.dayExpression', this.dayExpression)
+			this.dayExpression = await this.getDayExpression()
+			this.definitions = await this.getExpressions()
+			Logger('this.dayExpression2', this.dayExpression)
 		}
 	}
 </script>

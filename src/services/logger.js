@@ -1,6 +1,7 @@
-module.exports = (text, object) => {
-	if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-		console.log(text, object)
+module.exports = (text, object = null) => {
+	const log = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+	if (log) {
+		!object ? console.log(text) : console.log(text, object)
 		return true
 	}
 	return false

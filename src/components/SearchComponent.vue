@@ -2,18 +2,16 @@
   <div id="search-component" class="control has-icons-left has-icons-right">
 	<!-- Liste de defintions -->
 	<div class="content">
-	  <ul
-			  v-if="resultList"
-	  >
+	  <ul v-if="resultList">
 		<!-- On affiche la liste que si nous avons des résultats -->
-		<router-link
-				tag="li"
-				v-for="(expression, index) in suggestions"
+		<li
+				v-for="(expression, index) in expressions"
 				:key="index"
+				v-on:click="UIRedirectToDefinition(expression)"
 				:to="{ name: 'OneDefinition', params: { name: expression.name } }"
 		>
 		  {{ expression.name }}
-		</router-link>
+		</li>
 	  </ul>
 	</div>
 
@@ -22,7 +20,8 @@
 			id="searchContent"
 			class="input is-rounded"
 			:class="[border ? 'border-input' : '']"
-			v-on:keyup.enter="UIRedirectToDefinition"
+			@keydown.enter="UIRedirectToDefinition(userInput.name)"
+			@keyup="search(userInput.name)"
 			type="text"
 			placeholder="Entrer le mot que vous cherchez"
 			v-model="userInput.name"
@@ -39,6 +38,10 @@
 </template>
 
 <script>
+  import Logger       from '../services/logger'
+  import { Get }      from "../services/api.service"
+  import { ENDPOINT } from "../constants"
+
 	export default {
 		name: "searchComponent",
 		props: ["border"],
@@ -47,18 +50,37 @@
 				userInput: {
 					name: null
 				},
-				rawExpressions: []
+				rawExpressions: [],
+				expressions: []
 			}
 		},
 		methods: {
+			search: function(text) {
+				if (text.length < 2) return
+
+				Logger('SeachComponent : Search : ', text)
+				Get(`${ENDPOINT.WORDS}?where={"name": { "$regex": "${text}"}}`)
+					.then((result) => {
+						console.log('result', result)
+
+						const { data: findedWord } = result
+
+						this.expressions = findedWord
+
+					})
+					.catch((err) => {
+						Logger('SearchComponent :  Error', err)
+					})
+			},
 			filterWithLowerCase: function (rawExpression) {
 				return rawExpression.name.toLowerCase() === this.userInput.name
 			},
 			onClose() {
 				this.rawExpressions = []
 			},
-			UIRedirectToDefinition() {
-				const expression = this.suggestions.shift() || this.userInput
+			UIRedirectToDefinition(text) {
+				Logger('SearchComponent : UIRedirectToDefinition : ', text)
+				const expression = text
 				// Use to select the first element of suggestion or the user input text
 				if (!expression.name) {
 					// Todo: idea ? Put a notif
@@ -66,17 +88,14 @@
 				}
 				return this.$router.push({
 					name: "OneDefinition",
-					params: {name: expression.name}
+					params: { name: expression.name }
 				})
 			}
 		},
 		computed: {
-			suggestions: function () {
-				// Don't show suggestions lists if no results
-				if (this.rawExpressions.length === 0) return []
-
-				// Else filters the results
-				return this.rawExpressions.filter(this.filterWithLowerCase)
+			suggestions: function (res) {
+				Logger('res', res)
+				return [{name: "Ok"}]
 			},
 			resultList: function () {
 				return this.suggestions.length !== 0
