@@ -15,6 +15,7 @@ import AppDisconnect    from "./views/AppDisconnect"
 import AppProfile       from "./views/AppProfile"
 import AppNotFound      from "./views/AppNotFound"
 import AppDashboard     from "./views/AppDashboard"
+import AppPrivacy       from "./views/AppPrivacy"
 
 Vue.use(Router)
 
@@ -100,6 +101,11 @@ export default new Router({
 			path: "/dashboard",
 			name: "AppDashboard",
 			component: AppDashboard
+		},
+		{
+			path: "/policy",
+			name: "AppPrivacy",
+			component: AppPrivacy
 		},
 		{
 			path: "*",
