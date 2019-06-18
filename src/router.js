@@ -2,19 +2,20 @@ import Vue               from "vue"
 import Router            from "vue-router"
 import AppHome           from "./views/AppHome.vue"
 import HealthCheck       from "./views/AppHealthCheck.vue"
-import Games             from "./views/games/Games"
+import Games             from "./views/games/AppGames"
 import OneDefinition     from "./components/definitions/OneDefinition"
 import UpdateDefinitions from "./components/definitions/UpdateDefinitions"
-import RandomDefinition from "./components/definitions/randomDefinition"
-import AppContact       from "./views/AppContact"
-import AppDefinitions   from "./views/AppDefinitions"
-import AddDefinitions   from "./components/definitions/AddDefinitions"
-import AppLogIn         from "./views/AppLogIn"
-import AppSignUp        from "./views/AppSignUp"
-import AppDisconnect    from "./views/AppDisconnect"
+import RandomDefinition  from "./components/definitions/randomDefinition"
+import AppContact        from "./views/AppContact"
+import AppDefinitions    from "./views/AppDefinitions"
+import AddDefinitions    from "./components/definitions/AddDefinitions"
+import AppLogIn          from "./views/AppLogIn"
+import AppSignUp         from "./views/AppSignUp"
+import AppDisconnect     from "./views/AppDisconnect"
 import AppProfile       from "./views/AppProfile"
 import AppNotFound      from "./views/AppNotFound"
 import AppDashboard     from "./views/AppDashboard"
+import AppPrivacy       from "./views/AppPrivacy"
 
 Vue.use(Router)
 
@@ -100,6 +101,11 @@ export default new Router({
 			path: "/dashboard",
 			name: "AppDashboard",
 			component: AppDashboard
+		},
+		{
+			path: "/policy.html",
+			name: "AppPrivacy",
+			component: AppPrivacy
 		},
 		{
 			path: "*",

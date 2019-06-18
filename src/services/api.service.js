@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const instance = axios.create({
+const api = axios.create({
   baseURL: process.env.VUE_APP_API_PROD,
   timeout: 10000
 })
@@ -10,12 +10,12 @@ async function Get(endpoint = null, headers = null) {
     Authorization: headers ? `Bearer ${headers.token}` : null
   }
   if (!endpoint) {
-    return await instance({
+    return await api({
       method: 'GET',
       headers: options
     }) // return error if server is down
   }
-  return await instance({
+  return await api({
     method: 'GET',
     url: `/${endpoint}`,
     headers: options
@@ -31,7 +31,7 @@ async function Post(endpoint, data = null, headers = null) {
     },
     data
   }
-  return await instance(options)
+  return await api(options)
 }
 
 async function Patch(endpoint, data = null, headers = null) {
@@ -43,7 +43,7 @@ async function Patch(endpoint, data = null, headers = null) {
     },
     data
   }
-  return await instance(options)
+  return await api(options)
 }
 
 async function Put(endpoint, data, headers = null) {
@@ -53,7 +53,7 @@ async function Put(endpoint, data, headers = null) {
     headers: headers,
     data
   }
-  return await instance(options)
+  return await api(options)
 }
 
 export { Get, Post, Patch, Put }

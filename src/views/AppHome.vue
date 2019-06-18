@@ -84,11 +84,11 @@
 			},
 			async getExpressions() {
 				try {
-					const {data: result} = await Get(ENDPOINT.WORDS)
+					const result = await Get(`${ENDPOINT.WORDS}?range=0-1`)
 
 					Logger('AppHome : getExpressions() : result.data', result)
 
-					return result
+					return result.data
 				} catch (e) {
 					Logger('AppHome : getExpressions : ', e.response)
 					return null
@@ -98,6 +98,7 @@
 				this.busyScroll = true
 
 				Logger('AppHome : Mounted : loadMore()')
+				this.busyScroll = false
 			}
 		},
 		async created() {

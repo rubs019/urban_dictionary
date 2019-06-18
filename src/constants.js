@@ -24,7 +24,8 @@ export const NOTIF_MSG = {
 }
 export const ENDPOINT = {
 	USERS: "users",
-	WORDS: "words"
+	WORDS: "words",
+	ROOM: "rooms"
 }
 export const API_PATH = {
 	UPLOAD_FILE: (userId) => `${ENDPOINT.USERS}/${userId}/avatar`,
@@ -32,7 +33,8 @@ export const API_PATH = {
 	DAILY_WORD: `${ENDPOINT.WORDS}/daily`,
 	CREATE_USER: ENDPOINT.USERS,
 	ACCOUNT_LOGOUT: `${ENDPOINT.USERS}/logout`,
-	ACCOUNT_LOGIN: `${ENDPOINT.USERS}/token`
+	ACCOUNT_LOGIN: `${ENDPOINT.USERS}/token`,
+	ROOM: `${ENDPOINT.ROOM}`
 }
 
 /**

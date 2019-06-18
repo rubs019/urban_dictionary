@@ -58,10 +58,14 @@
 			search: function(text) {
 				if (text.length < 2) return
 
-				Logger('SeachComponent : Search : ', text)
-				Get(`${ENDPOINT.WORDS}?where={"name": { "$regex": "${text}"}}`)
+				const cleanText = JSON.stringify({
+					'$regex': text,
+					'$options': 'i'
+				})
+
+				Logger('SeachComponent : Search : ', cleanText)
+				Get(`${ENDPOINT.WORDS}?where={"name": ${cleanText}}`)
 					.then((result) => {
-						console.log('result', result)
 
 						const { data: findedWord } = result
 
@@ -71,12 +75,6 @@
 					.catch((err) => {
 						Logger('SearchComponent :  Error', err)
 					})
-			},
-			filterWithLowerCase: function (rawExpression) {
-				return rawExpression.name.toLowerCase() === this.userInput.name
-			},
-			onClose() {
-				this.rawExpressions = []
 			},
 			UIRedirectToDefinition(text) {
 				Logger('SearchComponent : UIRedirectToDefinition : ', text)
