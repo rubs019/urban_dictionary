@@ -23,8 +23,20 @@ describe("searchComponent.vue", () => {
   describe("resultList function", () => {
     it("should return false if the resultList is empty", () => {
       const wrapper = mount(searchComponent)
-      const ul = wrapper.find("ul")
+      const ul = wrapper.find("ul#list-expression")
       expect(ul.exists()).to.be.false
+    })
+
+    it("should return true if the expression has been added", () => {
+      const wrapper = mount(searchComponent)
+      wrapper.setData({
+        expressions: [{name: "Tchoin"}]
+      })
+      const ul = wrapper.find("ul#list-expression")
+      expect(ul.exists()).to.be.true
+      expect(ul.contains('li')).to.be.true
+      const li = ul.find('li')
+      expect(li.text()).to.be.equal('Tchoin')
     })
   })
 })

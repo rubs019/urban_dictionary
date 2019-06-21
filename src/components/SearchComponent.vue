@@ -1,8 +1,8 @@
 <template>
   <div id="search-component" class="control has-icons-left has-icons-right">
 	<!-- Liste de defintions -->
-	<div class="content">
-	  <ul v-if="resultList">
+	<div class="content" v-if="resultList">
+	  <ul id="list-expression">
 		<!-- On affiche la liste que si nous avons des résultats -->
 		<li
 				v-for="(expression, index) in expressions"
@@ -95,7 +95,7 @@
 		computed: {
 			suggestions: function (res) {
 				Logger('res', res)
-				return [{name: "Ok"}]
+				return this.expressions
 			},
 			resultList: function () {
 				return this.suggestions.length !== 0
