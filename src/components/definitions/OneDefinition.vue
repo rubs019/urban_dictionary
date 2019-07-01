@@ -118,7 +118,7 @@
 		},
 		beforeMount() {
 			const name = this.$route && this.$route.params ? this.$route.params.name : undefined
-			Logger('name', name)
+			Logger('OneDefinition : BeforeMount : expression', this.expression)
 			if (name) {
 				Get(`${ENDPOINT.WORDS}?where={"name": "${name}"}`)
 					.then(result => {

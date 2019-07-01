@@ -33,7 +33,6 @@
 			 * @return undefined
 			 */
 			async login(credentials) {
-				// this.form.message = "Identifiant ou mot de passe incorrect"
 				Logger('credentials : ', credentials)
 				// Send login and pwd
 

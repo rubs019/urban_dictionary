@@ -30,9 +30,9 @@ function addDefinition(expression) {
 
 function accountPatchInformation(data) {
   return {
-    username: data.name,
-    email: data.email,
-    password: data.pwd
+    "username": data.name,
+    "email": data.email,
+    "password": data.pwd
   }
 }
 
