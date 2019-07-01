@@ -24,7 +24,7 @@ export default {
       try {
         const { data : randomExpression } = await Get(API_PATH.RANDOM_WORD)
 
-        Logger(randomExpression)
+        Logger('randomExpression', randomExpression)
         this.randomExpression = randomExpression
       } catch(e) {
         Logger('OneDefinition : BeforeMount : Error', e.response)

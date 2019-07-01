@@ -11,14 +11,14 @@
 			</div>
 		  </div>
 		  <div class="section">
-			<h1 class="title">Underdico Games</h1>
+			<h1 class="title">Underdico Games <span class="dot" :class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span></h1>
 			<h2 class="subtitle notification is-info">
 			  Liste des salons actifs
 			</h2>
 
 			<div v-if="rooms && rooms.length !== 0" id="list-salon-actif">
 			  <ul v-for="(room, index) in rooms" :key="index">
-				<router-link tag="li" :to="{ name: 'random' }" class="all-room tile notification is-primary">
+				<router-link tag="li" :to="{ name: 'AppGamesPlayground', params: {id: room.id} }" class="all-room tile notification is-primary">
 				  <b-tag :type="room.playersIds.length === room.maxPlayers ? 'is-danger' : 'is-info'" rounded>{{ room.playersIds.length }} / {{ room.maxPlayers }}</b-tag>
 				  <p>{{ room.name }}</p>
 				</router-link>
@@ -51,7 +51,8 @@
 		name: "AppGames",
 		data: () => ({
 			rooms: [],
-			msg: "Coming soon"
+			msg: "Coming soon",
+			serverIsUp: false
 		}),
 		methods: {
 			createRoomModal() {
@@ -89,19 +90,29 @@
 				} catch (e) {
 					Logger('AppGames : getAllRooms : Error', e)
 				}
+			},
+			pingServer() {
+				this.$socket.emit('ping')
+				console.log('emitted')
 			}
 		},
 		async created() {
-			Logger('Vue.$socket - ', this.$socket.io)
 			await this.getAllRooms()
+		},
+		mounted () {
+			this.pingServer()
+		},
+		sockets: {
+			pong() {
+				this.serverIsUp = true
+			}
+
 		}
 	}
 </script>
 
 <style scoped>
-  p#open-modal {
-  }
-  p#open-modal:hover, .all-room:hover {
+  #open-modal:hover, .all-room:hover {
 	cursor: pointer;
   }
   li {
@@ -109,5 +120,12 @@
   }
   .all-room p {
 	margin-left: 5px;
+  }
+  .dot {
+	height: 15px;
+	width: 15px;
+	background-color: #bbb;
+	border-radius: 50%;
+	display: inline-block;
   }
 </style>

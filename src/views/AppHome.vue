@@ -84,7 +84,7 @@
 			},
 			async getExpressions() {
 				try {
-					const result = await Get(`${ENDPOINT.WORDS}?range=0-1`)
+					const result = await Get(`${ENDPOINT.WORDS}`)
 
 					Logger('AppHome : getExpressions() : result.data', result)
 

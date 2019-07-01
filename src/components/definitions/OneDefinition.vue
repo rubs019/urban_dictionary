@@ -118,6 +118,7 @@
 		},
 		beforeMount() {
 			const name = this.$route && this.$route.params ? this.$route.params.name : undefined
+			Logger('name', name)
 			if (name) {
 				Get(`${ENDPOINT.WORDS}?where={"name": "${name}"}`)
 					.then(result => {
@@ -128,9 +129,10 @@
 						Logger('Error', error)
 					})
 			} else {
-				Logger('OneDefinition : beforeMount : this.expression', this.expression)
+				Logger('this.expression', this.expression)
 				if (this.expression) {
 					this.definition = this.expression
+					Logger('OneDefinition : beforeMount : this.expression', this.definition)
 					return
 				}
 		  		Logger("OneDefinition : beforeMount : Expression was not found")
@@ -139,7 +141,7 @@
 		async beforeRouteUpdate(to, from, next) {
 			// react to route changes...
 			// don't forget to call next()
-			console.log(to, from)
+			console.log('to', to, from)
 			Get(`${ENDPOINT.WORDS}?where={"name": "${to.params.name}"}`)
 				.then(result => {
 					Logger('OneDefinition : beforeRouteUpdate : result', result.data[0])

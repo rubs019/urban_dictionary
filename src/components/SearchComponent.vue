@@ -92,7 +92,6 @@
 		},
 		computed: {
 			suggestions: function (res) {
-				Logger('res', res)
 				return [{name: "Ok"}]
 			},
 			resultList: function () {
