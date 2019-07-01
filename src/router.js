@@ -35,7 +35,7 @@ export default new Router({
 		},
 		{
 			path: "/games",
-			name: "games",
+			name: "AppGames",
 			component: AppGamesHome
 		},
 		{

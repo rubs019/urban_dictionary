@@ -51,13 +51,9 @@
           {{ MenuName.about }}
         </router-link>
         <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-primary">
-              <router-link to="/games">
-                <strong class="has-text-white">{{ MenuName.games }}</strong>
-              </router-link>
-            </a>
-          </div>
+            <router-link :to="{name: 'AppGames'}" class="button is-primary">
+              <strong class="has-text-white">{{ MenuName.games }}</strong>
+            </router-link>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <article class="tile is-child notification is-white">
+  <div class="tile is-child notification is-white">
     <p class="title has-text-left">Top Expressions</p>
     <div class="subtitle has-text-left">
       <div class="tags">
@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </template>
 
 <script>

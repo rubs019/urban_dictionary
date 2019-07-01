@@ -102,6 +102,7 @@
 	import { Get }            from "../../services/api.service"
 	import Logger             from "../../services/logger"
 	import { ENDPOINT }       from "../../constants"
+	import stringify from "../../helpers/stringifyText"
 
 	export default {
 		name: "OneDefinition",
@@ -119,11 +120,12 @@
 		beforeMount() {
 			const name = this.$route && this.$route.params ? this.$route.params.name : undefined
 			Logger('OneDefinition : BeforeMount : expression', this.expression)
+			Logger('OneDefinition : BeforeMount : name', stringify(name))
 			if (name) {
-				Get(`${ENDPOINT.WORDS}?where={"name": "${name}"}`)
+				Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(name)}}`)
 					.then(result => {
-						Logger('OneDefinition : beforeMount : result', result.data[0])
-						this.definition = result.data[0]
+						Logger('OneDefinition : beforeMount : result', result)
+						this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
 					})
 					.catch(error => {
 						Logger('Error', error)
@@ -141,16 +143,17 @@
 		async beforeRouteUpdate(to, from, next) {
 			// react to route changes...
 			// don't forget to call next()
-			console.log('to', to, from)
-			Get(`${ENDPOINT.WORDS}?where={"name": "${to.params.name}"}`)
+			Logger('OneDefinition : beforeRouteUpdate : to', to)
+			Logger('OneDefinition : beforeRouteUpdate : from', from)
+			Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(to.params.name)}}`)
 				.then(result => {
-					Logger('OneDefinition : beforeRouteUpdate : result', result.data[0])
-					this.definition = result.data[0]
+					Logger('OneDefinition : beforeRouteUpdate : result', result)
+					this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
+
 				})
 				.catch(error => {
 					Logger('Error', error)
 				})
-			console.log("done")
 			next()
 		}
 	}

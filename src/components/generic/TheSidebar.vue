@@ -19,29 +19,42 @@
                   <span class="icon">
                     <i class="fas fa-star"></i>
                   </span>
-                <span>Lancer une partie</span>
+                <router-link tag='span' :to="{ name: 'AppGames' }">Lancer une partie</router-link>
             </router-link>
         </div>
         <div class="tile is-parent">
-            <BaseTag :tags="tags"></BaseTag>
-        </div>
-        <div class="tile is-parent">
-            <TopExpressions
-                    :expressions-names="rawExpressions"
-                    v-bind:url="'OneDefinition'"
-            ></TopExpressions>
+            <b-tabs type="is-toggle" expanded style="padding: 0 !important;">
+                <b-tab-item label="Top 10">
+                    <TopExpressions
+                            :expressions-names="rawExpressions"
+                            v-bind:url="'OneDefinition'"
+                    ></TopExpressions>
+                </b-tab-item>
+                <b-tab-item label="Music">
+                    <TopExpressions
+                            :expressions-names="rawExpressions"
+                            v-bind:url="'OneDefinition'"
+                    ></TopExpressions>
+                </b-tab-item>
+
+                <b-tab-item label="Videos">
+                    <TopExpressions
+                            :expressions-names="rawExpressions"
+                            v-bind:url="'OneDefinition'"
+                    ></TopExpressions>
+                </b-tab-item>
+            </b-tabs>
         </div>
     </div>
 </template>
 
 <script>
-    import BaseTag        from "../tag/BaseTag"
     import TopExpressions from "../TopExpressionsComponent"
     import Store          from "../../store"
 
 	export default {
 		name: "TheSidebar",
-        components: { BaseTag, TopExpressions },
+        components: { TopExpressions },
         data: () => ({
 			tags: [
 				"Street",
@@ -84,5 +97,7 @@
 </script>
 
 <style scoped>
-
+    section {
+        padding: 0 !important;
+    }
 </style>
