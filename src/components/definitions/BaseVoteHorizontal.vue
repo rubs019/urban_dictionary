@@ -91,7 +91,6 @@
 			}
 		},
 		mounted() {
-			Logger('this.idExpression', this.idExpression)
 			this.id = this.idExpression
 			this.nbLike = this.nbVote
 		}

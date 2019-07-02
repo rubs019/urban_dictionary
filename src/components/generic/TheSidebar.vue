@@ -24,20 +24,20 @@
         </div>
         <div class="tile is-parent">
             <b-tabs type="is-toggle" expanded style="padding: 0 !important;">
-                <b-tab-item label="Top 10">
+                <b-tab-item label="Top">
                     <TopExpressions
                             :expressions-names="rawExpressions"
                             v-bind:url="'OneDefinition'"
                     ></TopExpressions>
                 </b-tab-item>
-                <b-tab-item label="Music">
+                <b-tab-item label="Top du jour">
                     <TopExpressions
                             :expressions-names="rawExpressions"
                             v-bind:url="'OneDefinition'"
                     ></TopExpressions>
                 </b-tab-item>
 
-                <b-tab-item label="Videos">
+                <b-tab-item label="de la semaine">
                     <TopExpressions
                             :expressions-names="rawExpressions"
                             v-bind:url="'OneDefinition'"
@@ -51,6 +51,7 @@
 <script>
     import TopExpressions from "../TopExpressionsComponent"
     import Store          from "../../store"
+    import Logger from "../../services/logger"
 
 	export default {
 		name: "TheSidebar",

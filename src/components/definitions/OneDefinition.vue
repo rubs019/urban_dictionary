@@ -119,35 +119,25 @@
 		},
 		beforeMount() {
 			const name = this.$route && this.$route.params ? this.$route.params.name : undefined
-			Logger('OneDefinition : BeforeMount : expression', this.expression)
-			Logger('OneDefinition : BeforeMount : name', stringify(name))
 			if (name) {
 				Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(name)}}`)
 					.then(result => {
-						Logger('OneDefinition : beforeMount : result', result)
 						this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
 					})
 					.catch(error => {
 						Logger('Error', error)
 					})
 			} else {
-				Logger('this.expression', this.expression)
 				if (this.expression) {
 					this.definition = this.expression
-					Logger('OneDefinition : beforeMount : this.expression', this.definition)
 					return
 				}
 		  		Logger("OneDefinition : beforeMount : Expression was not found")
 			}
 		},
 		async beforeRouteUpdate(to, from, next) {
-			// react to route changes...
-			// don't forget to call next()
-			Logger('OneDefinition : beforeRouteUpdate : to', to)
-			Logger('OneDefinition : beforeRouteUpdate : from', from)
 			Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(to.params.name)}}`)
 				.then(result => {
-					Logger('OneDefinition : beforeRouteUpdate : result', result)
 					this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
 
 				})
