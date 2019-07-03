@@ -81,7 +81,8 @@
             },
             async getExpressions() {
                 try {
-                    const result = await Get(`${ENDPOINT.WORDS}`)
+                    const headers = {token: Store.credentials.token}
+                    const result = await Get(`${ENDPOINT.WORDS}`, headers)
 
                     return result.data
                 } catch (e) {

@@ -71,7 +71,7 @@
               <BaseTagLabel :name="label" :colors="!!simpleComponent"></BaseTagLabel>
             </span>
 			</div>
-			<BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 " :id-expression="definition.id"></BaseVoteHorizontal>
+			<BaseVoteHorizontal :expression="definition"></BaseVoteHorizontal>
 		  </article>
 		</div>
 	  </template>
