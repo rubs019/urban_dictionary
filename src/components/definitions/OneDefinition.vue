@@ -54,14 +54,12 @@
 			  </div>
 			</div>
 			<!--	COnditional rendering username	  -->
-			<template v-if="!simpleComponent">
 			  <router-link
 					  tag="p"
 					  id="userLink"
 					  class="subtitle has-text-left is-size-6"
 					  :to="{ name: 'OneDefinition', params: { name: definition.user.username } }">@{{ definition.user.username }}
 			  </router-link>
-			</template>
 			<div class="content has-text-left">
 			  <!-- Content -->
 			  {{ definition.definition }}

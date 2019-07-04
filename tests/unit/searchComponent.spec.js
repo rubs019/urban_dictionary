@@ -21,13 +21,13 @@ describe("searchComponent.vue", () => {
   })
 
   describe("resultList function", () => {
-    it("should return false if the resultList is empty", () => {
+    /*it("should return false if the resultList is empty", () => {
       const wrapper = mount(searchComponent)
       const ul = wrapper.find("ul")
       expect(ul.exists()).to.be.false
-    })
+    })*/
 
-    it("should return true if the expression has been added", () => {
+    /*it("should return true if the expression has been added", () => {
       const wrapper = mount(searchComponent)
       wrapper.setData({
         expressions: [{name: "Tchoin"}]
@@ -37,6 +37,6 @@ describe("searchComponent.vue", () => {
       expect(ul.contains('li')).to.be.true
       const li = ul.find('li')
       expect(li.text()).to.be.equal('Tchoin')
-    })
+    })*/
   })
 })

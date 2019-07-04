@@ -61,19 +61,19 @@
 					parent: this,
 					hasModalCard: true,
 					events: {
-						createRoom: this.sendRoom
+						createRoom: this.createRoom
 					}
 				})
 			},
-			async sendRoom(room) {
+			async createRoom(room) {
 				Logger('sendRoom : Logger', Store.credentials.token)
-				this.$modal.close()
-				return
 				try {
 					const headers = {
 						token: Store.credentials.token ? Store.credentials.token : undefined
 					}
 					const {data: result} = await Post(ENDPOINT.ROOM, room, headers)
+
+					Logger('createRoom : result', result)
 
 				} catch (e) {
 					Logger('AppGames : SendRoom : Error', e)
@@ -90,23 +90,10 @@
 				} catch (e) {
 					Logger('AppGames : getAllRooms : Error', e)
 				}
-			},
-			pingServer() {
-				this.$socket.emit('ping')
-				console.log('emitted')
 			}
 		},
 		async created() {
 			await this.getAllRooms()
-		},
-		mounted () {
-			this.pingServer()
-		},
-		sockets: {
-			pong() {
-				this.serverIsUp = true
-			}
-
 		}
 	}
 </script>

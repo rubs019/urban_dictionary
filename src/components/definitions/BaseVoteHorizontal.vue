@@ -82,15 +82,15 @@
                 }
                 try {
                     if (!this.userExpression.userDownVoted && !this.userExpression.userUpVoted) {
-                        await Post(`${ENDPOINT.WORDS}/${this.userExpression.id}/votes`, {value: true})
+                        await Post(`${ENDPOINT.WORDS}/${this.userExpression.id}/votes`, {value})
                         return
                     }
 
                     await Patch(`${ENDPOINT.WORDS}/${this.userExpression.id}/votes/${this.userExpression.userVoteId}`, {value}, headers)
 
-                    const ex = await Get(`${ENDPOINT.WORDS}/${this.userExpression.id}`)
-                    Logger('ex', ex)
-                    this.userExpression = ex.data
+                    const { data: word } = await Get(`${ENDPOINT.WORDS}/${this.userExpression.id}`)
+                    Logger('word', word)
+                    this.userExpression = word
                 } catch (e) {
                     Logger('BaseVoteHorizontal : SendVote : Error', e)
                     errorToast(this, "Une erreur s'est produite lors du vote, veuillez réessayer plus tard")
