@@ -23,7 +23,7 @@
 			form: {
 				message: null,
 				color: null,
-                status: 0
+                status: STATUS.DEFAULT
 			}
 		}),
 		methods: {
@@ -36,7 +36,7 @@
 				Logger('credentials : ', credentials)
 				// Send login and pwd
 
-				if (!this.checkCredentials(credentials)) {
+				if (!credentials.login || !credentials.pwd) {
 					this.setMsgNotification(NOTIF_MSG.PWD_OR_LOGIN_EMPTY)
 					return
                 }
@@ -47,7 +47,6 @@
 				try {
 					const result = await Post(API_PATH.ACCOUNT_LOGIN, DTO.accountLogin(credentials))
 
-                    Logger('result', result)
                     const headers = {
 						token: result.data.token
                     }
@@ -98,14 +97,6 @@
 			setMsgNotification(message) {
 				this.form.color = message === NOTIF_MSG.SUCCESS_LOGIN ? 'success' : 'danger'
 				this.form.message = message
-			},
-			/**
-             * Check if credentials is present
-			 * @param credentials
-			 */
-			checkCredentials(credentials) {
-				return !(!credentials.login || !credentials.pwd)
-
 			}
 		}
 	}

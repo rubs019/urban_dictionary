@@ -14,8 +14,13 @@
 		<b-field label="Mot de passe">
 		  <b-input type="password" v-model="user.pwd"></b-input>
 		</b-field>
+		  <b-field label="Confirmer le mot de passe">
+			  <b-input type="password" v-model="user.pwd2"></b-input>
+		  </b-field>
 		<div class="has-text-right">
-		  <b-button native-type="submit" type="is-primary" icon-pack="fas" icon-left="paper-plane">Mettre à jour
+		  <b-button
+				  :loading="statusForm === Status.PENDING"
+				  native-type="submit" :type="statusForm === Status.ERROR ? 'is-danger' : 'is-primary'" icon-pack="fas" icon-left="paper-plane">Mettre à jour
 		  </b-button>
 		</div>
 	  </form>
@@ -24,19 +29,26 @@
 </template>
 
 <script>
+	import {STATUS} from '../../constants'
+	import Logger from "../../services/logger"
+
 	export default {
 		name: "ProfileInformations",
 		props: {
+			statusForm: Number,
 			credentials: Object
 		},
-		data() {
+		data: function() {
 			return {
-				name: 'John Silver',
+				Status: STATUS,
 				user: {
 					name: this.credentials.username,
 					email: this.credentials.email
 				}
 			}
+		},
+		mounted() {
+			Logger('this.credentials', this.credentials)
 		}
 	}
 </script>

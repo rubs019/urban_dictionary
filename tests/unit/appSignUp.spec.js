@@ -36,7 +36,7 @@ describe('checkPasswordLength()', () => {
 			const badPwd = {
 				pwd: 'toto'
 			}
-			expect(AppSignUp.methods.checkPasswordLength(badPwd)).to.be.false
+			expect(AppSignUp.methods.passwordIsGreaterThan6(badPwd)).to.be.false
 		})
 	})
 	describe('I\'m trying to test a password with correct length', () => {
@@ -44,12 +44,12 @@ describe('checkPasswordLength()', () => {
 			const goodPwd = {
 				pwd: '123456',
 			}
-			expect(AppSignUp.methods.checkPasswordLength(goodPwd)).to.be.true
+			expect(AppSignUp.methods.passwordIsGreaterThan6(goodPwd)).to.be.true
 		})
 	})
 	describe("I'm trying to test undefined password", () => {
 		it('Should return false', () => {
-			expect(AppSignUp.methods.checkPasswordLength({})).to.be.false
+			expect(AppSignUp.methods.passwordIsGreaterThan6({})).to.be.false
 		})
 	})
 })

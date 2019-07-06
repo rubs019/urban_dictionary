@@ -15,12 +15,14 @@ export const NOTIF_MSG = {
 	BAD_CREDENTIALS: "Nom d'utilisateur ou mot de passe incorrect",
 	PWD_OR_LOGIN_EMPTY: "Le nom d'utilisateur et/ou le password est vide",
 	PWD_TOO_SHORT: "Le mot de passe doit avoir au moins 6 lettres",
+	SECOND_PWD_REQUIRED: "Merci d'entrer un second mot de passe",
 	NOT_SAME_PWD: "Les mots de passent doivent être identiques",
 	USER_ALREADY_EXIST: "Ce nom d'utilisateur existe déjà",
 	EMAIL_ALREADY_EXIST: "Cette email est déjà utilisé",
 	SUCCESS: "Vous allez être redirigé vers la page correspondante",
 	ERROR_SERVER: "Une erreur s'est produite, veuillez réessayer dans quelques instants",
 	SUCCESS_LOGIN: "Connexion réussie..."
+
 }
 export const ENDPOINT = {
 	USERS: "users",
