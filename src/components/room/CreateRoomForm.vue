@@ -21,12 +21,12 @@
 		</b-field>
 
 		<b-field grouped>
-		  <b-field label="Privée ?">
-			<b-checkbox v-model="room.isPrivate">Basic</b-checkbox>
+		  <b-field>
+			<b-checkbox v-model="room.isPrivate">Privée</b-checkbox>
 		  </b-field>
 
-		  <b-field label="Ranked ?">
-			<b-checkbox v-model="room.isRanked">Basic</b-checkbox>
+		  <b-field>
+			<b-checkbox v-model="room.isRanked">Classée</b-checkbox>
 		  </b-field>
 		</b-field>
 	  </form>
@@ -45,7 +45,7 @@
 		data: () => ({
 			room: {
 				name: null,
-				maxPlayers: 0,
+				maxPlayers: 1,
 				isPrivate: false,
 				isRanked: false,
 				locale: 'fr'

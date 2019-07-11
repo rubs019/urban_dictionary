@@ -52,11 +52,12 @@
 		data: () => ({
 			rooms: [],
 			msg: "Coming soon",
-			serverIsUp: false
+			serverIsUp: false,
+			myCreateRoomModal: null
 		}),
 		methods: {
 			createRoomModal() {
-				this.$modal.open({
+				this.myCreateRoomModal = this.$modal.open({
 					component: CreateRoomForm,
 					parent: this,
 					hasModalCard: true,
@@ -73,6 +74,10 @@
 					}
 					const {data: result} = await Post(ENDPOINT.ROOM, room, headers)
 
+					this.myCreateRoomModal.close()
+
+					await this.getAllRooms()
+
 					Logger('createRoom : result', result)
 
 				} catch (e) {
@@ -84,9 +89,7 @@
 					const {data: rooms} = await Get(`${ENDPOINT.ROOM }`)
 
 					Logger('AppGames : getAllRooms : rooms', rooms)
-					rooms.forEach(room => {
-						this.rooms.push(room)
-					})
+					this.rooms = rooms
 				} catch (e) {
 					Logger('AppGames : getAllRooms : Error', e)
 				}

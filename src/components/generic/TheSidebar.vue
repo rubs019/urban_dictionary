@@ -13,13 +13,13 @@
         </div>
         <div class="tile is-parent">
             <router-link
-                    to="/connect"
+                    :to="{ name: 'AppGames' }"
                     class="button is-primary is-fullwidth"
             >
                   <span class="icon">
                     <i class="fas fa-star"></i>
                   </span>
-                <router-link tag='span' :to="{ name: 'AppGames' }">Lancer une partie</router-link>
+                <p>Lancer une partie</p>
             </router-link>
         </div>
         <div class="tile is-parent">

@@ -5,6 +5,7 @@
                                                     :class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span>
             </h1>
             <b-button v-on:click="newPlayer" :disabled="!serverIsUp">newPlayer</b-button>
+            <b-button v-on:click="startRoom" :disabled="!serverIsUp">StartRoom</b-button>
             <b-button v-on:click="leaveRoom" :disabled="!serverIsUp">leaveRoom</b-button>
             <b-button v-on:click="disconnect" :disabled="!serverIsUp">disconnect</b-button>
         </div>
@@ -68,7 +69,7 @@
             }
         },
         sockets: {
-            open: function () {
+            connect: function () {
                 Logger('socket connected', this.$socket.connected)
                 this.joinRoom()
                 this.serverIsUp = true
@@ -93,12 +94,14 @@
 
                 try {
                     // Search the name of the user
-                    const {data: newUserInTheRoom} = await Get(`${ENDPOINT.USERS}/${user.id}`)
+                    const { data: newUserInTheRoom } = await Get(`${ENDPOINT.USERS}/${user.id}`)
 
                     helpers.successToast(this, `${newUserInTheRoom.username} vient de se connecter`)
 
                     Logger('this.roomInformation', this.roomInformation)
-                    this.roomInformation.users.push(newUserInTheRoom.username)
+                    const nameIsAlreadyPresent = this.roomInformation.usernames.find((username) => username === newUserInTheRoom.username)
+                    if (!nameIsAlreadyPresent)
+                        this.roomInformation.usernames.push(newUserInTheRoom.username)
 
                 } catch (e) {
                     helpers.errorToast(this, 'Erreur requete for get user credentials')
@@ -135,8 +138,7 @@
                         jwt: Store.credentials.token
                     }
                 }
-                Logger('Store.credentials.token', Store.credentials.token)
-                this.$socket.open()
+                this.$socket.connect()
             },
             joinRoom: function () {
                 this.$socket.emit('joinRoom', {
@@ -147,7 +149,7 @@
                 console.log('startRoom')
 
                 this.$socket.emit('startRoom', {
-                    roomId
+                    roomId: this.roomId
                 })
             },
             play(roomId, proposal) {
