@@ -10,7 +10,6 @@ import SocketIO from "socket.io-client"
 const vueSocket = new VueSocketIO({
     debug: true,
     connection: SocketIO('wss://underdico.hdaroit.fr', {
-        path: '/socket.io',
         autoConnect: false,
         reconnection: false
     })

@@ -17,6 +17,8 @@
     import Store from "../store"
     import {NOTIF_MSG, API_PATH, STATUS} from "../constants"
     import * as helpers from "../helpers/checkPasswordHelper"
+    import {passwordIsGreaterThan6} from '../helpers/checkPasswordHelper'
+    import {checkPassword} from '../helpers/checkPasswordHelper'
 
     export default {
         name: "AppSignUp",
@@ -86,6 +88,17 @@
             setMsgNotification(message) {
                 this.form.color = message === NOTIF_MSG.SUCCESS ? 'success' : 'danger'
                 this.form.message = message
+            },
+            validationInput(credentials) {
+                if (!passwordIsGreaterThan6(credentials.pwd)) {
+                    this.setMsgNotification(NOTIF_MSG.PWD_TOO_SHORT)
+                    return false
+                }
+                if (!checkPassword(credentials.pwd, credentials.pwd2)) {
+                    this.setMsgNotification(NOTIF_MSG.NOT_SAME_PWD)
+                    return false
+                }
+                return true
             }
         }
     }

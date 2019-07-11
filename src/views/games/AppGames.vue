@@ -81,7 +81,7 @@
 			},
 			async getAllRooms() {
 				try {
-					const {data: rooms} = await Get(ENDPOINT.ROOM)
+					const {data: rooms} = await Get(`${ENDPOINT.ROOM }`)
 
 					Logger('AppGames : getAllRooms : rooms', rooms)
 					rooms.forEach(room => {

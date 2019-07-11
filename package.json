@@ -26,13 +26,14 @@
     "socket.io-client": "^2.2.0",
     "vue": "^2.6.6",
     "vue-infinite-scroll": "^2.0.2",
+    "vue-localstorage": "^0.6.2",
     "vue-router": "^3.0.1",
     "vue-socket.io": "^3.0.7"
   },
   "devDependencies": {
     "@vue/cli": "^3.6.3",
     "@vue/cli-plugin-babel": "^3.5.0",
-    "@vue/cli-plugin-e2e-nightwatch": "^3.8.0",
+    "@vue/cli-plugin-e2e-nightwatch": "^3.9.2",
     "@vue/cli-plugin-eslint": "^3.5.0",
     "@vue/cli-plugin-unit-mocha": "^3.5.0",
     "@vue/cli-service": "^3.6.0",
