@@ -9,11 +9,18 @@
 
 <script>
 import TheHeading from "./components/generic/TheHeading.vue"
+import Store from "./store"
 
 export default {
   name: "home",
   components: {
     TheHeading
+  },
+  created() {
+    const haveCredentialsStored = !!this.$localStorage.get('credentials', null)
+    if (haveCredentialsStored) {
+      Store.setUser(JSON.parse(this.$localStorage.get('credentials')))
+    }
   }
 }
 </script>

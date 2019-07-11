@@ -187,6 +187,14 @@
             }
         },
         created() {
+            Logger("this.$localStorage.get('credentials')", this.$localStorage.get('credentials', null))
+
+            if (!this.$localStorage.get('credentials', null)) {
+                helpers.errorToast(this, 'Vous devez être connecté pour accéder à cette page')
+                this.$router.push('/games')
+                return
+            }
+
             this.roomId = this.$route.params.id
             this.fetchRoomInformation()
         },

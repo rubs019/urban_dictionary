@@ -142,7 +142,8 @@
                 } catch (e) {
                     Logger('AppProfile : updateUser : ', e.response)
 
-                    helper.errorToast(this, 'Erreur lors de la mise à jours')
+                    helper.errorToast(this, "Une erreur s'est produite lors de la mise à jour")
+                    this.form.status = STATUS.DEFAULT
                 }
 
             },

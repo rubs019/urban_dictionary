@@ -2,7 +2,7 @@ const Logger = require('./services/logger')
 export default {
   debug: true,
   state: {
-    isConnected: false
+    isConnected: !!localStorage.getItem('isConnected')
   },
   credentials: {
     id: null,
@@ -32,8 +32,10 @@ export default {
         email: credentials.email ? credentials.email : null,
         role: credentials.role ? credentials.role : null,
         token: credentials.token ? credentials.token : null,
-        karma: credentials.karma ? credentials.karma : null
+        karma: credentials.karma >= 0 ? credentials.karma.toString() : null
       }
+
+      localStorage.setItem('credentials', JSON.stringify(this.credentials))
 
       return true
     }
@@ -43,7 +45,10 @@ export default {
     // Check if the property exist on credentials
     if (!this.credentials.hasOwnProperty(fieldName)) return false
 
-    this.credentials[fieldName] = credentials[fieldName]
+    this.credentials[fieldName] = credentials
+
+    localStorage.setItem('credentials', JSON.stringify(this.credentials))
+
     return true
   },
   /**
@@ -62,6 +67,7 @@ export default {
     }
     if (this.debug) Logger("setConnected triggered with", newValue)
     this.state.isConnected = newValue
+    localStorage.setItem('isConnected', newValue.toString())
   },
   /**
    * Use to clear all store
@@ -77,5 +83,7 @@ export default {
       token: null,
       karma: null
     }
+    localStorage.removeItem('credentials')
+    localStorage.removeItem('isConnected')
   }
 }

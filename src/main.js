@@ -1,11 +1,12 @@
-import Vue from "vue"
-import Buefy from "buefy"
+import Vue             from "vue"
+import Buefy           from "buefy"
 import 'buefy/dist/buefy.css'
-import infiniteScroll from "vue-infinite-scroll"
-import App from "./App.vue"
-import router from "./router"
-import VueSocketIO from "vue-socket.io"
-import SocketIO from "socket.io-client"
+import infiniteScroll  from "vue-infinite-scroll"
+import App             from "./App.vue"
+import router          from "./router"
+import VueSocketIO     from "vue-socket.io"
+import SocketIO        from "socket.io-client"
+import VueLocalStorage from 'vue-localstorage'
 
 const vueSocket = new VueSocketIO({
     debug: true,
@@ -20,7 +21,7 @@ Vue.config.productionTip = false
 // We use buefy
 Vue.use(Buefy)
 
-Vue.use(infiniteScroll)
+Vue.use(VueLocalStorage)
 
 Vue.use(vueSocket)
 
