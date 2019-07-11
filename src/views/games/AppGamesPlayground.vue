@@ -4,8 +4,8 @@
             <h1 class="title">Game playground <span class="dot"
                                                     :class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span>
             </h1>
-            <b-button v-on:click="newPlayer" :disabled="!serverIsUp">newPlayer</b-button>
-            <b-button v-on:click="startRoom" :disabled="!serverIsUp">StartRoom</b-button>
+            {{ game.allUsers }}
+            <b-button v-on:click="startRoom" :disabled="!serverIsUp">Commencez le jeu</b-button>
             <b-button v-on:click="leaveRoom" :disabled="!serverIsUp">leaveRoom</b-button>
             <b-button v-on:click="disconnect" :disabled="!serverIsUp">disconnect</b-button>
         </div>
@@ -19,31 +19,40 @@
                         <h2 class="title is-4">
                             Liste des joueurs
                         </h2>
-                        <div class="tile" v-if="roomInformation && roomInformation.usernames">
+                        <div class="tile" v-if="game && game.allUsers">
                             <ul class="has-text-left">
-                                <li class="username" v-for="(username, index) in roomInformation.usernames"
-                                    :key="index">{{ username }}
+                                <li class="username" v-for="(user, index) in game.allUsers"
+                                    :key="index">{{ user.username }}
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div id="game-container" class="column is-8 is-size-2 notification">
-                    <div class="section">
+                <div id="game-container" class="column is-8 is-size-2">
+                    <div class="has-text-centered">
                         <div id="actionItem">
-                            <p class="title is-4">C'est au tour de Ruben de jouer</p>
+                            <b-message type="is-primary">
+                                C'est au tour de {{ nextUser }} de jouer
+                            </b-message>
+                            <b-notification :active.sync="gameError">
+                                {{ gameError }}
+                            </b-notification>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="notification is-info">
+                            <p id="wordDefinitionItem" class="is-size-5">
+                                {{ game.definitionToFind || "Le texte va apparaitre ici une fois le jeu lancé"}}
+                            </p>
                         </div>
                     </div>
                     <div class="section">
                         <div id="wordNameItem">
-                            <p>_ _ _ _ - _ _ _ _</p>
+                            <input
+                                    class="input is-rounded"
+                                    @keydown.enter="sendWordFromUser"
+                                    v-model="game.wordFromUser">
                         </div>
-                    </div>
-                    <div class="section">
-                        <p id="wordDefinitionItem" class="is-size-5">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s
-                        </p>
                     </div>
                 </div>
             </div>
@@ -52,11 +61,11 @@
 </template>
 
 <script>
-    import Logger         from "../../services/logger"
-    import Store          from "../../store"
-    import { Get }        from '../../services/api.service'
-    import { ENDPOINT }   from '../../constants'
-    import helpers        from "../../helpers"
+    import Logger       from "../../services/logger"
+    import Store        from "../../store"
+    import { Get }      from '../../services/api.service'
+    import { ENDPOINT } from '../../constants'
+    import helpers      from "../../helpers"
 
     export default {
         name: "AppGamesPlayground",
@@ -64,8 +73,19 @@
             return {
                 serverIsUp: null,
                 roomId: null,
-                roomInformation: null,
-                store: Store
+                roomInformation: {
+                    usernames: []
+                },
+                gameError: false,
+                nextUser: null,
+                currentUsername: null,
+                store: Store,
+                game: {
+                    definitionToFind: null,
+                    wordFromUser: null,
+                    obfuscatedWord: null,
+                    allUsers: []
+                }
             }
         },
         sockets: {
@@ -77,11 +97,13 @@
             disconnect: function () {
                 Logger('socket disconnected', this.$socket.disconnected)
                 this.serverIsUp = false
+                this.$router.push('/games')
             },
-            error: data => {
+            error: function (data) {
                 Logger('Error', data)
+                this.gameError = true
             },
-            gameError: data => {
+            gameError: function (data) {
                 Logger('Error', data)
             },
             newPlayer: async function (user) {
@@ -94,39 +116,65 @@
 
                 try {
                     // Search the name of the user
-                    const { data: newUserInTheRoom } = await Get(`${ENDPOINT.USERS}/${user.id}`)
+                    const {data: newUserInTheRoom} = await Get(`${ENDPOINT.USERS}/${user.id}`)
 
                     helpers.successToast(this, `${newUserInTheRoom.username} vient de se connecter`)
 
                     Logger('this.roomInformation', this.roomInformation)
-                    const nameIsAlreadyPresent = this.roomInformation.usernames.find((username) => username === newUserInTheRoom.username)
+                    Logger('newUserInTheRoom', newUserInTheRoom)
+
+                    const nameIsAlreadyPresent = this.game.allUsers.find((username) => username.id === newUserInTheRoom.id)
+                    console.log('nameIsAlreadyPresent', nameIsAlreadyPresent)
                     if (!nameIsAlreadyPresent)
-                        this.roomInformation.usernames.push(newUserInTheRoom.username)
+                        this.game.allUsers.push(user)
 
                 } catch (e) {
+                    Logger('AppGamesPlayground : newPlayer EVENT : error', e)
                     helpers.errorToast(this, 'Erreur requete for get user credentials')
+                    this.$router.push('/games')
                 }
             },
-            playerRemoved: data => {
-                Logger('Player removed from the game', data)
-                alert('PlayerRemoved')
+            playerRemoved: function (data) {
+                Logger('Player removed from the game', data.id)
+                Logger('this.roomInformation.usernames', this.roomInformation.usernames)
+
+                const indexToDelete = this.game.allUsers.findIndex((user) => {
+                    return user.id === data.id
+                })
+                Logger('indexToDelete', indexToDelete)
+                this.game.allUsers.splice(indexToDelete, 1)
+
+                helpers.errorToast(this, `Un joueur vient de se déconnecter`)
             },
-            roomStarted: data => {
+            roomStarted: function (data) {
                 Logger('Room started !', data)
             },
-            goodProposal: data => {
+            goodProposal: function (data) {
                 Logger('Good proposal !', data)
+
+                // We clean the user input
+                this.game.wordFromUser = null
+
+                helpers.successToast(this, 'Félicitations, vous avez trouvé le bon mot !')
             },
-            wrongProposal: data => {
+            wrongProposal: function (data) {
+
+                // We clean the user input
+                this.game.wordFromUser = null
+
                 Logger('Wrong proposal !', data)
+                helpers.errorToast(this, 'Oups ! Encore un petit effort')
             },
-            newRound: data => {
-                Logger('New round', data)
+            newRound: function (data) {
+                if (!data || !data.definition)
+                    return helpers.errorToast(this, "Erreur lors de la récupération de la définition du round")
+                this.handleNewRound(data)
             },
-            timeout: data => {
+            timeout: function (data) {
                 Logger('timeout', data)
+                this.nextUser = data.nextPlayerId
             },
-            exception: data => {
+            exception: function (data) {
                 Logger('exception', data)
             }
         },
@@ -145,29 +193,30 @@
                     roomId: this.roomId
                 })
             },
-            startRoom(roomId) {
-                console.log('startRoom')
+            startRoom() {
+                console.log('startRoom, next event is newRound')
 
                 this.$socket.emit('startRoom', {
                     roomId: this.roomId
                 })
             },
-            play(roomId, proposal) {
+            play(roomId) {
                 console.log('play')
 
                 this.$socket.emit('play', {
                     roomId,
-                    proposal
+                    proposal: this.wordFromUser
                 })
             },
             newPlayer: function () {
                 console.log('newPlayer')
-                this.$socket.emit('fire')
             },
             leaveRoom: function () {
                 this.$socket.emit('leaveRoom', {
                     roomId: this.roomId
                 })
+                this.disconnect()
+                this.$router.push('/games')
             },
             disconnect: function () {
                 this.$socket.close()
@@ -182,14 +231,52 @@
                     const {data: tempRoomInformation} = await Get(`${ENDPOINT.ROOM}?where=${JSON.stringify(query)}`)
 
                     this.roomInformation = tempRoomInformation.find(room => room.id === this.roomId)
+
+                    Logger('fetchRoomInformation : roomInformation', this.roomInformation)
+
+                    this.setAllPlayers()
                 } catch (err) {
                     Logger('AppGamesPlayground : fetchRoomInformation : error', err)
                     helpers.errorToast(this, "Une erreur s'est produite lors de la récupération des informations de la room")
+                    this.$router.push('/games')
                 }
+            },
+            /**
+             * Use to map player connected
+             */
+            setAllPlayers() {
+                if (this.roomInformation.playersIds.length > 0) {
+                    for (let i = 0; i < this.roomInformation.playersIds.length; i++) {
+                        if (this.game.allUsers.find(user => {
+                            return user.id === this.roomInformation.playersIds[i]
+                        })) {
+                            return
+                        }
+                        this.game.allUsers.push({
+                            id: this.roomInformation.playersIds[i],
+                            username: this.roomInformation.usernames[i]
+                        })
+                    }
+                    return
+                }
+            },
+            /**
+             * Use to process a new round
+             */
+            handleNewRound({definition, obfuscatedWord}) {
+                this.game.definitionToFind = definition
+                this.game.obfuscatedWord = obfuscatedWord
+            },
+            sendWordFromUser: function () {
+                Logger(`The word enter is : ${this.game.wordFromUser}`)
+
+                this.$socket.emit('play', {
+                    roomId: this.roomId,
+                    proposal: this.game.wordFromUser
+                })
             }
         },
-        created() {
-            Logger("this.$localStorage.get('credentials')", this.$localStorage.get('credentials', null))
+        async created() {
 
             if (!this.$localStorage.get('credentials', null)) {
                 helpers.errorToast(this, 'Vous devez être connecté pour accéder à cette page')
@@ -198,11 +285,11 @@
             }
 
             this.roomId = this.$route.params.id
-            this.fetchRoomInformation()
+            if (this.$socket.disconnected) this.connectSocket()
+            await this.fetchRoomInformation()
         },
         updated() {
-            console.log('updated')
-            this.connectSocket()
+            if (this.$socket.disconnected) this.connectSocket()
         }
     }
 </script>
