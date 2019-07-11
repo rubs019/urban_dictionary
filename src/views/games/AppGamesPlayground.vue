@@ -4,7 +4,7 @@
             <h1 class="title">Game playground <span class="dot"
                                                     :class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span>
             </h1>
-            {{ game.allUsers }}
+            {{ game.connectedUsers }}
             <b-button v-on:click="startRoom" :disabled="!serverIsUp">Commencez le jeu</b-button>
             <b-button v-on:click="leaveRoom" :disabled="!serverIsUp">leaveRoom</b-button>
             <b-button v-on:click="disconnect" :disabled="!serverIsUp">disconnect</b-button>
@@ -19,9 +19,9 @@
                         <h2 class="title is-4">
                             Liste des joueurs
                         </h2>
-                        <div class="tile" v-if="game && game.allUsers">
+                        <div class="tile" v-if="game && game.connectedUsers">
                             <ul class="has-text-left">
-                                <li class="username" v-for="(user, index) in game.allUsers"
+                                <li class="username" v-for="(user, index) in game.connectedUsers"
                                     :key="index">{{ user.username }}
                                 </li>
                             </ul>
@@ -67,6 +67,11 @@
     import { ENDPOINT } from '../../constants'
     import helpers      from "../../helpers"
 
+    /**
+     * @typedef { Object } User
+     * @property { string } id
+     * @property { string } name
+     */
     export default {
         name: "AppGamesPlayground",
         data: () => {
@@ -84,7 +89,7 @@
                     definitionToFind: null,
                     wordFromUser: null,
                     obfuscatedWord: null,
-                    allUsers: []
+                    connectedUsers: []
                 }
             }
         },
@@ -106,6 +111,11 @@
             gameError: function (data) {
                 Logger('Error', data)
             },
+            /**
+             * Event lancer lorsqu'un utilisateur se connecte
+             * Sert à rafraichir la liste des utilisateurs connecté
+             * @param { User } user
+             * */
             newPlayer: async function (user) {
                 Logger('New player joined the game', user)
 
@@ -115,18 +125,17 @@
                 }
 
                 try {
-                    // Search the name of the user
-                    const {data: newUserInTheRoom} = await Get(`${ENDPOINT.USERS}/${user.id}`)
-
-                    helpers.successToast(this, `${newUserInTheRoom.username} vient de se connecter`)
+                    helpers.successToast(this, `${user.username} vient de se connecter`)
 
                     Logger('this.roomInformation', this.roomInformation)
-                    Logger('newUserInTheRoom', newUserInTheRoom)
+                    Logger('user', user)
 
-                    const nameIsAlreadyPresent = this.game.allUsers.find((username) => username.id === newUserInTheRoom.id)
-                    console.log('nameIsAlreadyPresent', nameIsAlreadyPresent)
+                    // We search if the name is already in the user connected lists
+                    const nameIsAlreadyPresent = this.game.connectedUsers.find(username => username.id === user.id)
+
+                    // If the name is not here we need to push it
                     if (!nameIsAlreadyPresent)
-                        this.game.allUsers.push(user)
+                        this.game.connectedUsers.push(user)
 
                 } catch (e) {
                     Logger('AppGamesPlayground : newPlayer EVENT : error', e)
@@ -134,41 +143,63 @@
                     this.$router.push('/games')
                 }
             },
-            playerRemoved: function (data) {
-                Logger('Player removed from the game', data.id)
-                Logger('this.roomInformation.usernames', this.roomInformation.usernames)
-
-                const indexToDelete = this.game.allUsers.findIndex((user) => {
-                    return user.id === data.id
+            /**
+             * Event lancer lorsqu'un utilisateur se déconnecte
+             * Sert à supprimer l'utilisateur qui vient de partir de la liste des utilisateurs connecté
+             * @param { User } user - information de l'utilisateur qui vient de déco
+             * */
+            playerRemoved: function (user) {
+                // Nous avons besoin de chercher quel index nous avons besoin de supprimer
+                // Dans la liste des utilisateurs connecté
+                const indexToDelete = this.game.connectedUsers.findIndex((connectedUser) => {
+                    return connectedUser.id === user.id
                 })
-                Logger('indexToDelete', indexToDelete)
-                this.game.allUsers.splice(indexToDelete, 1)
+
+                this.game.connectedUsers.splice(indexToDelete, 1)
 
                 helpers.errorToast(this, `Un joueur vient de se déconnecter`)
             },
             roomStarted: function (data) {
                 Logger('Room started !', data)
             },
-            goodProposal: function (data) {
-                Logger('Good proposal !', data)
+            /**
+             * Event lancer lorsqu'une bonne réponse est soumise
+             * Sert à notifier qu'un utilisateur à entrer une bonne proposition
+             * @param { string } playerId - ID de l'utilisateur qui vient d'émettre la réponse
+             * */
+            goodProposal: function (playerId) {
+                Logger('Good proposal !', playerId)
 
                 // We clean the user input
                 this.game.wordFromUser = null
 
                 helpers.successToast(this, 'Félicitations, vous avez trouvé le bon mot !')
             },
-            wrongProposal: function (data) {
+            /**
+             * Event lancer lorsqu'une mauvaise réponse est soumise
+             * Sert à notifier qu'un utilisateur à entrer une mauvaise proposition
+             * @param { string } playerId - ID de l'utilisateur qui vient d'émettre la réponse
+             * @param { string } nextPlayerId - ID de l'utilisateur suivant
+             * */
+            wrongProposal: function ({ playerId, nextPlayerId }) {
 
                 // We clean the user input
                 this.game.wordFromUser = null
 
-                Logger('Wrong proposal !', data)
+                Logger('Wrong proposal !', {playerId, nextPlayerId})
                 helpers.errorToast(this, 'Oups ! Encore un petit effort')
             },
-            newRound: function (data) {
-                if (!data || !data.definition)
+            /**
+             * Event lancer lorsqu'un nouveau round débute
+             * Sert à notifier qu'un utilisateur à entrer une mauvaise proposition
+             * @param { string } definition - Définition du mot à trouver
+             * @param { string } nextPlayerId - ID de l'utilisateur suivant
+             * @param { Array<null> } obfuscatedWord - Les lettres à trouver correspondant au mots
+             * */
+            newRound: function ({definition, nextPlayerId, obfuscatedWord}) {
+                if (!definition || !nextPlayerId || !obfuscatedWord)
                     return helpers.errorToast(this, "Erreur lors de la récupération de la définition du round")
-                this.handleNewRound(data)
+                this.handleNewRound({definition, obfuscatedWord})
             },
             timeout: function (data) {
                 Logger('timeout', data)
@@ -223,17 +254,13 @@
             },
             fetchRoomInformation: async function () {
                 try {
-                    const query = {
-                        $expr: {
-                            $eq: ['$id', this.roomId]
-                        }
-                    }
-                    const {data: tempRoomInformation} = await Get(`${ENDPOINT.ROOM}?where=${JSON.stringify(query)}`)
+                    // On fetch les informations déjà existante de la room
+                    const {data: tempRoomInformation} = await Get(`${ENDPOINT.ROOM}`)
 
+                    // on recois toute les room présent, dans ce cas on séléctionne la room sur laquelle l'utilisateur est connecté
                     this.roomInformation = tempRoomInformation.find(room => room.id === this.roomId)
 
-                    Logger('fetchRoomInformation : roomInformation', this.roomInformation)
-
+                    // On construit notre liste de joueurs à partir des informations reçu
                     this.setAllPlayers()
                 } catch (err) {
                     Logger('AppGamesPlayground : fetchRoomInformation : error', err)
@@ -245,23 +272,24 @@
              * Use to map player connected
              */
             setAllPlayers() {
+                // Dans le cas ou j'ai déjà plusieurs utilisateurs connectés
+                // J'associe chaque ID à un username
                 if (this.roomInformation.playersIds.length > 0) {
                     for (let i = 0; i < this.roomInformation.playersIds.length; i++) {
-                        if (this.game.allUsers.find(user => {
+                        if (this.game.connectedUsers.find(user => {
                             return user.id === this.roomInformation.playersIds[i]
                         })) {
                             return
                         }
-                        this.game.allUsers.push({
+                        this.game.connectedUsers.push({
                             id: this.roomInformation.playersIds[i],
                             username: this.roomInformation.usernames[i]
                         })
                     }
-                    return
                 }
             },
             /**
-             * Use to process a new round
+             * Affiche à l'écran la définition et le nombre de lettre à trouver
              */
             handleNewRound({definition, obfuscatedWord}) {
                 this.game.definitionToFind = definition

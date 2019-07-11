@@ -58,7 +58,7 @@
                     }, 1500)
                 } catch (e) {
                     this.form.status = STATUS.ERROR
-                    Logger('e', e)
+                    Logger('error', e)
                     const that = this
                     setTimeout(() => {
                         if (!e || !e.response || !e.response.data) {
