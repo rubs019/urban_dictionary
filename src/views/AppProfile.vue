@@ -37,7 +37,10 @@
                                     <p class="subtitle">Une image de vous...</p>
                                     <figure class="image is-4by3">
                                         <img class="is-rounded"
-                                             :src="currentPhoto || 'http://cdn.onlinewebfonts.com/svg/img_504570.png'">
+                                             v-if="currentPhoto"
+                                             :src="'data:image/png;base64,' + currentPhoto">
+                                        <img class="is-rounded" v-else
+                                             src="http://cdn.onlinewebfonts.com/svg/img_504570.png">
                                     </figure>
                                     <div class="upload-image">
                                         <b-field class="file" :input="checkFile">
@@ -75,15 +78,15 @@
 </template>
 
 <script>
-    import Store from "../store"
-    import {API_PATH, ENDPOINT, NOTIF_MSG, STATUS} from "../constants"
-    import AppHeroComponent from "../components/AppHeroComponent"
-    import ProfileInformations from "../components/profile/ProfileInformations"
-    import ProfileDefinitions from "../components/profile/ProfileDefinitions"
-    import {Get, Patch, Put} from "../services/api.service"
-    import Logger from "../services/logger"
-    import DTO from "../services/DTO"
-    import helper from "../helpers/index"
+    import Store                                     from "../store"
+    import { API_PATH, ENDPOINT, NOTIF_MSG, STATUS } from "../constants"
+    import AppHeroComponent                          from "../components/AppHeroComponent"
+    import ProfileInformations                       from "../components/profile/ProfileInformations"
+    import ProfileDefinitions                        from "../components/profile/ProfileDefinitions"
+    import { Get, Patch, Put }                       from "../services/api.service"
+    import Logger                                    from "../services/logger"
+    import DTO                                       from "../services/DTO"
+    import helper                                    from "../helpers/index"
 
     export default {
         name: "AppProfile",
@@ -128,7 +131,6 @@
                 }
 
 
-
                 try {
                     const result = await Patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation(user))
 
@@ -156,7 +158,7 @@
                     Authorization: this.store.credentials.token ? `Bearer ${this.store.credentials.token}` : undefined
                 }
                 formData.append('file', this.file)
-                Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
+                Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
                     .then(function () {
                         console.log('SUCCESS!!')
                     })
@@ -164,7 +166,7 @@
                         console.log('FAILURE!!')
                     })
                 try {
-                    await Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
+                    await Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
                     // Afficher popup
                     helper.successToast(this, 'Votre photo a bien été upload')
 
@@ -176,8 +178,13 @@
             },
             async fetchUserPhoto() {
                 try {
-                    const {data: userPhoto} = await Get(API_PATH.UPLOAD_FILE(this.store.credentials.id))
+
+                    const {data: userPhoto} = await Get(API_PATH.USER_AVATAR(this.store.credentials.id))
+
                     Logger('AppProfile : fetchUserPhoto : userPhoto', userPhoto)
+
+                    this.currentPhoto = userPhoto
+
                     // Afficher popup
 
                 } catch (e) {
@@ -185,13 +192,13 @@
                     // Afficher popup
                 }
 
-                Put(API_PATH.UPLOAD_FILE(this.store.credentials.id), formData, headers)
+                /*Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
                     .then(function () {
                         console.log('SUCCESS!!')
                     })
                     .catch(function () {
                         console.log('FAILURE!!')
-                    })
+                    })*/
             }
         },
         components: {AppHeroComponent, ProfileDefinitions, ProfileInformations},

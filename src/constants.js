@@ -30,7 +30,7 @@ export const ENDPOINT = {
 	ROOM: "rooms"
 }
 export const API_PATH = {
-	UPLOAD_FILE: (userId) => `${ENDPOINT.USERS}/${userId}/avatar`,
+	USER_AVATAR: (userId) => `${ENDPOINT.USERS}/${userId}/avatar`,
 	RANDOM_WORD: `${ENDPOINT.WORDS}/random`,
 	DAILY_WORD: `${ENDPOINT.WORDS}/daily`,
 	CREATE_USER: ENDPOINT.USERS,

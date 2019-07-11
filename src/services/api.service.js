@@ -7,8 +7,10 @@ const api = axios.create({
 })
 
 async function Get(endpoint = null, headers = null) {
+  console.log('GET', Store)
   const options = {
-    Authorization: `Bearer ${headers ? headers.token : Store.credentials.token}`
+    ...headers,
+    Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
   }
   if (!endpoint) {
     return await api({
