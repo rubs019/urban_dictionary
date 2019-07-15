@@ -14,6 +14,11 @@
 						  :to="{ name: 'OneDefinition', params: { name: definition.name } }">{{ definition.name }}
 				  </router-link>
 				</div>
+				<div v-if="audio">
+				  <audio controls>
+					<source :src="audio" type="audio/mpeg">
+				  </audio>
+				</div>
 			  </div>
 			  <div class="level-right">
 				<div class="dropdown is-hoverable">
@@ -42,12 +47,6 @@
                       </span>
 						Proposez une définition
 					  </a>
-					  <a href="" class="dropdown-item">
-                      <span class="icon">
-                        <i class="fas fa-volume-up"></i>
-                      </span>
-						Ecouter l'audio
-					  </a>
 					</div>
 				  </div>
 				</div>
@@ -58,7 +57,7 @@
 					  tag="p"
 					  id="userLink"
 					  class="subtitle has-text-left is-size-6"
-					  :to="{ name: 'OneDefinition', params: { name: definition.user.username } }">@{{ definition.user.username }}
+					  :to="{ name: 'OneDefinition', params: { name: definition.user.username } }">Ecrit par @{{ definition.user.username }}
 			  </router-link>
 			<div class="content has-text-left">
 			  <!-- Content -->
@@ -112,15 +111,21 @@
 		},
 		data: function () {
 			return {
-				definition: this.expression
+				definition: this.expression,
+				audio: null
 			}
 		},
 		beforeMount() {
 			const name = this.$route && this.$route.params ? this.$route.params.name : undefined
+			Logger('OneDefinition : BeforeMount : randomExpression', name)
 			if (name) {
 				Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(name)}}`)
 					.then(result => {
 						this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
+						this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
+					})
+					.then(res => {
+						Logger('OneDefinition : BeforeMount : randomExpression', res)
 					})
 					.catch(error => {
 						Logger('Error', error)
@@ -128,6 +133,7 @@
 			} else {
 				if (this.expression) {
 					this.definition = this.expression
+					this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
 					return
 				}
 		  		Logger("OneDefinition : beforeMount : Expression was not found")
@@ -135,9 +141,9 @@
 		},
 		async beforeRouteUpdate(to, from, next) {
 			Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(to.params.name)}}`)
-				.then(result => {
+				.then(async result => {
 					this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
-
+					this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
 				})
 				.catch(error => {
 					Logger('Error', error)

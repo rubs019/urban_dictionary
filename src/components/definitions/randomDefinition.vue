@@ -1,6 +1,8 @@
 <template>
     <div class="random-definition">
-        <OneDefinition v-if="randomExpression" :expression="randomExpression" :is-primary="true"></OneDefinition>
+        <div v-if="randomExpression">
+            <OneDefinition :expression="randomExpression" :is-primary="true"></OneDefinition>
+        </div>
         <template v-else>
             <div class="tile is-parent">
                 <article class="tile is-child notification is-primary">
@@ -13,16 +15,17 @@
 </template>
 
 <script>
-    import { Get } from "../../services/api.service"
-    import {API_PATH} from "../../constants"
-    import OneDefinition from "./OneDefinition"
-    import Logger from "../../services/logger"
+    import { Get }                from "../../services/api.service"
+    import { API_PATH } from "../../constants"
+    import OneDefinition          from "./OneDefinition"
+    import Logger                 from "../../services/logger"
 
     export default {
         name: "RandomDefinition",
         components: {OneDefinition},
         data() {
             return {
+                audio: null,
                 randomExpression: null
             }
         },
@@ -31,7 +34,6 @@
                 const {data: randomExpression} = await Get(API_PATH.RANDOM_WORD)
 
                 this.randomExpression = randomExpression
-                Logger('randomDefinition : BeforeMount : randomExpression', this.randomExpression)
             } catch (e) {
                 Logger('randomDefinition : BeforeMount : Error', e.response)
             }

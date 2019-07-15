@@ -38,7 +38,7 @@
                                     <figure class="image is-4by3">
                                         <img class="is-rounded"
                                              v-if="currentPhoto"
-                                             :src="'data:image/png;base64,' + currentPhoto">
+                                             :src="currentPhoto">
                                         <img class="is-rounded" v-else
                                              src="http://cdn.onlinewebfonts.com/svg/img_504570.png">
                                     </figure>
@@ -179,11 +179,7 @@
             async fetchUserPhoto() {
                 try {
 
-                    const {data: userPhoto} = await Get(API_PATH.USER_AVATAR(this.store.credentials.id))
-
-                    Logger('AppProfile : fetchUserPhoto : userPhoto', userPhoto)
-
-                    this.currentPhoto = userPhoto
+                    this.currentPhoto = `${process.env.VUE_APP_API_PROD}/${API_PATH.USER_AVATAR(this.store.credentials.id)}`
 
                     // Afficher popup
 
@@ -199,6 +195,14 @@
                     .catch(function () {
                         console.log('FAILURE!!')
                     })*/
+            },
+            async fetchUserDefinition() {
+                try {
+                    const data = await Get(`${ENDPOINT.WORDS}?where={"userId": ${helper.stringifyText(Store.credentials.id)}}`)
+                    Logger('AppProfile : ', data)
+                } catch (err) {
+                    Logger('AppProfile : err : ', err)
+                }
             }
         },
         components: {AppHeroComponent, ProfileDefinitions, ProfileInformations},
@@ -210,6 +214,7 @@
         beforeMount() {
             this.store = Store
             this.fetchUserPhoto()
+            this.fetchUserDefinition()
         }
     }
 </script>

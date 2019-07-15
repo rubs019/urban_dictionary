@@ -9,6 +9,7 @@
   password: testtest
  */
 const Logger = require('./services/logger')
+
 export default {
   debug: true,
   state: {

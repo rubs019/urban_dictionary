@@ -2,6 +2,7 @@
     <div class="sidebar">
         <div class="tile is-parent">
             <router-link
+                    v-if="store.state.isConnected"
                     :to="{name: 'AddDefinitions'}"
                     class="button is-primary is-fullwidth"
             >
@@ -58,49 +59,14 @@
     import {ENDPOINT} from '../../constants'
     import {getDayTopRequest, getTopRequest, getWeekTopRequest} from '../../services/request'
 
-    export default {
-        name: "TheSidebar",
-        components: {TopExpressions},
+	export default {
+		name: "TheSidebar",
+        components: { TopExpressions },
         data: () => ({
-            tags: [
-                "Street",
-                "Soleil",
-                "Paris",
-                "Musique",
-                "One",
-                "Two",
-                "Three",
-                "Four",
-                "Five",
-                "Six",
-                "Seven",
-                "Eight",
-                "Nine",
-                "Ten",
-                "Eleven",
-                "Twelve",
-                "Thirteen",
-                "Fourteen",
-                "Fifteen",
-                "Sixteen",
-                "Seventeen",
-                "Eighteen",
-                "Nineteen"
-            ],
-            rawExpressions: [
-                "Tchoin",
-                "au DD",
-                "Gava",
-                "Bavon",
-                "Brava",
-                "En esprit",
-                "Un Fer",
-                "Un guigui"
-            ],
+            store: Store,
             weekTopExpressions: null,
-            dayTopExpressions: null,
             topExpressions: null,
-            store: Store
+            dayTopExpressions: null
         }),
         methods: {
             async fetchTop() {
@@ -111,15 +77,12 @@
 
                     const { data: weekTopDefinitions } = await Get(ENDPOINT.WORDS + weekTopRequest)
                     this.weekTopExpressions = weekTopDefinitions
-                    Logger('TheSidebar : FetchTop : weekTopExpressions', this.weekTopExpressions)
 
                     const { data: topExpressions} = await Get(ENDPOINT.WORDS + topRequest)
                     this.topExpressions = topExpressions
-                    Logger('TheSidebar : FetchTop : topExpressions', this.topExpressions)
 
                     const { data: dayTopExpression } = await Get(ENDPOINT.WORDS + dayTopRequest)
                     this.dayTopExpressions = dayTopExpression
-                    Logger('TheSidebar : FetchTop : dayTopExpressions', this.dayTopExpressions)
                 } catch (e) {
                     Logger('TheSidebar : FetchTop : Error', e)
                 }
