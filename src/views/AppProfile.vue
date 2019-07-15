@@ -62,11 +62,16 @@
                                 <article class="tile is-child notification is-primary">
                                     <p class="subtitle">Votre score actuel est de</p>
                                     <p class="title">
-					<span class="icon">
-						<i class="fas fa-star fa-1x"></i>
-					</span>
+                                        <span class="icon">
+                                            <i class="fas fa-star fa-1x"></i>
+                                        </span>
                                         {{ store.credentials.karma || 0 }}
                                     </p>
+                                </article>
+                            </div>
+                            <div class="tile is-parent">
+                                <article id="personalInfo"  v-on:click="fetchPersonnalInformation" class="tile is-child notification is-danger">
+                                    <p>Télécharger ses données brutes</p>
                                 </article>
                             </div>
                         </div>
@@ -81,12 +86,13 @@
     import Store                                     from "../store"
     import { API_PATH, ENDPOINT, NOTIF_MSG, STATUS } from "../constants"
     import AppHeroComponent                          from "../components/AppHeroComponent"
-    import ProfileInformations                       from "../components/profile/ProfileInformations"
-    import ProfileDefinitions                        from "../components/profile/ProfileDefinitions"
-    import { Get, Patch, Put }                       from "../services/api.service"
-    import Logger                                    from "../services/logger"
-    import DTO                                       from "../services/DTO"
-    import helper                                    from "../helpers/index"
+    import ProfileInformations from "../components/profile/ProfileInformations"
+    import ProfileDefinitions  from "../components/profile/ProfileDefinitions"
+    import { Get, Patch, Put } from "../services/api.service"
+    import Logger              from "../services/logger"
+    import DTO                 from "../services/DTO"
+    import helper              from "../helpers/index"
+    import { getWordUser }     from "../services/request"
 
     export default {
         name: "AppProfile",
@@ -158,20 +164,24 @@
                     Authorization: this.store.credentials.token ? `Bearer ${this.store.credentials.token}` : undefined
                 }
                 formData.append('file', this.file)
-                Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
-                    .then(function () {
-                        console.log('SUCCESS!!')
-                    })
-                    .catch(function () {
-                        console.log('FAILURE!!')
-                    })
+                // Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
+                //     .then(function () {
+                //         console.log('SUCCESS!!')
+                //     })
+                //     .catch(function (err) {
+                //         console.log('FAILURE!!', err)
+                //     })
                 try {
-                    await Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
+                    const result = await Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
                     // Afficher popup
                     helper.successToast(this, 'Votre photo a bien été upload')
+                    this.currentPhoto = null
+                    this.currentPhoto = `${process.env.VUE_APP_API_PROD}/${API_PATH.USER_AVATAR(this.store.credentials.id)}`
+                    Logger(this.currentPhoto)
 
                 } catch (e) {
-                    Logger('AppProfile : uploadPhoto : Error', e)
+                    Logger('AppProfile : uploadPhoto : Error')
+                    Logger(e)
                     helper.errorToast(this, "Une erreur s'est produite lors de l'upload de la photo")
                     // Afficher popup
                 }
@@ -198,10 +208,25 @@
             },
             async fetchUserDefinition() {
                 try {
-                    const data = await Get(`${ENDPOINT.WORDS}?where={"userId": ${helper.stringifyText(Store.credentials.id)}}`)
+                    const data = await Get(`${ENDPOINT.WORDS}${getWordUser(this.store.credentials.id)}`)
                     Logger('AppProfile : ', data)
                 } catch (err) {
                     Logger('AppProfile : err : ', err)
+                }
+            },
+            async fetchPersonnalInformation() {
+                Logger('ok')
+                try {
+                    const result = await Get(`${ENDPOINT.USERS}/${this.store.credentials.id}/summary`)
+                    Logger('fetchPersonnalInformation : result', result)
+                    const url = window.URL.createObjectURL(new Blob([JSON.stringify(result.data)]))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', `${this.store.credentials.username}-account-${this.store.credentials.id}.json`) //or any other extension
+                    document.body.appendChild(link)
+                    link.click()
+                } catch (err) {
+                    Logger('Error', err)
                 }
             }
         },
@@ -220,6 +245,9 @@
 </script>
 
 <style scoped lang="scss">
+    #personalInfo {
+        cursor: pointer;
+    }
     .upload-image {
         margin: 5px;
 

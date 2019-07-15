@@ -30,7 +30,7 @@ async function Post(endpoint, data = null, headers = null) {
     url: `/${endpoint}`,
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${headers ? headers.token : Store.credentials.token}`
+      Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
     },
     data
   }
@@ -42,7 +42,7 @@ async function Patch(endpoint, data = null, headers = null) {
     url: `/${endpoint}`,
     method: 'PATCH',
     headers: {
-      Authorization: `Bearer ${headers ? headers.token : Store.credentials.token}`
+      Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
     },
     data
   }
@@ -54,7 +54,7 @@ async function Put(endpoint, data, headers = null) {
     url: `/${endpoint}`,
     method: 'PUT',
     headers: {
-      Authorization: `Bearer ${headers ? headers.token : Store.credentials.token}`
+      Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
     },
     data
   }

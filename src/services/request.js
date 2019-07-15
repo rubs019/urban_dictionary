@@ -11,6 +11,21 @@ function getWeekTopRequest(locale = 'fr') {
     return requestBuilder(lastWeek, now, locale)
 }
 
+function getWordUser(userId, locale = 'fr') {
+    return '?where=' + JSON.stringify({
+        $and: [
+            {
+                $expr: {
+                    $eq: [
+                        '$userId',
+                        userId
+                    ]
+                }
+            },
+            {locale}
+        ]
+    })
+}
 function getDayTopRequest(locale = 'fr') {
     const today = moment().hour(0).second(0).toISOString()
     console.log('today', today)
@@ -82,4 +97,4 @@ function requestBuilder(upperDate, lowerDate, locale = 'fr') {
     )
 }
 
-export {getWeekTopRequest, getDayTopRequest, getTopRequest}
+export {getWeekTopRequest, getDayTopRequest, getTopRequest, getWordUser}
