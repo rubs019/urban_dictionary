@@ -5,7 +5,7 @@
         :to="{ name: 'AppHome' }"
         class="navbar-item router-link-exact-active"
       >
-        {{ AppName }}
+        <img :src="logoUrl" alt="">
       </router-link>
 
       <a
@@ -66,12 +66,15 @@ import Store from "../../store"
 
 export default {
   name: "TheHeading",
-  data: () => ({
-    AppName: APP_NAME,
-    MenuName: MENU_NAME,
-    Storage: Store,
-    burgerMenu: false
-  }),
+  data() {
+    return {
+      logoUrl: require('../../assets/underdico.png'),
+      AppName: APP_NAME,
+      MenuName: MENU_NAME,
+      Storage: Store,
+      burgerMenu: false
+    }
+  },
   methods: {
     toggleBurgerMenu() {
       this.burgerMenu = !this.burgerMenu

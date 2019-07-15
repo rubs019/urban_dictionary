@@ -1,7 +1,6 @@
 import Vue             from "vue"
 import Buefy           from "buefy"
 import 'buefy/dist/buefy.css'
-import infiniteScroll  from "vue-infinite-scroll"
 import App             from "./App.vue"
 import router          from "./router"
 import VueSocketIO     from "vue-socket.io"
