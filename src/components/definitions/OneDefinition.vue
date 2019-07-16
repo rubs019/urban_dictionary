@@ -2,7 +2,7 @@
   <div class="one-definitions">
 	<transition name="component-fade" mode="out-in">
 	  <template v-if="definition">
-		<div class="tile is-parent">
+		<div class="tile is-vertical is-parent">
 		  <article
 				  class="tile is-child notification"
 				  v-bind:class="[isPrimary ? 'is-primary' : ''  ]">
@@ -14,7 +14,7 @@
 						  :to="{ name: 'OneDefinition', params: { name: definition.name } }">{{ definition.name }}
 				  </router-link>
 				</div>
-				<div v-if="audio">
+				<div v-if="audio && simpleComponent">
 				  <audio controls>
 					<source :src="audio" type="audio/mpeg">
 				  </audio>
@@ -52,6 +52,11 @@
 				</div>
 			  </div>
 			</div>
+			<div v-if="audio" class="has-text-left">
+			  <audio v-if="!simpleComponent" controls>
+				<source :src="audio" type="audio/mpeg">
+			  </audio>
+			</div>
 			<!--	COnditional rendering username	  -->
 			  <router-link
 					  tag="p"
@@ -71,6 +76,7 @@
 			<BaseVoteHorizontal :expression="definition"></BaseVoteHorizontal>
 		  </article>
 		</div>
+
 	  </template>
 	  <template v-else-if="definition === false">
 		<div class="tile is-parent">
@@ -112,9 +118,12 @@
 		data: function () {
 			return {
 				definition: this.expression,
-				audio: null
+				audio: null,
+				voiceRecord: new MediaStream(),
+				headers: {}
 			}
 		},
+		methods: {},
 		beforeMount() {
 			const name = this.$route && this.$route.params ? this.$route.params.name : undefined
 			Logger('OneDefinition : BeforeMount : randomExpression', name)
@@ -154,6 +163,9 @@
 </script>
 
 <style scoped lang="scss">
+  .justify-column {
+	flex-direction: column;
+  }
   .media {
 	border: 1px solid #e1e1e1;
 	box-shadow: 0 1px 0 0 #e1e1e1;
