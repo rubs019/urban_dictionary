@@ -15,13 +15,15 @@ export default {
   state: {
     isConnected: !!localStorage.getItem('isConnected')
   },
+  language: 'fr',
   credentials: {
     id: null,
     username: null,
     email: null,
     role: null,
     token: null,
-    karma: null
+    karma: null,
+    locale: null
   },
   /**
    * Save the user credentials in the store
@@ -38,12 +40,13 @@ export default {
       if (this.debug) Logger('SetUser triggered with no fieldName,', credentials)
 
       this.credentials = {
-        id: credentials.id ?  credentials.id : null,
-        username: credentials.username ? credentials.username : null,
-        email: credentials.email ? credentials.email : null,
-        role: credentials.role ? credentials.role : null,
-        token: credentials.token ? credentials.token : null,
-        karma: credentials.karma >= 0 ? credentials.karma.toString() : null
+        id:  credentials.id || null,
+        username: credentials.username || null,
+        email: credentials.email || null,
+        role: credentials.role || null,
+        token: credentials.token || null,
+        karma: credentials.karma >= 0 ? credentials.karma.toString() : null,
+        locale: credentials.locale || null
       }
 
       localStorage.setItem('credentials', JSON.stringify(this.credentials))
@@ -79,6 +82,18 @@ export default {
     if (this.debug) Logger("setConnected triggered with", newValue)
     this.state.isConnected = newValue
     localStorage.setItem('isConnected', newValue.toString())
+  },
+  /**
+   * Set language website
+   * @param language {string}
+   * @return undefined
+   */
+  setLanguage(language) {
+    const i18n = require('./i18n').default
+    if (this.debug) Logger("setLanguage triggered with language = ", language)
+    this.language = language
+    i18n.locale = language
+    localStorage.setItem('language', language)
   },
   /**
    * Use to clear all store

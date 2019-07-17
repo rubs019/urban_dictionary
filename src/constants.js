@@ -1,15 +1,3 @@
-export const MENU_NAME = {
-	home: "Accueil",
-	login: "Se connecter",
-	logout: "Se déconnecter",
-	signup: "S'inscrire",
-	games: "Jouer",
-	contact: "Contact",
-	expression: "Expression",
-	about: "A propos",
-	profile: "Mon profil"
-}
-
 export const NOTIF_MSG = {
 	ACCOUNT_NOT_EXIST: "Le nom d'utilisateur n'existe pas",
 	BAD_CREDENTIALS: "Nom d'utilisateur ou mot de passe incorrect",
@@ -22,7 +10,6 @@ export const NOTIF_MSG = {
 	SUCCESS: "Vous allez être redirigé vers la page correspondante",
 	ERROR_SERVER: "Une erreur s'est produite, veuillez réessayer dans quelques instants",
 	SUCCESS_LOGIN: "Connexion réussie..."
-
 }
 export const ENDPOINT = {
 	USERS: "users",
@@ -51,4 +38,3 @@ export const STATUS = {
 }
 
 export const APP_NAME = "UnderDico"
-export const APP_DESCRIPTION = "Bienvenue sur Underdico, le dictionnaire de référence de l'argot"

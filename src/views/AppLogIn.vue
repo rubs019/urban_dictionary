@@ -11,7 +11,7 @@
 	import { Post, Get }                             from "../services/api.service"
 	import DTO                                       from "../services/DTO"
 	import Logger                                      from "../services/logger"
-	import { ENDPOINT, NOTIF_MSG, API_PATH, STATUS } from "../constants"
+	import { ENDPOINT, API_PATH, STATUS } from "../constants"
 	import Store                                     from "../store"
 
 	export default {
@@ -37,7 +37,7 @@
 				// Send login and pwd
 
 				if (!credentials.login || !credentials.pwd) {
-					this.setMsgNotification(NOTIF_MSG.PWD_OR_LOGIN_EMPTY)
+					this.setMsgNotification(this.$t('notif.PWD_OR_LOGIN_EMPTY'), true)
 					return
                 }
 
@@ -64,7 +64,7 @@
                     	throw Error('AppLogin : Erreur lors du stockage des identifiants')
                     }
 
-                    this.setMsgNotification(NOTIF_MSG.SUCCESS_LOGIN)
+                    this.setMsgNotification(this.$t('notif.SUCCESS_LOGIN'), false)
 
 					setTimeout(async () => {
                         this.$router.push('/')
@@ -76,26 +76,27 @@
                     this.form.status = STATUS.ERROR
 
 					if (e.response.data.statusCode === 400) {
-						this.setMsgNotification(NOTIF_MSG.BAD_CREDENTIALS)
+						this.setMsgNotification(this.$t('notif.BAD_CREDENTIALS'), true)
 						return
 					}
 
 					if (e.response.status === 422) {
-						this.setMsgNotification(NOTIF_MSG.PWD_TOO_SHORT)
+						this.setMsgNotification(this.$t('notif.PWD_TOO_SHORT'), true)
 						return
 					}
 
-					this.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
+					this.setMsgNotification(this.$t('notif.ERROR_SERVER'), true)
 				}
 			},
 			/**
 			 * Set the message of notification
 			 *
 			 * @param message {string} The new message to show
+			 * @param isError {boolean} Use to update color of form
 			 * @return {boolean}
 			 */
-			setMsgNotification(message) {
-				this.form.color = message === NOTIF_MSG.SUCCESS_LOGIN ? 'success' : 'danger'
+			setMsgNotification(message, isError = true) {
+				this.form.color = isError ? 'danger' : 'success'
 				this.form.message = message
 			}
 		}

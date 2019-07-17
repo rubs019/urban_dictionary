@@ -24,35 +24,79 @@
 
     <div class="navbar-menu" :class="[burgerMenu ? 'is-active' : '']">
       <div class="navbar-end">
-        <router-link :to="{ name: 'AppHome' }" class="navbar-item">{{
-          MenuName.home
-          }}</router-link>
+        <router-link :to="{ name: 'AppHome' }" class="navbar-item">
+          {{ $t('menu_name.home') }}
+          </router-link>
         <router-link
                 :to="{ name: 'AppLogIn' }"
                 class="navbar-item"
                 v-if="!Storage.state.isConnected"
         >
-          {{ MenuName.login }}
+          <p>{{ $t('menu_name.login') }}</p>
         </router-link>
         <router-link v-if="Storage.state.isConnected" :to="{ name: 'AppProfile' }" class="navbar-item">
-          {{ MenuName.profile }}
+          {{ $t('menu_name.profile') }}
+        </router-link>
+        <router-link :to="{ name: 'AppAbout' }" class="navbar-item">
+          {{ $t('menu_name.about') }}
         </router-link>
         <router-link
                 class="navbar-item"
                 :to="{ name: 'AppDisconnect' }"
                 v-if="Storage.state.isConnected"
         >
-          {{ MenuName.logout }}
+          {{ $t('menu_name.logout') }}
         </router-link>
         <router-link v-if="!Storage.state.isConnected" :to="{ name: 'AppSignUp' }" class="navbar-item">
-          {{ MenuName.signup }}
+          {{ $t('menu_name.signup') }}
         </router-link>
-        <router-link :to="{ name: 'AppAbout' }" class="navbar-item">
-          {{ MenuName.about }}
-        </router-link>
+
+        <b-dropdown class="navbar-item" aria-role="list" @change="switchLanguage">
+          <button class="is-primary button" type="button" slot="trigger">
+            <template v-if="Storage.language === 'fr'">
+              <figure class="image is-16x16">
+                <img :src="fr_ico">
+              </figure>
+              <span>
+                Francais
+              </span>
+            </template>
+            <template v-else>
+              <figure class="image is-16x16">
+                <img :src="en_ico">
+              </figure>
+              <span>
+                English
+              </span>
+            </template>
+          </button>
+
+          <b-dropdown-item value="fr" aria-role="listitem">
+            <div class="media">
+              <figure class="image is-16x16">
+                <img :src="fr_ico">
+              </figure>
+              <div class="media-content">
+                <h3>Francais</h3>
+              </div>
+            </div>
+          </b-dropdown-item>
+
+          <b-dropdown-item value="en" aria-role="listitem">
+            <div class="media">
+              <figure class="image is-16x16">
+                <img :src="en_ico">
+              </figure>
+              <div class="media-content">
+                <h3>English</h3>
+              </div>
+            </div>
+          </b-dropdown-item>
+        </b-dropdown>
+
         <div class="navbar-item">
-            <router-link :to="{name: 'AppGames'}" class="button is-primary">
-              <strong class="has-text-white">{{ MenuName.games }}</strong>
+            <router-link :to="{name: 'AppGames'}" class="button is-info">
+              <strong class="has-text-white">{{ $t('menu_name.games') }}</strong>
             </router-link>
         </div>
       </div>
@@ -61,7 +105,7 @@
 </template>
 
 <script>
-import { APP_NAME, MENU_NAME } from "../../constants"
+import { APP_NAME } from "../../constants"
 import Store from "../../store"
 
 export default {
@@ -69,8 +113,9 @@ export default {
   data() {
     return {
       logoUrl: require('../../assets/underdico.png'),
+      fr_ico: require('../../assets/fr-ico.png'),
+      en_ico: require('../../assets/uk-ico.png'),
       AppName: APP_NAME,
-      MenuName: MENU_NAME,
       Storage: Store,
       burgerMenu: false
     }
@@ -79,11 +124,23 @@ export default {
     toggleBurgerMenu() {
       this.burgerMenu = !this.burgerMenu
     },
+    switchLanguage(language) {
+      this.Storage.setLanguage(language)
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
+  figure {
+    margin-right: 5px;
+  }
+  .dropdown-item[role="listitem"] {
+    display: flex;
+    .media {
+      align-items: center;
+    }
+  }
 .navbar-brand {
   font-size: 2.2em;
 }

@@ -47,8 +47,8 @@
             imageModal() {
                 this.$dialog.alert({
                     title: "Oups...",
-                    message: "<span class='has-text-centered'>Vous devez vous <a href='/login'>connecter</a> pour accéder à cette fonctionnalité</span>",
-                    confirmText: "Promis, je me connecterais !",
+                    message: `<span class='has-text-centered'> ${ this.$t("notif.voteErrorUnconnectedUser") } </span>`,
+                    confirmText: this.$t('confirmTextvoteErrorUnconnectedUser'),
                     type: 'is-danger',
                     hasIcon: true,
                     icon: 'times-circle',
@@ -92,13 +92,9 @@
                     this.userExpression = word
                 } catch (e) {
                     Logger('BaseVoteHorizontal : SendVote : Error', e)
-                    errorToast(this, "Une erreur s'est produite lors du vote, veuillez réessayer plus tard")
+                    errorToast(this, this.$t('notif.voteError'))
                 }
             }
-        },
-        mounted() {
-            // this.allExpressions = this.expressions
-            console.log(this.userExpression)
         }
     }
 </script>

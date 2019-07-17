@@ -6,6 +6,7 @@ import router          from "./router"
 import VueSocketIO     from "vue-socket.io"
 import SocketIO        from "socket.io-client"
 import VueLocalStorage from 'vue-localstorage'
+import i18n from './i18n'
 
 const vueSocket = new VueSocketIO({
     debug: true,
@@ -26,5 +27,6 @@ Vue.use(vueSocket)
 
 new Vue({
     router,
+    i18n,
     render: h => h(App)
 }).$mount("#app")

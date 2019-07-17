@@ -8,18 +8,18 @@
                         <div class="has-text-left">
                             <p class="title" v-if="store.state.isConnected"> Welcome back, {{ store.credentials.username
                                 }} </p>
-                            <p> {{ AppDescription }}</p>
+                            <p>{{ $t('message.appDescription') }}</p>
                         </div>
                         <div class="expression" id="topExpression" v-if="dayExpression">
                             <h3 class="title boxed-section-title is-4 has-text-left">
-                                Expression du jour
+                                {{ $t('message.dayExpression') }}
                             </h3>
                             <OneDefinition :is-primary="true" :simpleComponent="false"
                                            :expression="dayExpression"></OneDefinition>
                         </div>
                         <div class="expression" id="allExpression">
                             <h3 class="title boxed-section-title is-4 has-text-left">
-                                Toutes les expressions
+                                {{ $t('message.allExpression') }}
                             </h3>
                             <template v-if="definitions">
                                 <div v-for="(definition, index) in definitions" :key="index">
@@ -57,7 +57,6 @@
             return {
                 dayExpression: null,
                 store: Store,
-                AppDescription: APP_DESCRIPTION,
                 definitions: null,
                 busyScroll: false
             }

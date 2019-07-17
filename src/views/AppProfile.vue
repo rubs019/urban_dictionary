@@ -6,7 +6,7 @@
 		<div class="columns">
 		  <div class="column is-8">
 			<div class="notification is-primary">
-			  <p class="title has-text-left">Mon profil</p>
+			  <p class="title has-text-left">{{ $t('menu_name.profile') }}</p>
 			  <div class="notification is-white">
 				<b-tabs size="is-medium" type="is-boxed" expanded animated>
 				  <b-tab-item label="Mes informations">
@@ -33,8 +33,8 @@
 			<div class="tile is-vertical">
 			  <div class="tile is-parent">
 				<article class="tile is-child notification">
-				  <p class="title">Vous...</p>
-				  <p class="subtitle">Une image de vous...</p>
+				  <p class="title">{{ $t('message.you') }}</p>
+				  <p class="subtitle">{{ $t('message.pictureAboutYou') }}</p>
 				  <figure class="image is-4by3">
 					<img class="is-rounded"
 						 v-if="currentPhoto"
@@ -47,12 +47,12 @@
 					  <b-upload v-model="file">
 						<a class="button is-primary">
 						  <i class="fas fa-upload"></i>
-						  <span>Changer de photo ?</span>
+						  <span>{{ $t('message.switchPicture') }}</span>
 						</a>
 					  </b-upload>
 					  <span class="file-name" v-if="file">{{ file.name }}</span>
 					  <button class="button is-pulled-right" v-if="file" v-on:click="uploadPhoto">
-						Mettre à jour
+						{{ $t('form.btnUpdate') }}
 					  </button>
 					</b-field>
 				  </div>
@@ -60,7 +60,7 @@
 			  </div>
 			  <div class="tile is-parent">
 				<article class="tile is-child notification is-primary">
-				  <p class="subtitle">Votre score actuel est de</p>
+				  <p class="subtitle">{{ $t('message.actualScore') }}</p>
 				  <p class="title">
                                         <span class="icon">
                                             <i class="fas fa-star fa-1x"></i>
@@ -72,7 +72,7 @@
 			  <div class="tile is-parent">
 				<article id="personalInfo" v-on:click="fetchPersonnalInformation"
 						 class="tile is-child notification is-danger">
-				  <p>Télécharger ses données brutes</p>
+				  <p>{{ $t('message.downloadRPGD') }}</p>
 				</article>
 			  </div>
 			</div>
@@ -87,13 +87,13 @@
 	import Store                                     from "../store"
 	import { API_PATH, ENDPOINT, NOTIF_MSG, STATUS } from "../constants"
 	import AppHeroComponent                          from "../components/AppHeroComponent"
-	import ProfileInformations                       from "../components/profile/ProfileInformations"
-	import ProfileDefinitions                        from "../components/profile/ProfileDefinitions"
-	import { Get, Patch, Put }                       from "../services/api.service"
-	import Logger                                    from "../services/logger"
-	import DTO                                       from "../services/DTO"
-	import helper                                    from "../helpers/index"
-	import { getWordUser }                           from "../services/request"
+	import ProfileInformations from "../components/profile/ProfileInformations"
+	import ProfileDefinitions  from "../components/profile/ProfileDefinitions"
+	import { Get, Patch, Put } from "../services/api.service"
+	import Logger              from "../services/logger"
+	import DTO                 from "../services/DTO"
+	import helper              from "../helpers/index"
+	import { getWordUser }     from "../services/query"
 
 	export default {
 		name: "AppProfile",

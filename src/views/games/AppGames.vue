@@ -6,7 +6,7 @@
 		  <div class="section">
 			<h1 class="title">Underdico Games <span class="dot" :class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span></h1>
 			<h2 class="subtitle notification is-info">
-			  Liste des salons actifs
+			  {{ $t('game.listRoomActive') }}
 			</h2>
 
 			<div v-if="rooms && rooms.length !== 0" id="list-salon-actif">
@@ -18,15 +18,15 @@
 				</router-link>
 			  </ul>
 			  <div class="has-text-left">
-				<p>Voir plus de salon... </p>
+				<p>{{ $t('game.showMoreRoom') }} </p>
 			  </div>
 			</div>
 			<div v-else>
-			  <p class="subtitle">Pas de salon actif</p>
-			  <p v-if="!store.state.isConnected">Veuillez vous connecter pour créer/rejoindre un salon</p>
+			  <p class="subtitle">{{ $t('game.noActiveRoom') }}</p>
+			  <p v-if="!store.state.isConnected">{{ $t('game.unConnectedUserMessage') }}</p>
 			</div>
 			<section class="section" @click="createRoomModal" v-if="store.state.isConnected">
-			  <b-button id="open-modal" type="is-success">Créer un nouveau salon</b-button>
+			  <b-button id="open-modal" type="is-success">{{ $t('game.createRoom') }}</b-button>
 			</section>
 		  </div>
 		</div>

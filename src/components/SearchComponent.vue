@@ -23,7 +23,7 @@
 			@keydown.enter="UIRedirectToDefinition(userInput.name)"
 			@keyup="search(userInput.name)"
 			type="text"
-			placeholder="Entrer le mot que vous cherchez"
+			:placeholder="$t('search.placeholder')"
 			v-model="userInput.name"
 	/>
 	<!-- Icone de gauche -->

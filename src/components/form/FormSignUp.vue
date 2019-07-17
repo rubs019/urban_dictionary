@@ -17,15 +17,15 @@
                                 </template>
                                 <form @submit.prevent="register">
                                     <div class="content has-text-left" v-if="user">
-                                        <b-field label="Nom utilisateur">
+                                        <b-field :label="$t('form.username')">
                                             <b-input id="login" v-model="user.login"></b-input>
                                         </b-field>
 
-                                        <b-field label="Email">
+                                        <b-field :label="$t('form.email')">
                                             <b-input id="email" type="email" v-model="user.email"></b-input>
                                         </b-field>
 
-                                        <b-field label="Mot de passe"
+                                        <b-field :label="$t('form.password')"
                                                  :type="{'is-danger': error.pwd}"
                                                  :message="[
                                 {'Password must have at least 6 characters': error.pwd}
@@ -37,7 +37,7 @@
                                                      password-reveal></b-input>
                                         </b-field>
 
-                                        <b-field label="Retaper votre mot de passe">
+                                        <b-field :label="$t('form.confirmPassword')">
                                             <b-input id="pwd2" type="password" v-model="user.pwd2"></b-input>
                                         </b-field>
                                     </div>
@@ -48,12 +48,12 @@
                                             class="is-pulled-right"
                                             native-type="submit"
                                             :loading="status === Status.PENDING"
-                                    >S'inscrire
+                                    >{{ $t('menu_name.signup') }}
                                     </b-button
                                     >
                                     <div class="content is-pulled-left">
                                         <router-link :to="{ name: 'AppLogIn' }" class="is-size-7"
-                                        >Vous avez déjà un compte ?
+                                        >{{ $t('form.alreadyAccount') }}
                                         </router-link
                                         >
                                     </div>

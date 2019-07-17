@@ -1,45 +1,55 @@
 <template>
   <div class="modal-card" style="width: auto">
 	<header class="modal-card-head">
-	  <p class="modal-card-title">Créer une room</p>
+	  <p class="modal-card-title">{{ $t('game.createRoom') }}</p>
 	</header>
 	<section class="modal-card-body">
 	  <form>
-		<b-field label="Nom de la Room">
-		  <b-input v-model="room.name"></b-input>
+		<b-field :label="$t('game.roomName')">
+		  <b-input v-model="room.name" rounded></b-input>
 		</b-field>
 
-		<b-field label="Nombre de joueurs maximum">
-		  <b-select placeholder="Select a name" v-model="room.maxPlayers">
-			<option
-					v-for="option in totalMaxPlayer"
-					:value="option"
-					:key="option">
-			  {{ option }}
-			</option>
-		  </b-select>
+		<b-field grouped>
+		  <b-field :label="$t('game.maxRoomPlayer')">
+			<b-select :placeholder="$t('game.selectName')" v-model="room.maxPlayers" rounded>
+			  <option
+					  v-for="option in totalMaxPlayer"
+					  :value="option"
+					  :key="option">
+				{{ option }}
+			  </option>
+			</b-select>
+		  </b-field>
+
+		  <b-field label="Language">
+			<b-select rounded v-model="room.locale">
+			  <option value="fr">Francais</option>
+			  <option value="en">English</option>
+			</b-select>
+		  </b-field>
 		</b-field>
 
 		<b-field grouped>
 		  <b-field>
-			<b-checkbox v-model="room.isPrivate">Privée</b-checkbox>
+			<b-checkbox v-model="room.isPrivate">{{ $t('game.private') }}</b-checkbox>
 		  </b-field>
 
 		  <b-field>
-			<b-checkbox v-model="room.isRanked">Classée</b-checkbox>
+			<b-checkbox v-model="room.isRanked">{{ $t('game.ranked') }}</b-checkbox>
 		  </b-field>
 		</b-field>
 	  </form>
 	</section>
 	<footer class="modal-card-foot">
-	  <button class="button" type="button" @click="$parent.close()">Close</button>
-	  <b-button @click="createRoom(room)" native-type="submit" class="button is-success">Créer un nouveau salon
+	  <button class="button" type="button" @click="$parent.close()">{{ $t('message.close') }}</button>
+	  <b-button @click="createRoom(room)" native-type="submit" class="button is-success">{{ $t('game.createRoom') }}
 	  </b-button>
 	</footer>
   </div>
 </template>
 
 <script>
+  	import Store from "../../store"
 	export default {
 		name: "CreateRoomForm",
 		data: () => ({
@@ -49,7 +59,7 @@
 				maxPlayers: 1,
 				isPrivate: false,
 				isRanked: false,
-				locale: 'fr'
+				locale: Store.language
 			}
 		}),
 		methods: {

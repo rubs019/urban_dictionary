@@ -9,7 +9,7 @@
                   <span class="icon">
                     <i class="fas fa-book"></i>
                   </span>
-                <span>Créer une définition</span>
+                <span>{{ $t('message.createDefinition') }}</span>
             </router-link>
         </div>
         <div class="tile is-parent">
@@ -20,28 +20,28 @@
                   <span class="icon">
                     <i class="fas fa-star"></i>
                   </span>
-                <p>Lancer une partie</p>
+                <p>{{ $t('message.launchGame') }}</p>
             </router-link>
         </div>
         <div class="tile is-parent">
             <b-tabs type="is-toggle" expanded style="padding: 0 !important;">
-                <b-tab-item label="Top">
+                <b-tab-item :label="$t('rankingExpression.topLabel')">
                     <TopExpressions
                             :expressions="topExpressions"
-                            :name-top="'Top Expression'"
+                            :name-top="$t('rankingExpression.topLabel')"
                             v-bind:url="'OneDefinition'"
                     ></TopExpressions>
                 </b-tab-item>
-                <b-tab-item label="Top jours">
+                <b-tab-item :label="$t('rankingExpression.dayTopLabel')">
                     <TopExpressions
                             :expressions="dayTopExpressions"
-                            :name-top="'Top du jour'"
+                            :name-top="$t('rankingExpression.dayTopLabel')"
                             v-bind:url="'OneDefinition'"
                     ></TopExpressions>
                 </b-tab-item>
-                <b-tab-item label="Top semaine">
+                <b-tab-item :label="$t('rankingExpression.weekTopLabel')">
                     <TopExpressions
-                            :name-top="'Top semaine'"
+                            :name-top="$t('rankingExpression.weekTopLabel')"
                             :expressions="weekTopExpressions"
                             v-bind:url="'OneDefinition'"
                     ></TopExpressions>
@@ -52,12 +52,12 @@
 </template>
 
 <script>
-    import TopExpressions from "../TopExpressionsComponent"
-    import Store from "../../store"
-    import Logger from "../../services/logger"
-    import {Get} from '../../services/api.service'
-    import {ENDPOINT} from '../../constants'
-    import {getDayTopRequest, getTopRequest, getWeekTopRequest} from '../../services/request'
+    import TopExpressions                                       from "../TopExpressionsComponent"
+    import Store                                                from "../../store"
+    import Logger                                               from "../../services/logger"
+    import {Get}                                                from '../../services/api.service'
+    import {ENDPOINT}                                           from '../../constants'
+    import {getDayTopRequest, getTopRequest, getWeekTopRequest} from '../../services/query'
 
 	export default {
 		name: "TheSidebar",
