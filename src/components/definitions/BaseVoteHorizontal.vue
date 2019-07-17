@@ -48,7 +48,7 @@
                 this.$dialog.alert({
                     title: "Oups...",
                     message: `<span class='has-text-centered'> ${ this.$t("notif.voteErrorUnconnectedUser") } </span>`,
-                    confirmText: this.$t('confirmTextvoteErrorUnconnectedUser'),
+                    confirmText: this.$t('notif.confirmTextvoteErrorUnconnectedUser'),
                     type: 'is-danger',
                     hasIcon: true,
                     icon: 'times-circle',

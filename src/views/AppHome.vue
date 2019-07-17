@@ -43,13 +43,14 @@
 </template>
 
 <script>
-    import AppHeroComponent from "../components/AppHeroComponent.vue"
-    import OneDefinition from "../components/definitions/OneDefinition"
-    import TheSidebar from "../components/generic/TheSidebar"
+    import AppHeroComponent                      from "../components/AppHeroComponent.vue"
+    import OneDefinition                         from "../components/definitions/OneDefinition"
+    import TheSidebar                            from "../components/generic/TheSidebar"
     import {API_PATH, ENDPOINT, APP_DESCRIPTION} from "../constants"
-    import Store from "../store"
-    import {Get} from "../services/api.service"
-    import Logger from "../services/logger"
+    import Store                                 from "../store"
+    import {Get}                                 from "../services/api.service"
+    import Logger                                from "../services/logger"
+    import { requestBuilder }                    from "../services/query"
 
     export default {
         name: "AppHome",
@@ -69,7 +70,7 @@
         methods: {
             async getDayExpression() {
                 try {
-                    const {data: expressionDuJour} = await Get(API_PATH.DAILY_WORD)
+                    const { data: expressionDuJour } = await Get(`${requestBuilder(API_PATH.DAILY_WORD, this.store.language)}`)
 
                     return expressionDuJour
                 } catch (e) {
@@ -80,8 +81,7 @@
             },
             async getExpressions() {
                 try {
-                    const headers = {token: Store.credentials.token}
-                    const result = await Get(`${ENDPOINT.WORDS}`, headers)
+                    const result = await Get(`${requestBuilder(ENDPOINT.WORDS, this.store.language)}`)
 
                     return result.data
                 } catch (e) {
