@@ -65,16 +65,15 @@
 			async createRoom(room) {
 				Logger('createRoom : ', room)
 				try {
-					const headers = {
-						token: Store.credentials.token ? Store.credentials.token : undefined
-					}
-					const {data: result} = await Post(ENDPOINT.ROOM, room, headers)
-
-					this.myCreateRoomModal.close()
+					const {data: result} = await Post(ENDPOINT.ROOM, room)
 
 					await this.getAllRooms()
 
+					this.myCreateRoomModal.close()
+
 					Logger('createRoom : result', result)
+
+					this.$router.push('/games/' + result.id)
 
 				} catch (e) {
 					Logger('AppGames : SendRoom : Error', e)

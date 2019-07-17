@@ -47,17 +47,9 @@ function getWeekTopRequest(locale = 'fr', minRange = 0, maxRange = 9) {
 
 function getWordUser(userId, locale = 'fr') {
     return '?where=' + JSON.stringify({
-        $and: [
-            {
-                $expr: {
-                    $eq: [
-                        '$userId',
-                        userId
-                    ]
-                }
-            },
-            {locale}
-        ]
+        $expr: {
+            $eq: ['userId', userId]
+        }
     })
 }
 function getDayTopRequest(locale = 'fr', minRange = 0, maxRange = 9) {

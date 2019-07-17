@@ -58,7 +58,11 @@
       "maxRoomPlayer": "Max player",
       "selectName": "Select a name",
       "private": "Private",
-      "ranked": "ranked"
+      "ranked": "ranked",
+      "notif": {
+        "NOT_OWNER": "You are not the owner",
+        "MAX_PLAYER_REACHED": "Max player reached"
+      }
     },
     "message": {
       "you": "You",
@@ -134,7 +138,11 @@
       "maxRoomPlayer": "Joueurs maximum",
       "selectName": "Séléctioner un nom",
       "private": "Privée",
-      "ranked": "Classé"
+      "ranked": "Classé",
+      "notif": {
+        "NOT_OWNER": "Vous n'êtes pas le créateur de la partie",
+        "MAX_PLAYER_REACHED": "Le nombre maximum de joueurs à été atteint"
+      }
     },
     "message": {
       "you": "Vous",

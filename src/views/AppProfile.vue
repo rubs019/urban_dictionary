@@ -165,15 +165,8 @@
 					Authorization: this.store.credentials.token ? `Bearer ${this.store.credentials.token}` : undefined
 				}
 				formData.append('file', this.file)
-				// Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
-				//     .then(function () {
-				//         console.log('SUCCESS!!')
-				//     })
-				//     .catch(function (err) {
-				//         console.log('FAILURE!!', err)
-				//     })
 				try {
-					const result = await Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
+					await Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
 					// Afficher popup
 					helper.successToast(this, 'Votre photo a bien été upload')
 					this.currentPhoto = null
@@ -198,18 +191,12 @@
 					Logger('AppProfile : uploadPhoto : Error', e)
 					// Afficher popup
 				}
-
-				/*Put(API_PATH.USER_AVATAR(this.store.credentials.id), formData, headers)
-					.then(function () {
-						console.log('SUCCESS!!')
-					})
-					.catch(function () {
-						console.log('FAILURE!!')
-					})*/
 			},
 			async fetchUserDefinition() {
 				try {
-					const data = await Get(`${ENDPOINT.WORDS}${getWordUser(this.store.credentials.id)}`)
+					const url = `${ENDPOINT.WORDS}${getWordUser(this.store.credentials.id, this.store.language)}`
+					Logger('URL', url)
+					const data = await Get(url)
 					Logger('AppProfile : ', data)
 				} catch (err) {
 					Logger('AppProfile : err : ', err)

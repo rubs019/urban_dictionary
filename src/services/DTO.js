@@ -32,7 +32,8 @@ function accountPatchInformation(data) {
   return {
     "username": data.name,
     "email": data.email,
-    "password": data.pwd
+    "password": data.pwd,
+    "locale": data.locale
   }
 }
 

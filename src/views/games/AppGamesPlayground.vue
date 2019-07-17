@@ -38,7 +38,7 @@
                             </b-notification>
                         </div>
                     </div>
-                    <div class="section">
+                    <div class="">
                         <div class="notification is-info">
                             <p id="wordDefinitionItem" class="is-size-5">
                                 {{ game.definitionToFind || "Le texte va apparaitre ici une fois le jeu lancé"}}
@@ -95,8 +95,10 @@
         },
         sockets: {
             connect: function () {
-                Logger('socket connected', this.$socket.connected)
-                this.joinRoom()
+                Logger('socket connected', this.roomInformation)
+                const userAlreadyJoinRoom = this.roomInformation.playersIds.find(playerId => playerId === this.store.credentials.id)
+                if (!userAlreadyJoinRoom) this.joinRoom()
+
                 this.serverIsUp = true
             },
             disconnect: function () {
@@ -110,6 +112,17 @@
             },
             gameError: function (data) {
                 Logger('Error', data)
+                const {statusCode, message} = data.response
+                if (statusCode === 403) {
+                    if (message === "Max player reached") {
+                        helpers.errorToast(this, this.$t('game.notif.MAX_PLAYER_REACHED'))
+                        return
+                    }
+                    if (message === "You are not the owner") {
+                        helpers.errorToast(this, this.$t('game.notif.NOT_OWNER'))
+                        return
+                    }
+                }
             },
             /**
              * Event lancer lorsqu'un utilisateur se connecte
@@ -178,6 +191,7 @@
                 this.game.wordFromUser = null
 
                 helpers.successToast(this, 'Félicitations, vous avez trouvé le bon mot !')
+                this.setTheNextUser(playerId)
             },
             /**
              * Event lancer lorsqu'une mauvaise réponse est soumise
@@ -192,6 +206,8 @@
 
                 Logger('Wrong proposal !', {playerId, nextPlayerId})
                 helpers.errorToast(this, 'Oups ! Encore un petit effort')
+                this.setTheNextUser(nextPlayerId)
+
             },
             /**
              * Event lancer lorsqu'un nouveau round débute
@@ -205,15 +221,11 @@
                 const {definition, nextPlayerId, obfuscatedWord} = data
                 if (!definition || !nextPlayerId || !obfuscatedWord)
                     return helpers.errorToast(this, "Erreur lors de la récupération de la définition du round")
-                const t = this.roomInformation.usernames.find(username => {
-                    return username.id === nextPlayerId
-                })
-                Logger('t', t)
-                this.handleNewRound({definition, obfuscatedWord})
+                this.handleNewRound({definition, obfuscatedWord, nextPlayerId})
             },
             timeout: function (data) {
                 Logger('timeout', data)
-                this.nextUser = data.nextPlayerId
+                this.setTheNextUser(data.nextPlayerId)
             },
             exception: function (data) {
                 Logger('exception', data)
@@ -297,13 +309,15 @@
                         })
                     }
                 }
+                Logger('setAllPlayers : ', this.game.connectedUsers)
             },
             /**
              * Affiche à l'écran la définition et le nombre de lettre à trouver
              */
-            handleNewRound({definition, obfuscatedWord}) {
+            handleNewRound({definition, obfuscatedWord, nextPlayerId}) {
                 this.game.definitionToFind = definition
                 this.game.obfuscatedWord = obfuscatedWord
+                this.setTheNextUser(nextPlayerId)
             },
             sendWordFromUser: function () {
                 Logger(`The word enter is : ${this.game.wordFromUser}`)
@@ -312,19 +326,26 @@
                     roomId: this.roomId,
                     proposal: this.game.wordFromUser
                 })
+            },
+            setTheNextUser: function (playerId) {
+                this.nextUser = this.game.connectedUsers.find(username => {
+                    return username.id === playerId
+                }).username
             }
         },
         async created() {
 
             if (!this.$localStorage.get('credentials', null)) {
                 helpers.errorToast(this, 'Vous devez être connecté pour accéder à cette page')
-                this.$router.push('/games')
+                this.$router.push('/home')
                 return
             }
 
+            Logger('created', this.$socket.disconnected)
             this.roomId = this.$route.params.id
-            if (this.$socket.disconnected) this.connectSocket()
             await this.fetchRoomInformation()
+            if (this.$socket.disconnected) this.connectSocket()
+            this.serverIsUp = true
         },
         updated() {
             if (this.$socket.disconnected) this.connectSocket()

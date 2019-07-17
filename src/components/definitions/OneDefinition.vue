@@ -62,6 +62,7 @@
 					  tag="p"
 					  id="userLink"
 					  class="subtitle has-text-left is-size-6"
+					  v-if="definition && definition.user && definition.user.username"
 					  :to="{ name: 'OneDefinition', params: { name: definition.user.username } }">Ecrit par @{{ definition.user.username }}
 			  </router-link>
 			<div class="content has-text-left">

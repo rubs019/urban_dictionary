@@ -15,7 +15,7 @@ export default {
   state: {
     isConnected: !!localStorage.getItem('isConnected')
   },
-  language: 'fr',
+  language: null,
   credentials: {
     id: null,
     username: null,

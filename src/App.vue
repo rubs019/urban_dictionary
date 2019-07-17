@@ -52,6 +52,7 @@ export default {
     const haveCredentialsStored = !!this.$localStorage.get('credentials', null)
     if (haveCredentialsStored) {
       Store.setUser(JSON.parse(this.$localStorage.get('credentials')))
+      Store.setLanguage(this.$localStorage.get('language'))
     }
   }
 }
