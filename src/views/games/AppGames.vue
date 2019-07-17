@@ -3,13 +3,6 @@
 	<div class="container">
 	  <div class="columns">
 		<div class="column is-4 is-offset-4">
-		  <div class="card">
-			<div class="card-image">
-			  <!--<figure class="image">
-				<img src="@/assets/underdico.png" alt="Placeholder image">
-			  </figure>-->
-			</div>
-		  </div>
 		  <div class="section">
 			<h1 class="title">Underdico Games <span class="dot" :class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span></h1>
 			<h2 class="subtitle notification is-info">
@@ -19,7 +12,8 @@
 			<div v-if="rooms && rooms.length !== 0" id="list-salon-actif">
 			  <ul v-for="(room, index) in rooms" :key="index">
 				<router-link tag="li" :to="{ name: 'AppGamesPlayground', params: {id: room.id} }" class="all-room tile notification is-primary">
-				  <b-tag :type="room.playersIds.length === room.maxPlayers ? 'is-danger' : 'is-info'" rounded>{{ room.playersIds.length }} / {{ room.maxPlayers }}</b-tag>
+				  <b-tag :type="room.playersIds.length === room.maxPlayers ? 'is-danger' : 'is-info'" rounded>{{
+					room.playersIds.length }} / {{ room.maxPlayers }}</b-tag>
 				  <p>{{ room.name }}</p>
 				</router-link>
 			  </ul>
@@ -28,9 +22,10 @@
 			  </div>
 			</div>
 			<div v-else>
-			  <p class="has-text-left">Pas de salon actif</p>
+			  <p class="subtitle">Pas de salon actif</p>
+			  <p v-if="!store.state.isConnected">Veuillez vous connecter pour créer/rejoindre un salon</p>
 			</div>
-			<section class="section" @click="createRoomModal">
+			<section class="section" @click="createRoomModal" v-if="store.state.isConnected">
 			  <b-button id="open-modal" type="is-success">Créer un nouveau salon</b-button>
 			</section>
 		  </div>
@@ -50,6 +45,7 @@
 	export default {
 		name: "AppGames",
 		data: () => ({
+			store: Store,
 			rooms: [],
 			msg: "Coming soon",
 			serverIsUp: false,
@@ -67,7 +63,7 @@
 				})
 			},
 			async createRoom(room) {
-				Logger('sendRoom : Logger', Store.credentials.token)
+				Logger('createRoom : ', room)
 				try {
 					const headers = {
 						token: Store.credentials.token ? Store.credentials.token : undefined

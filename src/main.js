@@ -1,11 +1,11 @@
 import Vue             from "vue"
 import Buefy           from "buefy"
+import 'buefy/dist/buefy.css'
 import App             from "./App.vue"
 import router          from "./router"
 import VueSocketIO     from "vue-socket.io"
 import SocketIO        from "socket.io-client"
 import VueLocalStorage from 'vue-localstorage'
-import 'buefy/dist/buefy.css'
 
 const vueSocket = new VueSocketIO({
     debug: true,

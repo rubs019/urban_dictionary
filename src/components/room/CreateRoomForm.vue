@@ -12,7 +12,7 @@
 		<b-field label="Nombre de joueurs maximum">
 		  <b-select placeholder="Select a name" v-model="room.maxPlayers">
 			<option
-					v-for="option in 5"
+					v-for="option in totalMaxPlayer"
 					:value="option"
 					:key="option">
 			  {{ option }}
@@ -43,6 +43,7 @@
 	export default {
 		name: "CreateRoomForm",
 		data: () => ({
+			totalMaxPlayer: 20,
 			room: {
 				name: null,
 				maxPlayers: 1,

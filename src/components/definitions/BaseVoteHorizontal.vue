@@ -83,10 +83,9 @@
                 try {
                     if (!this.userExpression.userDownVoted && !this.userExpression.userUpVoted) {
                         await Post(`${ENDPOINT.WORDS}/${this.userExpression.id}/votes`, {value})
-                        return
+                    } else {
+                        await Patch(`${ENDPOINT.WORDS}/${this.userExpression.id}/votes/${this.userExpression.userVoteId}`, {value}, headers)
                     }
-
-                    await Patch(`${ENDPOINT.WORDS}/${this.userExpression.id}/votes/${this.userExpression.userVoteId}`, {value}, headers)
 
                     const { data: word } = await Get(`${ENDPOINT.WORDS}/${this.userExpression.id}`)
                     Logger('word', word)

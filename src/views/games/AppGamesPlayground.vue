@@ -4,7 +4,6 @@
             <h1 class="title">Game playground <span class="dot"
                                                     :class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span>
             </h1>
-            {{ game.connectedUsers }}
             <b-button v-on:click="startRoom" :disabled="!serverIsUp">Commencez le jeu</b-button>
             <b-button v-on:click="leaveRoom" :disabled="!serverIsUp">leaveRoom</b-button>
             <b-button v-on:click="disconnect" :disabled="!serverIsUp">disconnect</b-button>
@@ -30,7 +29,7 @@
                 </div>
                 <div id="game-container" class="column is-8 is-size-2">
                     <div class="has-text-centered">
-                        <div id="actionItem">
+                        <div id="actionItem" v-if="gameIsStart">
                             <b-message type="is-primary">
                                 C'est au tour de {{ nextUser }} de jouer
                             </b-message>
@@ -82,6 +81,7 @@
                     usernames: []
                 },
                 gameError: false,
+                gameIsStart: false,
                 nextUser: null,
                 currentUsername: null,
                 store: Store,
@@ -159,8 +159,12 @@
 
                 helpers.errorToast(this, `Un joueur vient de se déconnecter`)
             },
+            /**
+             * Event lancer lorsque la partie débute
+             * @param { User } user - information de l'utilisateur qui vient de déco
+             * */
             roomStarted: function (data) {
-                Logger('Room started !', data)
+                this.gameIsStart = true
             },
             /**
              * Event lancer lorsqu'une bonne réponse est soumise
@@ -196,9 +200,15 @@
              * @param { string } nextPlayerId - ID de l'utilisateur suivant
              * @param { Array<null> } obfuscatedWord - Les lettres à trouver correspondant au mots
              * */
-            newRound: function ({definition, nextPlayerId, obfuscatedWord}) {
+            newRound: function (data) {
+                Logger('newRound|data', data)
+                const {definition, nextPlayerId, obfuscatedWord} = data
                 if (!definition || !nextPlayerId || !obfuscatedWord)
                     return helpers.errorToast(this, "Erreur lors de la récupération de la définition du round")
+                const t = this.roomInformation.usernames.find(username => {
+                    return username.id === nextPlayerId
+                })
+                Logger('t', t)
                 this.handleNewRound({definition, obfuscatedWord})
             },
             timeout: function (data) {
@@ -239,8 +249,8 @@
                     proposal: this.wordFromUser
                 })
             },
-            newPlayer: function () {
-                console.log('newPlayer')
+            newPlayer: function (data) {
+                console.log('newPlayer', data)
             },
             leaveRoom: function () {
                 this.$socket.emit('leaveRoom', {
