@@ -3,6 +3,7 @@ const cluster = require("cluster")
 
 const express = require("express")
 const app = express()
+const history = require('connect-history-api-fallback')
 const pathProductionFiles = "./dist"
 
 /**
@@ -75,6 +76,8 @@ const setupServer = isClusterRequired => {
 
 function setupApp() {
   const port = process.env.PORT || 3000
+
+  app.use(history())
 
   app.use("/", express.static(pathProductionFiles))
 

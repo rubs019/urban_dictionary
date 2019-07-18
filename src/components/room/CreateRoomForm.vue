@@ -59,7 +59,7 @@
 				maxPlayers: 1,
 				isPrivate: false,
 				isRanked: false,
-				locale: Store.language
+				locale: Store.credentials.locale
 			}
 		}),
 		methods: {

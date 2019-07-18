@@ -61,7 +61,8 @@
       "ranked": "ranked",
       "notif": {
         "NOT_OWNER": "You are not the owner",
-        "MAX_PLAYER_REACHED": "Max player reached"
+        "MAX_PLAYER_REACHED": "Max player reached",
+        "TIMEOUT": "Oops ... The deadline, finished"
       }
     },
     "message": {
@@ -141,7 +142,8 @@
       "ranked": "Classé",
       "notif": {
         "NOT_OWNER": "Vous n'êtes pas le créateur de la partie",
-        "MAX_PLAYER_REACHED": "Le nombre maximum de joueurs à été atteint"
+        "MAX_PLAYER_REACHED": "Le nombre maximum de joueurs à été atteint",
+        "TIMEOUT": "Oups... Tu as pris trop de temps"
       }
     },
     "message": {

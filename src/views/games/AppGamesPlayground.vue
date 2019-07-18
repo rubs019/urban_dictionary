@@ -4,7 +4,8 @@
             <h1 class="title">Game playground <span class="dot"
                                                     :class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span>
             </h1>
-            <b-button v-on:click="startRoom" :disabled="!serverIsUp">Commencez le jeu</b-button>
+            {{ game.connectedUsers.length }}
+            <b-button v-on:click="startRoom" :disabled="!serverIsUp || game.connectedUsers.length < 2">Commencez le jeu</b-button>
             <b-button v-on:click="leaveRoom" :disabled="!serverIsUp">leaveRoom</b-button>
             <b-button v-on:click="disconnect" :disabled="!serverIsUp">disconnect</b-button>
         </div>
@@ -225,6 +226,7 @@
             },
             timeout: function (data) {
                 Logger('timeout', data)
+                helpers.errorToast(this, $t('game.notif.TIMEOUT'))
                 this.setTheNextUser(data.nextPlayerId)
             },
             exception: function (data) {
@@ -328,14 +330,16 @@
                 })
             },
             setTheNextUser: function (playerId) {
-                this.nextUser = this.game.connectedUsers.find(username => {
+                const user = this.game.connectedUsers.find(username => {
                     return username.id === playerId
-                }).username
+                })
+                Logger('setNextUser() = ', user)
+                this.nextUser = user.username
             }
         },
         async created() {
 
-            if (!this.$localStorage.get('credentials', null)) {
+            if (!this.store.state.isConnected) {
                 helpers.errorToast(this, 'Vous devez être connecté pour accéder à cette page')
                 this.$router.push('/home')
                 return

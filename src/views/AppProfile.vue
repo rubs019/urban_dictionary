@@ -17,14 +17,6 @@
 							:credentials="store.credentials">
 					</ProfileInformations>
 				  </b-tab-item>
-
-				  <b-tab-item icon-pack="fas" icon="book">
-					<template slot="header">
-					  <b-icon icon="information-outline"></b-icon>
-					  <span> Mes définitions <b-tag rounded> 3 </b-tag> </span>
-					</template>
-					<ProfileDefinitions></ProfileDefinitions>
-				  </b-tab-item>
 				</b-tabs>
 			  </div>
 			</div>
