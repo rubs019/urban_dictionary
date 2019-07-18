@@ -272,16 +272,21 @@
             disconnect: function () {
                 this.$socket.close()
             },
-            fetchRoomInformation: async function () {
+            fetchRoomInformation: async function (isPrivate = false) {
                 try {
-                    // On fetch les informations déjà existante de la room
-                    const {data: tempRoomInformation} = await Get(`${ENDPOINT.ROOM}`)
+                    if (!isPrivate) {
+                        // On fetch les informations déjà existante de la room
+                        const {data: tempRoomInformation} = await Get(`${ENDPOINT.ROOM}`)
+                        // on recois toute les room présent, dans ce cas on séléctionne la room sur laquelle l'utilisateur est connecté
 
-                    // on recois toute les room présent, dans ce cas on séléctionne la room sur laquelle l'utilisateur est connecté
-                    this.roomInformation = tempRoomInformation.find(room => room.id === this.roomId)
+                        this.roomInformation = this.roomInformation = tempRoomInformation.find(room => room.id === this.roomId)
 
-                    // On construit notre liste de joueurs à partir des informations reçu
-                    this.setAllPlayers()
+                        // On construit notre liste de joueurs à partir des informations reçu
+                        this.setAllPlayers()
+                    } else {
+                        const myRoom = this.$localStorage.get('privateRoom')
+                        this.roomInformation = JSON.parse(myRoom)
+                    }
                 } catch (err) {
                     Logger('AppGamesPlayground : fetchRoomInformation : error', err)
                     helpers.errorToast(this, "Une erreur s'est produite lors de la récupération des informations de la room")
@@ -294,6 +299,7 @@
             setAllPlayers() {
                 // Dans le cas ou j'ai déjà plusieurs utilisateurs connectés
                 // J'associe chaque ID à un username
+                // if (this.roomInformation && this.roomInformation.playersIds)
                 if (this.roomInformation.playersIds.length > 0) {
                     for (let i = 0; i < this.roomInformation.playersIds.length; i++) {
                         if (this.game.connectedUsers.find(user => {
@@ -334,16 +340,15 @@
             }
         },
         async created() {
-
             if (!this.store.state.isConnected) {
                 helpers.errorToast(this, 'Vous devez être connecté pour accéder à cette page')
                 this.$router.push('/home')
                 return
             }
-
-            Logger('created', this.$socket.disconnected)
             this.roomId = this.$route.params.id
-            await this.fetchRoomInformation()
+            const isPrivate = this.$route.params.id.length <= 5
+
+            await this.fetchRoomInformation(isPrivate)
             if (this.$socket.disconnected) this.connectSocket()
             this.serverIsUp = true
         },

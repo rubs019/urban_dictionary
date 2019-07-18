@@ -8,14 +8,12 @@
 		<img :src="logoUrl" alt="">
 	  </router-link>
 
-	  <a
-			  role="button"
-			  class="navbar-burger burger"
-			  :class="[burgerMenu ? 'is-active' : '']"
-			  aria-label="menu"
-			  aria-expanded="true"
-			  v-on:click="toggleBurgerMenu()"
-	  >
+	  <a role="button"
+		 class="navbar-burger burger"
+		 :class="[burgerMenu ? 'is-active' : '']"
+		 aria-label="menu"
+		 aria-expanded="true"
+		 v-on:click="toggleBurgerMenu()">
 		<span aria-hidden="true"></span>
 		<span aria-hidden="true"></span>
 		<span aria-hidden="true"></span>
@@ -33,6 +31,9 @@
 				v-if="!Storage.state.isConnected"
 		>
 		  <p>{{ $t('menu_name.login') }}</p>
+		</router-link>
+		<router-link v-if="Storage.state.isConnected" :to="{ name: 'AddDefinitions' }" class="navbar-item">
+		  {{ $t('menu_name.create_definition') }}
 		</router-link>
 		<router-link v-if="Storage.state.isConnected" :to="{ name: 'AppProfile' }" class="navbar-item">
 		  {{ $t('menu_name.profile') }}

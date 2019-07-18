@@ -4,14 +4,12 @@
 	  <div class="column">
 		<div class="tile is-parent notification is-white">
 		  <div class="tile is-child">
-			<p class="title has-text-left">Créer une nouvelle expression</p>
+			<p class="title has-text-left">{{ $t('message.expressionTitle') }}</p>
 			<hr/>
 			<div class="subtitle">
 			  <div class="content has-text-left">
-				<p>Ici vous pouvez créer vos propres définitions et les partager à tout le monde !</p>
-				<p class="is-size-6">Que cela soit une expression propre à votre ville, à votre région,
-				  ou votre pays, nous récoltons toutes
-				  les expressions possible dans l'objectif de partager ces connaissances</p>
+				<p>{{ $t('message.expressionExplain') }}</p>
+				<p class="is-size-6">{{ $t('message.expressionSubtitle') }}</p>
 			  </div>
 			  <div class="column">
 				<template>
@@ -19,13 +17,30 @@
 					<template>
 					  <section>
 						<form @submit.prevent="sendExpression">
-						  <b-field label="Nom de l'expression">
-							<b-input v-model="definition.name"></b-input>
+						  <b-field grouped>
+							<b-field label="Nom de l'expression" expanded>
+							  <b-input v-model="definition.name"></b-input>
+							</b-field>
+
+							<b-field label="Language">
+							  <b-select placeholder="Select languague" icon-pack="fa" icon="globe" v-model="definition.locale">
+								<option
+										v-for="(langue, index) in languages"
+										:value="langue"
+										:key="index">
+								  {{ langue.toUpperCase() }}
+								</option>
+							  </b-select>
+							</b-field>
 						  </b-field>
 
 						  <b-field label="Description de la définition">
 							<b-input maxlength="200" type="textarea"
 									 v-model="definition.description"></b-input>
+						  </b-field>
+
+						  <b-field label="Exemple">
+							<b-input v-model="definition.example"></b-input>
 						  </b-field>
 
 						  <b-field label="Ajoutez des tags">
@@ -45,6 +60,8 @@
 							</b-button>
 						  </div>
 						</form>
+						<button v-on:click="startRecord">Record</button>
+						<button v-on:click="stopRecord">Stop</button>
 					  </section>
 					</template>
 				  </div>
@@ -73,6 +90,9 @@
 			return {
 				Status: STATUS,
 				formStatus: STATUS.DEFAULT,
+				fr_ico: require('../../assets/fr-ico.png'),
+				en_ico: require('../../assets/uk-ico.png'),
+				languages: ['fr', 'en'],
 				definition: {
 					name: "Bleus",
 					description: "Expression argotique signifiant la police",
@@ -80,8 +100,10 @@
 						'Police',
 						'Keuf',
 						'Urbain'
-					]
-				},
+					],
+					example: null,
+					locale: STORE.credentials.locale
+				}
 			}
 		},
 		methods: {
@@ -93,7 +115,6 @@
 			async sendExpression() {
 				this.formStatus = STATUS.PENDING
 				Logger('definition', this.definition)
-
 				try {
 					// Token require
 					const result = await Post(
@@ -125,5 +146,15 @@
 <style scoped lang="scss">
   p.title {
 	margin: 14px;
+  }
+  figure {
+	margin-right: 5px;
+  }
+  .dropdown-item[role="listitem"] {
+	display: flex;
+
+	.media {
+	  align-items: center;
+	}
   }
 </style>

@@ -9,7 +9,8 @@ function accountCreate(data) {
   return {
     "username": data.login,
     "email": data.email,
-    "password": data.pwd
+    "password": data.pwd,
+    "locale": data.locale
   }
 }
 
@@ -24,7 +25,9 @@ function addDefinition(expression) {
   return {
     "name": expression.name,
     "definition": expression.description,
-    "tags": expression.tags
+    "tags": expression.tags,
+    "example": expression.example,
+    "locale": expression.locale
   }
 }
 

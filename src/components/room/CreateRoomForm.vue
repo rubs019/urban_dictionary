@@ -13,9 +13,9 @@
 		  <b-field :label="$t('game.maxRoomPlayer')">
 			<b-select :placeholder="$t('game.selectName')" v-model="room.maxPlayers" rounded>
 			  <option
-					  v-for="option in totalMaxPlayer"
+					  v-for="(option, index) in totalMaxPlayer"
 					  :value="option"
-					  :key="option">
+					  :key="index">
 				{{ option }}
 			  </option>
 			</b-select>

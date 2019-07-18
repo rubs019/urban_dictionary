@@ -60,5 +60,16 @@ async function Put(endpoint, data, headers = null) {
   return await api(options)
 }
 
-export { Get, Post, Patch, Put }
+async function Delete(endpoint, headers = null) {
+  const options = {
+    url: `/${endpoint}`,
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
+    }
+  }
+  return await api(options)
+}
+
+export { Get, Post, Patch, Put, Delete }
 

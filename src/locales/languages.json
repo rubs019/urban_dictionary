@@ -8,7 +8,8 @@
       "games": "Play",
       "contact": "Contact",
       "about": "About",
-      "profile": "My profile"
+      "profile": "My profile",
+      "create_definition": "Add Expression"
     },
     "rankingExpression": {
       "topLabel": "Top",
@@ -67,6 +68,9 @@
     },
     "message": {
       "you": "You",
+      "expressionTitle": "Create a new definition",
+      "expressionExplain": "Here you can create your own definitions and share to everyone!\n",
+      "expressionSubtitle": "Whether it is an expression specific to your city, your region, or your country, we collect all possible expressions in order to share this knowledge\n",
       "switchPicture": "Switch picture ?",
       "actualScore": "Your score is",
       "downloadRPGD": "Download personnal information",
@@ -89,7 +93,8 @@
       "contact": "Contact",
       "expression": "Expression",
       "about": "A propos",
-      "profile": "Mon profil"
+      "profile": "Mon profil",
+      "create_definition": "Créer une expression"
     },
     "rankingExpression": {
       "topLabel": "Top",
@@ -148,6 +153,9 @@
     },
     "message": {
       "you": "Vous",
+      "expressionTitle": "Créer une nouvelle expression",
+      "expressionExplain": "Ici vous pouvez créer vos propres définitions et les partager à tout le monde !",
+      "expressionSubtitle": "Que cela soit une expression propre à votre ville, à votre région, ou votre pays, nous récoltons toutes les expressions possible dans l'objectif de partager ces connaissances",
       "actualScore": "Votre score actuel est de ",
       "downloadRPGD": "Télécharger ses données brutes",
       "switchPicture": "Changer de photo ?",

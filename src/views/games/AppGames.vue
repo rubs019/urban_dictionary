@@ -4,16 +4,25 @@
 	  <div class="columns">
 		<div class="column is-4 is-offset-4">
 		  <div class="section">
-			<h1 class="title">Underdico Games <span class="dot" :class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span></h1>
-			<h2 class="subtitle notification is-info">
-			  {{ $t('game.listRoomActive') }}
-			</h2>
+			<h1 class="title">Underdico Games <span class="dot"
+													:class="[serverIsUp ? 'has-background-success' : 'has-background-danger']"></span>
+			</h1>
+			<div class="notification is-info">
+			  <h2 class="subtitle">
+				{{ $t('game.listRoomActive') }}
+			  </h2>
+			</div>
+			<span v-on:click="getAllRooms">
+				<b-button :loading="loader.status" :disabled="!loader.active" type="is-info" size="is-small">{{ loader.text }}</b-button>
+			</span>
 
 			<div v-if="rooms && rooms.length !== 0" id="list-salon-actif">
 			  <ul v-for="(room, index) in rooms" :key="index">
-				<router-link tag="li" :to="{ name: 'AppGamesPlayground', params: {id: room.id} }" class="all-room tile notification is-primary">
+				<router-link tag="li" :to="{ name: 'AppGamesPlayground', params: {id: room.id} }"
+							 class="all-room tile notification is-primary">
 				  <b-tag :type="room.playersIds.length === room.maxPlayers ? 'is-danger' : 'is-info'" rounded>{{
-					room.playersIds.length }} / {{ room.maxPlayers }}</b-tag>
+					room.playersIds.length }} / {{ room.maxPlayers }}
+				  </b-tag>
 				  <p>{{ room.name }}</p>
 				</router-link>
 			  </ul>
@@ -49,7 +58,12 @@
 			rooms: [],
 			msg: "Coming soon",
 			serverIsUp: false,
-			myCreateRoomModal: null
+			myCreateRoomModal: null,
+			loader: {
+				status: false,
+				text: 'refresh',
+				active: true
+			}
 		}),
 		methods: {
 			createRoomModal() {
@@ -65,28 +79,49 @@
 			async createRoom(room) {
 				Logger('createRoom : ', room)
 				try {
-					const {data: result} = await Post(ENDPOINT.ROOM, room)
+					const { data: result } = await Post(ENDPOINT.ROOM, room)
+
+					// SI c privée
+					if(result.isPrivate) {
+						// stock ma room
+						this.$localStorage.set('privateRoom', JSON.stringify(result))
+
+						this.myCreateRoomModal.close()
+
+						this.$router.push('/games/' + result.code)
+
+						return
+					}
+					// je les affiches a l'utilisateur
+
+					Logger('createRoom : result', result)
 
 					await this.getAllRooms()
 
 					this.myCreateRoomModal.close()
-
-					Logger('createRoom : result', result)
-
-					this.$router.push('/games/' + result.id)
 
 				} catch (e) {
 					Logger('AppGames : SendRoom : Error', e)
 				}
 			},
 			async getAllRooms() {
+				this.loader.status = true
+				this.loader.active = false
 				try {
-					const {data: rooms} = await Get(`${ENDPOINT.ROOM }`)
+					const {data: rooms} = await Get(`${ENDPOINT.ROOM}`)
 
 					Logger('AppGames : getAllRooms : rooms', rooms)
 					this.rooms = rooms
+					this.loader.status = false
+					this.loader.text = 'Up to date'
+					const that = this
+					setTimeout(() => {
+						that.loader.text = 'Refresh'
+						that.loader.active = true
+					}, 5000)
 				} catch (e) {
-					Logger('AppGames : getAllRooms : Error', e)
+					Logger('AppGames : getAllRooms : Error', e.response)
+					this.loader.status = false
 				}
 			}
 		},
@@ -100,12 +135,15 @@
   #open-modal:hover, .all-room:hover {
 	cursor: pointer;
   }
+
   li {
 	margin-bottom: 5px;
   }
+
   .all-room p {
 	margin-left: 5px;
   }
+
   .dot {
 	height: 15px;
 	width: 15px;

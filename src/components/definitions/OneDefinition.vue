@@ -62,10 +62,17 @@
 			   v-if="definition && definition.user && definition.user.username">Ecrit par @{{
 			  definition.user.username }}
 			</p>
-			<div class="content has-text-left">
-			  <!-- Content -->
-			  {{ definition.definition }}
-			</div>
+			<b-message type="is-primary">
+			  <b class="is-size-5">{{ definition.definition }}</b>
+			  <section class="example">
+				<b-message v-if="expression.example">
+				  <span class="subtile">Example : </span>
+				  <!-- Example -->
+				  "{{ definition.example }}"
+				</b-message>
+			  </section>
+			</b-message>
+
 			<div id="tag-items" class="has-text-left">
             <span id="label-items" v-for="(label, index) in definition.tags" :key="index">
               <BaseTagLabel :name="label" :colors="!!simpleComponent"></BaseTagLabel>
@@ -104,10 +111,11 @@
 	import Logger             from "../../services/logger"
 	import { ENDPOINT }       from "../../constants"
 	import stringify          from "../../helpers/stringifyText"
+	import BMessage           from "buefy/src/components/message/Message"
 
 	export default {
 		name: "OneDefinition",
-		components: {BaseVoteHorizontal, BaseTagLabel},
+		components: {BMessage, BaseVoteHorizontal, BaseTagLabel},
 		props: {
 			isPrimary: Boolean,
 			simpleComponent: Boolean,
@@ -195,6 +203,10 @@
 	span {
 	  margin: 0 .2em;
 	}
+  }
+
+  .example {
+	margin-top: 5px;
   }
 
   .fade-enter-active, .component-fade-leave-active {

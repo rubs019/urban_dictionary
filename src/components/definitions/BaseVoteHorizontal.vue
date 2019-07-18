@@ -1,7 +1,7 @@
 <template>
     <div id="basevote">
         <nav class="level">
-            <div :disabled="userExpression.userUpVoted" class="level-item button has-text-centered is-primary" v-on:click="vote('add')">
+            <div :disabled="userExpression.userUpVoted" class="level-item button has-text-centered is-success" v-on:click="vote('add')">
                 <span class="icon fa-2x">
                     <i class="fas fa-caret-up"></i>
                 </span>
@@ -15,7 +15,7 @@
                     </transition>
                 </div>
             </div>
-            <div :disabled="userExpression.userDownVoted" class="level-item button has-text-centered is-primary" v-on:click="vote('reduce')">
+            <div :disabled="userExpression.userDownVoted" class="level-item button has-text-centered is-danger" v-on:click="vote('reduce')">
                 <span class="icon fa-2x">
                     <i class="fas fa-caret-down"></i>
                 </span>
