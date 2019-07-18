@@ -37,9 +37,6 @@
 		<router-link v-if="Storage.state.isConnected" :to="{ name: 'AppProfile' }" class="navbar-item">
 		  {{ $t('menu_name.profile') }}
 		</router-link>
-		<router-link :to="{ name: 'AppAbout' }" class="navbar-item">
-		  {{ $t('menu_name.about') }}
-		</router-link>
 		<router-link
 				class="navbar-item"
 				:to="{ name: 'AppDisconnect' }"
@@ -50,23 +47,22 @@
 		<router-link v-if="!Storage.state.isConnected" :to="{ name: 'AppSignUp' }" class="navbar-item">
 		  {{ $t('menu_name.signup') }}
 		</router-link>
-
 		<b-dropdown class="navbar-item" aria-role="list" @change="switchLanguage">
 		  <button class="is-primary button" type="button" slot="trigger">
-			<template v-if="Storage.credentials.locale === 'fr'">
-			  <figure class="image is-16x16">
-				<img :src="fr_ico">
-			  </figure>
-			  <span>
-                Francais
-              </span>
-			</template>
-			<template v-else>
+			<template v-if="Storage.language === 'en'">
 			  <figure class="image is-16x16">
 				<img :src="en_ico">
 			  </figure>
 			  <span>
                 English
+              </span>
+			</template>
+			<template v-else>
+			  <figure class="image is-16x16">
+				<img :src="fr_ico">
+			  </figure>
+			  <span>
+                Francais
               </span>
 			</template>
 		  </button>
@@ -129,9 +125,11 @@
 			},
 			async switchLanguage(language) {
 				try {
-					await Patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation({locale: language}))
-					this.Storage.setLanguage(language)
+					if (Store.state.isConnected) {
+						await Patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation({locale: language}))
+					}
 					this.Storage.setUser(language, 'locale')
+					this.Storage.setLanguage(language)
 				} catch (e) {
 					Logger('Error', e)
 				}

@@ -54,7 +54,6 @@ function getWordUser(userId, locale = 'fr') {
 }
 function getDayTopRequest(locale = 'fr', minRange = 0, maxRange = 9) {
     const today = moment().hour(0).second(0).toISOString()
-    console.log('today', today)
 
     return '?sort=score,desc&'+ minRange + '-' + maxRange + '&where=' + JSON.stringify({
         $and: [
@@ -85,6 +84,7 @@ function getTopRequest(locale = 'fr', minRange = 0, maxRange = 9) {
 }
 
 function requestBuilder(url, locale = 'fr') {
+    if (locale === null) locale = 'fr'
     return url + '?where=' + JSON.stringify(
         {
             locale

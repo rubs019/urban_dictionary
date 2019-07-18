@@ -92,7 +92,6 @@ describe("Storage", () => {
           expect(Storage.setUser(allCredentials)).to.be.true
 
           _.forEach(Storage.credentials, (credential) => {
-            console.log('credential', credential)
             expect(credential).to.be.equal('toto')
           })
         })

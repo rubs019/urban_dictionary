@@ -13,7 +13,6 @@ let workers = []
 const setupWorkerProcesses = () => {
   // to read number of cores on system
   let numCores = require("os").cpus().length
-  console.log("Master cluster setting up " + numCores + " workers")
 
   // iterate on number of cores need to be utilized by an application
   // current example will utilize all of them
@@ -22,10 +21,6 @@ const setupWorkerProcesses = () => {
     // these references can be used to receive messages from workers
     workers.push(cluster.fork())
 
-    // to receive messages from worker process
-    workers[i].on("message", function(message) {
-      console.log(message)
-    })
   }
 
   // process is clustered on a core and process id is assigned
@@ -43,7 +38,6 @@ const setupWorkerProcesses = () => {
         ", and signal: " +
         signal
     )
-    console.log("Starting a new worker")
     cluster.fork()
     workers.push(cluster.fork())
     // to receive messages from worker process

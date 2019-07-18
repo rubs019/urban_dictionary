@@ -58,13 +58,10 @@
 			  </audio>
 			</div>
 			<!--	COnditional rendering username	  -->
-			  <router-link
-					  tag="p"
-					  id="userLink"
-					  class="subtitle has-text-left is-size-6"
-					  v-if="definition && definition.user && definition.user.username"
-					  :to="{ name: 'OneDefinition', params: { name: definition.user.username } }">Ecrit par @{{ definition.user.username }}
-			  </router-link>
+			<p id="userLink" class="subtitle has-text-left is-size-6"
+			   v-if="definition && definition.user && definition.user.username">Ecrit par @{{
+			  definition.user.username }}
+			</p>
 			<div class="content has-text-left">
 			  <!-- Content -->
 			  {{ definition.definition }}
@@ -106,7 +103,7 @@
 	import { Get }            from "../../services/api.service"
 	import Logger             from "../../services/logger"
 	import { ENDPOINT }       from "../../constants"
-	import stringify from "../../helpers/stringifyText"
+	import stringify          from "../../helpers/stringifyText"
 
 	export default {
 		name: "OneDefinition",
@@ -146,7 +143,7 @@
 					this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
 					return
 				}
-		  		Logger("OneDefinition : beforeMount : Expression was not found")
+				Logger("OneDefinition : beforeMount : Expression was not found")
 			}
 		},
 		async beforeRouteUpdate(to, from, next) {
@@ -167,6 +164,7 @@
   .justify-column {
 	flex-direction: column;
   }
+
   .media {
 	border: 1px solid #e1e1e1;
 	box-shadow: 0 1px 0 0 #e1e1e1;
@@ -191,10 +189,6 @@
 	cursor: pointer;
   }
 
-  p {
-	cursor: pointer;
-  }
-
   #tag-items {
 	margin: 5px 0;
 
@@ -202,11 +196,14 @@
 	  margin: 0 .2em;
 	}
   }
+
   .fade-enter-active, .component-fade-leave-active {
 	transition: opacity .3s ease;
   }
+
   .fade-enter, .component-fade-leave-to
-	/* .component-fade-leave-active avant la 2.1.8 */ {
+	/* .component-fade-leave-active avant la 2.1.8 */
+  {
 	opacity: 0;
   }
 </style>

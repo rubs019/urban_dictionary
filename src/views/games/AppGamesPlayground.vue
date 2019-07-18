@@ -249,22 +249,18 @@
                 })
             },
             startRoom() {
-                console.log('startRoom, next event is newRound')
-
                 this.$socket.emit('startRoom', {
                     roomId: this.roomId
                 })
             },
             play(roomId) {
-                console.log('play')
-
                 this.$socket.emit('play', {
                     roomId,
                     proposal: this.wordFromUser
                 })
             },
             newPlayer: function (data) {
-                console.log('newPlayer', data)
+                Logger('newPlayer', data)
             },
             leaveRoom: function () {
                 this.$socket.emit('leaveRoom', {

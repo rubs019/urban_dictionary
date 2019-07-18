@@ -7,7 +7,6 @@ const api = axios.create({
 })
 
 async function Get(endpoint = null, headers = null) {
-  console.log('GET', Store)
   const options = {
     ...headers,
     Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
