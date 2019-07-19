@@ -18,13 +18,12 @@
 
 			<div v-if="rooms && rooms.length !== 0" id="list-salon-actif">
 			  <ul v-for="(room, index) in rooms" :key="index">
-				<router-link tag="li" :to="{ name: 'AppGamesPlayground', params: {id: room.id} }"
-							 class="all-room tile notification is-primary">
+				<li class="all-room tile notification is-primary" v-on:click="goToGamePlayground(room)">
 				  <b-tag :type="room.playersIds.length === room.maxPlayers ? 'is-danger' : 'is-info'" rounded>{{
 					room.playersIds.length }} / {{ room.maxPlayers }}
 				  </b-tag>
 				  <p>{{ room.name }}</p>
-				</router-link>
+				</li>
 			  </ul>
 			  <div class="has-text-left">
 				<p>{{ $t('game.showMoreRoom') }} </p>
@@ -50,6 +49,7 @@
 	import Logger         from "../../services/logger"
 	import { ENDPOINT }   from "../../constants"
 	import Store          from "../../store"
+	import helpers        from "../../helpers"
 
 	export default {
 		name: "AppGames",
@@ -66,6 +66,15 @@
 			}
 		}),
 		methods: {
+			goToGamePlayground(room) {
+				if (!room) {
+					helpers.errorToast('Impossible de récupérer les informations de la room')
+					Logger('AppGames : GoToGamePlayground : error', room)
+				}
+				Logger('goToGamePlayground', room)
+				this.$localStorage.set('room', JSON.stringify(room))
+				this.$router.push('/games/' + room.id)
+			},
 			createRoomModal() {
 				this.myCreateRoomModal = this.$modal.open({
 					component: CreateRoomForm,
@@ -79,12 +88,11 @@
 			async createRoom(room) {
 				Logger('createRoom : ', room)
 				try {
-					const { data: result } = await Post(ENDPOINT.ROOM, room)
-
+					const {data: result} = await Post(ENDPOINT.ROOM, room)
+					this.$localStorage.set('room', JSON.stringify(result))
 					// SI c privée
-					if(result.isPrivate) {
+					if (result.isPrivate) {
 						// stock ma room
-						this.$localStorage.set('privateRoom', JSON.stringify(result))
 
 						this.myCreateRoomModal.close()
 
@@ -96,10 +104,9 @@
 
 					Logger('createRoom : result', result)
 
-					await this.getAllRooms()
-
 					this.myCreateRoomModal.close()
 
+					this.$router.push('/games/' + result.id)
 				} catch (e) {
 					Logger('AppGames : SendRoom : Error', e)
 				}

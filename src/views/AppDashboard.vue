@@ -19,8 +19,8 @@
 				  {{ props.row.definition }}
 				</b-table-column>
 
-				<b-table-column field="username" label="Utilisateur" sortable>
-				  {{ props.row.user && props.row.user.username }}
+				<b-table-column field="usernames" label="Utilisateur" sortable>
+				  {{ props.row.user && props.row.user.usernames }}
 				</b-table-column>
 
 				<b-table-column field="createdAt" label="Créer le" width="100" sortable>

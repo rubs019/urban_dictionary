@@ -6,7 +6,7 @@
 		<div class="columns">
 		  <div class="column is-8">
 			<div class="has-text-left">
-			  <p class="title" v-if="store.state.isConnected"> Welcome back, {{ store.credentials.username
+			  <p class="title" v-if="store.state.isConnected"> Welcome back, {{ store.credentials.usernames
 				}} </p>
 			  <p>{{ $t('message.appDescription') }}</p>
 			</div>

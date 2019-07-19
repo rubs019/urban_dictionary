@@ -60,6 +60,7 @@
 
                     if (Store.setUser(userInformation)) {
                         Store.setConnected(true)
+                        Store.setLanguage(userInformation.locale)
                     } else {
                     	throw Error('AppLogin : Erreur lors du stockage des identifiants')
                     }

@@ -57,10 +57,10 @@
 				<source :src="audio" type="audio/mpeg">
 			  </audio>
 			</div>
-			<!--	COnditional rendering username	  -->
+			<!--	COnditional rendering usernames	  -->
 			<p id="userLink" class="subtitle has-text-left is-size-6"
-			   v-if="definition && definition.user && definition.user.username">Ecrit par @{{
-			  definition.user.username }}
+			   v-if="definition && definition.user && definition.user.usernames">Ecrit par @{{
+			  definition.user.usernames }}
 			</p>
 			<b-message type="is-primary">
 			  <b class="is-size-5">{{ definition.definition }}</b>

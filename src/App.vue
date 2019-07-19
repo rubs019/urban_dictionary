@@ -49,10 +49,14 @@ export default {
     TheHeading
   },
   created() {
-    const haveCredentialsStored = !!this.$localStorage.get('credentials', null)
+    const haveCredentialsStored = this.$localStorage.get('credentials', null)
     if (haveCredentialsStored) {
-      Store.setUser(JSON.parse(this.$localStorage.get('credentials')))
-      Store.setLanguage(this.$localStorage.get('language'))
+      const credentials = JSON.parse(haveCredentialsStored)
+      Store.setUser(credentials)
+      Store.setLanguage(credentials.locale)
+    } else {
+      const language = this.$localStorage.get('language', null) ? 'fr' : this.$localStorage.get('language')
+      Store.setLanguage(language)
     }
   }
 }

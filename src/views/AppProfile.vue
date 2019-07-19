@@ -133,7 +133,7 @@
 				try {
 					const result = await Patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation(user))
 
-					Store.setUser(result.data.username, 'username')
+					Store.setUser(result.data.usernames, 'usernames')
 					Store.setUser(result.data.email, 'email')
 
 					helper.successToast(this, 'Vos informations ont bien été mise à jour')
@@ -202,7 +202,7 @@
 					const url = window.URL.createObjectURL(new Blob([JSON.stringify(result.data)]))
 					const link = document.createElement('a')
 					link.href = url
-					link.setAttribute('download', `${this.store.credentials.username}-account-${this.store.credentials.id}.json`) //or any other extension
+					link.setAttribute('download', `${this.store.credentials.usernames}-account-${this.store.credentials.id}.json`) //or any other extension
 					document.body.appendChild(link)
 					link.click()
 				} catch (err) {

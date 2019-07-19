@@ -16,7 +16,7 @@
                 </template>
                 <form @submit.prevent="sendLogin">
                   <div class="content has-text-left" v-if="user">
-                    <b-field :label="$t('form.username')">
+                    <b-field :label="$t('form.usernames')">
                       <b-input v-model="user.login"></b-input>
                     </b-field>
 

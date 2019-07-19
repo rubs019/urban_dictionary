@@ -2,7 +2,7 @@
   <div id="ProfileInformations">
 	<section>
 	  <form class="has-text-left" @submit.prevent="$emit('updateUserInformation', user)">
-		<b-field :label="$t('form.username')">
+		<b-field :label="$t('form.usernames')">
 		  <b-input v-model="user.name"></b-input>
 		</b-field>
 
@@ -43,7 +43,7 @@
 			return {
 				Status: STATUS,
 				user: {
-					name: this.credentials.username,
+					name: this.credentials.usernames,
 					email: this.credentials.email
 				}
 			}
