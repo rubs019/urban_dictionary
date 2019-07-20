@@ -9,7 +9,8 @@
       "contact": "Contact",
       "about": "About",
       "profile": "My profile",
-      "create_definition": "Add Expression"
+      "create_definition": "Add Expression",
+      "otherProfile": "Profile"
     },
     "rankingExpression": {
       "topLabel": "Top",
@@ -76,6 +77,8 @@
       "downloadRPGD": "Download personnal information",
       "deleteAccount": "Delete your account",
       "pictureAboutYou": "A picture about you...",
+      "OtherPictureAbout": "Picture of {username}",
+      "otherActualScore": "{username} score",
       "dayExpression": "Day expression",
       "allExpression": "All expressions",
       "appDescription": "Welcome on underdico, the slang dictionnary",
@@ -95,7 +98,8 @@
       "expression": "Expression",
       "about": "A propos",
       "profile": "Mon profil",
-      "create_definition": "Créer une expression"
+      "create_definition": "Créer une expression",
+      "otherProfile": "Profil"
     },
     "rankingExpression": {
       "topLabel": "Top",
@@ -162,6 +166,8 @@
       "deleteAccount": "Supprimer son compte",
       "switchPicture": "Changer de photo ?",
       "pictureAboutYou": "Une image de vous...",
+      "OtherPictureAbout": "Photo de {username}",
+      "otherActualScore": "Score de {username}",
       "dayExpression": "Expression du jour",
       "allExpression": "Toutes les expressions",
       "appDescription": "Bienvenue sur Underdico, le dictionnaire de référence de l'argot",

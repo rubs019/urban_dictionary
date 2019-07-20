@@ -7,16 +7,17 @@ import AppGamesPlayground from "./views/games/AppGamesPlayground"
 import OneDefinition      from "./components/definitions/OneDefinition"
 import UpdateDefinitions  from "./components/definitions/UpdateDefinitions"
 import RandomDefinition   from "./components/definitions/randomDefinition"
-import AppContact         from "./views/AppContact"
-import AppDefinitions     from "./views/AppDefinitions"
-import AddDefinitions     from "./components/definitions/AddDefinitions"
-import AppLogIn           from "./views/AppLogIn"
-import AppSignUp          from "./views/AppSignUp"
-import AppDisconnect      from "./views/AppDisconnect"
-import AppProfile         from "./views/AppProfile"
-import AppNotFound        from "./views/AppNotFound"
-import AppDashboard       from "./views/AppDashboard"
-import AppPrivacy         from "./views/AppPrivacy"
+import AppContact          from "./views/AppContact"
+import AppDefinitions      from "./views/AppDefinitions"
+import AddDefinitions      from "./components/definitions/AddDefinitions"
+import AppLogIn            from "./views/AppLogIn"
+import AppSignUp           from "./views/AppSignUp"
+import AppDisconnect       from "./views/AppDisconnect"
+import AppProfile          from "./views/AppProfile"
+import AppNotFound         from "./views/AppNotFound"
+import AppDashboard        from "./views/AppDashboard"
+import AppPrivacy          from "./views/AppPrivacy"
+import AppProfileOtherUser from "./views/AppProfileOtherUser"
 
 Vue.use(Router)
 
@@ -67,6 +68,12 @@ export default new Router({
 			path: "/profile",
 			name: "AppProfile",
 			component: AppProfile
+		},
+		{
+			path: "/profile/:id",
+			name: "AppProfileOtherUser",
+			props: true,
+			component: AppProfileOtherUser
 		},
 		{
 			path: "/healthcheck",

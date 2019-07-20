@@ -20,48 +20,18 @@
 				  </audio>
 				</div>
 			  </div>
-			  <div class="level-right">
-				<div class="dropdown is-hoverable">
-				  <div class="dropdown-trigger">
-					<div
-							class="dropdown-definition"
-							aria-haspopup="true"
-							aria-controls="dropdown-menu4"
-					>
-                        <span class="icon">
-                          <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-					</div>
-				  </div>
-				  <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-					<div class="dropdown-content">
-					  <a href="#" class="dropdown-item">
-                      <span class="icon">
-                          <i class="fas fa-flag" aria-hidden="true"></i>
-                        </span>
-						Autre langue
-					  </a>
-					  <a href="#" class="dropdown-item">
-                      <span class="icon">
-                        <i class="fas fa-book"></i>
-                      </span>
-						Proposez une définition
-					  </a>
-					</div>
-				  </div>
-				</div>
-			  </div>
 			</div>
 			<div v-if="audio" class="has-text-left">
 			  <audio v-if="!simpleComponent" controls>
 				<source :src="audio" type="audio/mpeg">
 			  </audio>
 			</div>
-			<!--	COnditional rendering usernames	  -->
-			<p id="userLink" class="subtitle has-text-left is-size-6"
-			   v-if="definition && definition.user && definition.user.username">Ecrit par @{{
-			  definition.user.username }}
-			</p>
+			  <router-link
+					  v-if="definition && definition.user && definition.user.id"
+					  tag="p"
+					  class="subtitle has-text-left is-size-6"
+					  :to="{ name: 'AppProfileOtherUser', params: { id: definition.user.id } }">Ecrit par <span class="userLink">@{{ definition.user.username }}</span>
+			  </router-link>
 			<b-message type="is-primary">
 			  <b class="is-size-5">{{ definition.definition }}</b>
 			  <section class="example">
@@ -218,5 +188,8 @@
 	/* .component-fade-leave-active avant la 2.1.8 */
   {
 	opacity: 0;
+  }
+  .userLink {
+	cursor: pointer;
   }
 </style>

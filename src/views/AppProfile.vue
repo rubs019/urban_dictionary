@@ -11,6 +11,7 @@
 				<b-tabs size="is-medium" type="is-boxed" expanded animated>
 				  <b-tab-item label="Mes informations">
 					<ProfileInformations
+							:editable="true"
 							:status-form="form.status"
 							v-if="store"
 							@updateUserInformation="updateUser"
