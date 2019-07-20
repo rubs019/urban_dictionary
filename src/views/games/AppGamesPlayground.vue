@@ -150,21 +150,13 @@
 			 * @param { User } user - information de l'utilisateur qui vient de déco
 			 * */
 			playerRemoved: function (user) {
-				if (user && user.username) {
-					helpers.errorToast(this, `${user.username} has been disconnected`)
-				} else {
-					helpers.errorToast(this, `A new player has been disconnected`)
-				}
-				const index = this.game.connectedUsers.findIndex(connectedUser => {
-					return connectedUser.id === user.id
-				})
-				this.game.connectedUsers.splice(1, index)
+				this.handlePlayerRemoved(user)
 			},
 			/**
 			 * Event lancer lorsque la partie débute
 			 * @param { User } user - information de l'utilisateur qui vient de déco
 			 * */
-			roomStarted: function (data) {
+			roomStarted: function () {
 				this.game.status = true
 				helpers.successToast(this, 'Game start')
 			},
@@ -174,13 +166,7 @@
 			 * @param { string } playerId - ID de l'utilisateur qui vient d'émettre la réponse
 			 * */
 			goodProposal: function ({playerId, playerScore}) {
-				Logger('Good proposal !', playerId)
-				clearInterval(this.interval)
-				const user = this.game.connectedUsers.find(user => user.id === playerId)
-				helpers.successToast(this, `Good proposition of ${user.username}`)
-				this.setTheNextUser(user.id)
-				this.game.wordFromUser = null
-				user.score = playerScore
+				this.handleGoodProposal({playerId, playerScore})
 			},
 			/**
 			 * Event lancer lorsqu'une mauvaise réponse est soumise
@@ -189,12 +175,7 @@
 			 * @param { string } nextPlayerId - ID de l'utilisateur suivant
 			 * */
 			wrongProposal: function ({playerId, nextPlayerId}) {
-				document.querySelector('.bar').style.width = "0%"
-				clearInterval(this.interval)
-				this.startTimer()
-				helpers.errorToast(this, 'Bad proposition')
-				Logger('Wrong proposal !', {playerId, nextPlayerId})
-
+				this.handleWrongProposal({playerId, nextPlayerId})
 			},
 			/**
 			 * Event lancer lorsqu'un nouveau round débute
@@ -207,6 +188,7 @@
 			},
 			timeout: function (data) {
 				Logger('timeout', data)
+				this.handleTimeout(data)
 			},
 			exception: function (data) {
 				Logger('exception', data)
@@ -251,6 +233,46 @@
 			disconnect: function () {
 				this.$socket.close()
 			},
+			handleTimeout({playerId, nextPlayerId}) {
+				Logger('Timeout !', {playerId, nextPlayerId})
+				helpers.errorToast(this, 'Timeout')
+				this.resetLoader()
+				this.setTheNextUser(nextPlayerId)
+				this.startTimer()
+			},
+			handlePlayerRemoved(user) {
+				if (user && user.username) {
+					helpers.errorToast(this, `${user.username} has been disconnected`)
+				} else {
+					helpers.errorToast(this, `A new player has been disconnected`)
+				}
+				const index = this.game.connectedUsers.findIndex(connectedUser => {
+					return connectedUser.id === user.id
+				})
+				this.game.connectedUsers.splice(1, index)
+			},
+			handleGoodProposal({playerId, playerScore}) {
+				Logger('Good proposal !', playerId)
+				const user = this.game.connectedUsers.find(user => user.id === playerId)
+
+				helpers.successToast(this, `Good proposition of ${user.username}`)
+
+				this.resetLoader()
+				this.setTheNextUser(user.id)
+
+				// Use to clean input user
+				this.game.wordFromUser = null
+
+				// Use to update playerScore
+				user.score = playerScore
+			},
+			handleWrongProposal({playerId, nextPlayerId}) {
+				Logger('Wrong proposal !', {playerId, nextPlayerId})
+				helpers.errorToast(this, 'Bad proposition')
+				this.resetLoader()
+				this.setTheNextUser(nextPlayerId)
+				this.startTimer()
+			},
 			/**
 			 * Affiche à l'écran la définition et le nombre de lettre à trouver
 			 * @param { string } definition - Définition du mot à trouver
@@ -258,10 +280,10 @@
 			 * @param { Array<null> } obfuscatedWord - Les lettres à trouver correspondant au mots
 			 */
 			handleNewRound({definition, obfuscatedWord, nextPlayerId}) {
+				helpers.successToast(this, `Au suivant !`)
 				this.game.definitionToFind = definition
 				this.game.obfuscatedWord = obfuscatedWord
 				this.startTimer()
-				// this.resetTimer = true
 				this.setTheNextUser(nextPlayerId)
 			},
 			sendWordFromUser: function () {
@@ -271,6 +293,10 @@
 					roomId: this.room.id,
 					proposal: this.game.wordFromUser
 				})
+			},
+			resetLoader() {
+				clearInterval(this.interval)
+				document.querySelector('.bar').style.width = "0%"
 			},
 			setTheNextUser: function (playerId) {
 				const user = this.game.connectedUsers.find(username => {
