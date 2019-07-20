@@ -48,7 +48,7 @@
 			  <div class="bar has-background-info"></div>
 			</div>
 			<div id="obfuscatedWord">
-			  <span v-for="(word, index) in game.obfuscatedWord" :key="index">{{ word === null ? '_ ' : word }}</span>
+			  <span v-for="(word, index) in game.obfuscatedWord" :key="index" class="obfuscatedSpan">{{ word === null ? '_ ' : word }}</span>
 			</div>
 		  </div>
 		  <div class="section">
@@ -150,6 +150,7 @@
 			 * @param { User } user - information de l'utilisateur qui vient de déco
 			 * */
 			playerRemoved: function (user) {
+				Logger('PlayerRemoved', user)
 				this.handlePlayerRemoved(user)
 			},
 			/**
@@ -244,12 +245,14 @@
 				if (user && user.username) {
 					helpers.errorToast(this, `${user.username} has been disconnected`)
 				} else {
-					helpers.errorToast(this, `A new player has been disconnected`)
+					helpers.errorToast(this, `A player has been disconnected`)
 				}
+				Logger('this.game.connectedUsers', this.game.connectedUsers)
 				const index = this.game.connectedUsers.findIndex(connectedUser => {
 					return connectedUser.id === user.id
 				})
-				this.game.connectedUsers.splice(1, index)
+				Logger('index', index)
+				this.game.connectedUsers.splice(index, 1)
 			},
 			handleGoodProposal({playerId, playerScore}) {
 				Logger('Good proposal !', playerId)
@@ -282,7 +285,7 @@
 			handleNewRound({definition, obfuscatedWord, nextPlayerId}) {
 				helpers.successToast(this, `Au suivant !`)
 				this.game.definitionToFind = definition
-				this.game.obfuscatedWord = obfuscatedWord
+				this.game.obfuscatedWord = [null, null, ' ', 't']
 				this.startTimer()
 				this.setTheNextUser(nextPlayerId)
 			},
@@ -462,5 +465,9 @@
   .bar {
 	width: 0%;
 	height: 20px;
+  }
+  .obfuscatedSpan {
+	display: inline-block;
+	margin: 0 10px;
   }
 </style>
