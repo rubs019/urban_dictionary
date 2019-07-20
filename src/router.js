@@ -44,6 +44,11 @@ export default new Router({
 			component: AppGamesPlayground
 		},
 		{
+			path: "/games/private/:id",
+			name: 'AppGamesPlayground',
+			component: AppGamesPlayground
+		},
+		{
 			path: "/login",
 			name: "AppLogIn",
 			component: AppLogIn

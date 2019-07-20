@@ -59,6 +59,7 @@
 			msg: "Coming soon",
 			serverIsUp: false,
 			myCreateRoomModal: null,
+			roomPrivateModalInfo: null,
 			loader: {
 				status: false,
 				text: 'refresh',
@@ -85,6 +86,14 @@
 					}
 				})
 			},
+			createRoomPrivateModalInfo(data) {
+				this.roomPrivateModalInfo = this.$modal.open(
+					`<div class="notification is-info">
+						<p>Code : ${data.code}</p>
+						<p>URL à partager : /games/private/${data.id}?code=${data.code}</p>
+					</div>`
+				)
+			},
 			async createRoom(room) {
 				Logger('createRoom : ', room)
 				try {
@@ -96,7 +105,11 @@
 
 						this.myCreateRoomModal.close()
 
-						this.$router.push('/games/' + result.code)
+						this.createRoomPrivateModalInfo(result)
+
+						Logger('createRoom private: result', result)
+
+						this.$router.push('/games/' + result.id)
 
 						return
 					}
