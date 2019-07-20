@@ -4,7 +4,6 @@
 	  <h1 class="title">Game playground
 		<span class="dot" :class="[server.status ? 'has-background-success' : 'has-background-danger']"></span>
 	  </h1>
-	  {{ room }}
 	  <!--        <b-button :disabled="!serverIsUp">leaveRoom</b-button>
 				  <b-button v-on:click="disconnect" :disabled="!serverIsUp">disconnect</b-button>-->
 	</div>
@@ -21,7 +20,7 @@
 			<div class="tile" v-if="game && game.connectedUsers">
 			  <ul class="has-text-left">
 				<li class="username" v-for="(user, index) in game.connectedUsers"
-					:key="index">{{ user.username }}
+					:key="index">{{ user.username }} ({{ user.score || 0 }})
 				</li>
 			  </ul>
 			</div>
@@ -29,24 +28,30 @@
 		</div>
 		<div id="game-container" class="column is-6 is-size-2">
 		  <div class="has-text-left">
-			<b-button :disabled="!server.status">Commencez le jeu</b-button>
-			<b-button :disabled="!server.status" v-on:click="startRoom">Start</b-button>
+			<b-button :disabled="!server.status" v-on:click="startRoom">Commencez le jeu</b-button>
 		  </div>
 		  <div class="has-text-centered">
+			{{ game.status }}
 			<div id="actionItem" v-if="game.status">
 			  <b-message type="is-primary">
 				C'est au tour de {{ nextUser }} de jouer
 			  </b-message>
-			  <b-notification :active.sync="gameError">
+			  <!--<b-notification :active.sync="gameError">
 				{{ gameError }}
-			  </b-notification>
+			  </b-notification>-->
 			</div>
 		  </div>
-		  <div class="">
-			<div class="notification is-info">
+		  <div id="gameplay">
+			<div id="definitionToFind" class="notification is-info">
 			  <p id="wordDefinitionItem" class="is-size-5">
 				{{ game.definitionToFind || "Le texte va apparaitre ici une fois le jeu lancé"}}
 			  </p>
+			</div>
+			<div id="loader">
+			  <div class="bar has-background-info"></div>
+			</div>
+			<div id="obfuscatedWord">
+			  <span v-for="(word, index) in game.obfuscatedWord" :key="index">{{ word === null ? '_ ' : word }}</span>
 			</div>
 		  </div>
 		  <div class="section">
@@ -97,8 +102,9 @@
 					status: false
 				},
 				room: {},
+				interval: null,
 				game: {
-					status: false,
+					resetTimer: false,
 					definitionToFind: null,
 					wordFromUser: null,
 					obfuscatedWord: null,
@@ -152,14 +158,21 @@
 			 * @param { User } user - information de l'utilisateur qui vient de déco
 			 * */
 			roomStarted: function (data) {
+				this.game.status = true
+				helpers.successToast(this, 'Game start')
 			},
 			/**
 			 * Event lancer lorsqu'une bonne réponse est soumise
 			 * Sert à notifier qu'un utilisateur à entrer une bonne proposition
 			 * @param { string } playerId - ID de l'utilisateur qui vient d'émettre la réponse
 			 * */
-			goodProposal: function (playerId) {
+			goodProposal: function ({playerId, playerScore}) {
 				Logger('Good proposal !', playerId)
+				clearInterval(this.interval)
+				const user = this.game.connectedUsers.find(user => user.id === playerId)
+				helpers.successToast(this, `Good proposition of ${user.username}`)
+				this.setTheNextUser(user.id)
+				user.score = playerScore
 			},
 			/**
 			 * Event lancer lorsqu'une mauvaise réponse est soumise
@@ -168,7 +181,10 @@
 			 * @param { string } nextPlayerId - ID de l'utilisateur suivant
 			 * */
 			wrongProposal: function ({playerId, nextPlayerId}) {
-
+				document.querySelector('.bar').style.width = "0%"
+				clearInterval(this.interval)
+				this.startTimer()
+				helpers.errorToast(this, 'Bad proposition')
 				Logger('Wrong proposal !', {playerId, nextPlayerId})
 
 			},
@@ -183,6 +199,7 @@
 			},
 			timeout: function (data) {
 				Logger('timeout', data)
+				this.resetTimer = true
 			},
 			exception: function (data) {
 				Logger('exception', data)
@@ -210,9 +227,6 @@
 					roomId: this.room.id
 				})
 			},
-			userIsAlreadyConnected(userId) {
-				return !!this.room.playersIds.find(playerId => playerId === userId)
-			},
 			play(roomId) {
 				this.$socket.emit('play', {
 					roomId,
@@ -221,7 +235,7 @@
 			},
 			leaveRoom: function () {
 				this.$socket.emit('leaveRoom', {
-					roomId: this.roomId
+					roomId: this.room.id
 				})
 				this.disconnect()
 				this.$router.push('/games')
@@ -238,13 +252,15 @@
 			handleNewRound({definition, obfuscatedWord, nextPlayerId}) {
 				this.game.definitionToFind = definition
 				this.game.obfuscatedWord = obfuscatedWord
+				this.startTimer()
+				// this.resetTimer = true
 				this.setTheNextUser(nextPlayerId)
 			},
 			sendWordFromUser: function () {
 				Logger(`The word enter is : ${this.game.wordFromUser}`)
 
 				this.$socket.emit('play', {
-					roomId: this.roomId,
+					roomId: this.room.id,
 					proposal: this.game.wordFromUser
 				})
 			},
@@ -253,7 +269,7 @@
 					return usernames.id === playerId
 				})
 				Logger('setNextUser() = ', user)
-				this.nextUser = user.usernames
+				this.nextUser = user.username
 			},
 			/**
 			 * @param {string} roomId - ID provenant du path de l'url
@@ -274,6 +290,7 @@
 
 				let userHasBeenFill = false
 				usernames.forEach((username, index) => {
+					// Pas besoin de push si le user existe déjà dans la liste
 					if (this.game.connectedUsers.find(connectedUser => connectedUser.id === playersIds[index])) {
 						return
 					}
@@ -281,6 +298,27 @@
 					userHasBeenFill = true
 				})
 				return userHasBeenFill
+			},
+			startTimer() {
+				const barElement = document.querySelector('.bar')
+				if (!this.room.timeout) {
+					Logger('timer Error')
+					return
+				}
+				let percentage = 0
+				const that = this
+				this.interval = setInterval(function() {
+					if (percentage > 100) {
+						clearInterval(this.interval)
+					}
+
+					if (that.resetTimer) {
+						percentage = 0
+						that.resetTimer = false
+					}
+					barElement.style.width = `${percentage}%`
+					percentage++
+				}, 300)
 			}
 		},
 		// Use to create the room
@@ -334,15 +372,6 @@
 			}
 
 			this.joinRoom(this.room.id, this.Storage.credentials.id)
-		},
-		async beforeRouteUpdate(to, from, next) {
-			Logger('beforeRouteUpdate', to)
-			next()
-		},
-		async beforeRouteLeave(to, from, next) {
-			// Set server status when user use back/next history navigator
-			Logger('Route update', this.server.status)
-			next()
 		}
 	}
 </script>
@@ -357,16 +386,25 @@
 	  font-weight: bold;
 	}
   }
-
   .user-active {
 	background-color: #c2ec72;
   }
-
   .dot {
 	height: 15px;
 	width: 15px;
 	background-color: #bbb;
 	border-radius: 50%;
 	display: inline-block;
+  }
+  .bar, #loader {
+	border-radius: 20px;
+  }
+  #loader {
+	width: 100%;
+	border: 1px solid lightgray;
+  }
+  .bar {
+	width: 0%;
+	height: 20px;
   }
 </style>
