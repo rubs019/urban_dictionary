@@ -1,4 +1,5 @@
 import axios from "axios"
+import Store from '../store'
 
 const api = axios.create({
   baseURL: process.env.VUE_APP_API_PROD,
@@ -7,7 +8,8 @@ const api = axios.create({
 
 async function Get(endpoint = null, headers = null) {
   const options = {
-    Authorization: headers ? `Bearer ${headers.token}` : null
+    ...headers,
+    Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
   }
   if (!endpoint) {
     return await api({
@@ -27,7 +29,7 @@ async function Post(endpoint, data = null, headers = null) {
     url: `/${endpoint}`,
     method: 'POST',
     headers: {
-      Authorization: headers && headers.token ? `Bearer ${headers.token}` : undefined
+      Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
     },
     data
   }
@@ -39,7 +41,7 @@ async function Patch(endpoint, data = null, headers = null) {
     url: `/${endpoint}`,
     method: 'PATCH',
     headers: {
-      Authorization: headers && headers.token ? `Bearer ${headers.token}` : undefined
+      Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
     },
     data
   }
@@ -50,11 +52,24 @@ async function Put(endpoint, data, headers = null) {
   const options = {
     url: `/${endpoint}`,
     method: 'PUT',
-    headers: headers,
+    headers: {
+      Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
+    },
     data
   }
   return await api(options)
 }
 
-export { Get, Post, Patch, Put }
+async function Delete(endpoint, headers = null) {
+  const options = {
+    url: `/${endpoint}`,
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${headers && headers.token ? headers.token : Store.credentials.token}`
+    }
+  }
+  return await api(options)
+}
+
+export { Get, Post, Patch, Put, Delete }
 

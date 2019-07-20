@@ -1,21 +1,22 @@
-import Vue               from "vue"
-import Router            from "vue-router"
-import AppHome           from "./views/AppHome.vue"
-import HealthCheck       from "./views/AppHealthCheck.vue"
-import Games             from "./views/games/Games"
-import OneDefinition     from "./components/definitions/OneDefinition"
-import UpdateDefinitions from "./components/definitions/UpdateDefinitions"
-import RandomDefinition from "./components/definitions/randomDefinition"
-import AppContact       from "./views/AppContact"
-import AppDefinitions   from "./views/AppDefinitions"
-import AddDefinitions   from "./components/definitions/AddDefinitions"
-import AppLogIn         from "./views/AppLogIn"
-import AppSignUp        from "./views/AppSignUp"
-import AppDisconnect    from "./views/AppDisconnect"
-import AppProfile       from "./views/AppProfile"
-import AppNotFound      from "./views/AppNotFound"
-import AppDashboard     from "./views/AppDashboard"
-import AppPrivacy       from "./views/AppPrivacy"
+import Vue                from "vue"
+import Router             from "vue-router"
+import AppHome            from "./views/AppHome.vue"
+import HealthCheck        from "./views/AppHealthCheck.vue"
+import AppGamesHome       from "./views/games/AppGames"
+import AppGamesPlayground from "./views/games/AppGamesPlayground"
+import OneDefinition      from "./components/definitions/OneDefinition"
+import UpdateDefinitions  from "./components/definitions/UpdateDefinitions"
+import RandomDefinition   from "./components/definitions/randomDefinition"
+import AppContact         from "./views/AppContact"
+import AppDefinitions     from "./views/AppDefinitions"
+import AddDefinitions     from "./components/definitions/AddDefinitions"
+import AppLogIn           from "./views/AppLogIn"
+import AppSignUp          from "./views/AppSignUp"
+import AppDisconnect      from "./views/AppDisconnect"
+import AppProfile         from "./views/AppProfile"
+import AppNotFound        from "./views/AppNotFound"
+import AppDashboard       from "./views/AppDashboard"
+import AppPrivacy         from "./views/AppPrivacy"
 
 Vue.use(Router)
 
@@ -34,8 +35,13 @@ export default new Router({
 		},
 		{
 			path: "/games",
-			name: "games",
-			component: Games
+			name: "AppGames",
+			component: AppGamesHome
+		},
+		{
+			path: "/games/:id",
+			name: 'AppGamesPlayground',
+			component: AppGamesPlayground
 		},
 		{
 			path: "/login",
@@ -103,7 +109,7 @@ export default new Router({
 			component: AppDashboard
 		},
 		{
-			path: "/policy",
+			path: "/policy.html",
 			name: "AppPrivacy",
 			component: AppPrivacy
 		},

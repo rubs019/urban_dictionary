@@ -11,7 +11,6 @@ module.exports = {
 			.setValue('input#login.input',['\u0008', '\u0008', '\u0008', '\u0008', '\u0008'])
 			.setValue('input#login.input', 'Boubou')
 			.getValue('input#login.input', (elem) => {
-				console.log('val', elem.value)
 				expect(elem.value).to.be.equal('Boubou')
 			})
 	},

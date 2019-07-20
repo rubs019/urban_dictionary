@@ -6,7 +6,7 @@
           {{ AppName }}
         </h1>
         <h2 class="subtitle">
-          {{ AppDescription }}
+          {{ $t('message.appDescription') }}
         </h2>
         <h2 class="subtitle search">
           <SearchComponent></SearchComponent>
@@ -25,8 +25,7 @@ export default {
   components: { SearchComponent },
   data() {
     return {
-      AppName: APP_NAME,
-      AppDescription: APP_DESCRIPTION
+      AppName: APP_NAME
     }
   }
 }

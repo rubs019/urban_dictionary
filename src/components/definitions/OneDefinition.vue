@@ -2,7 +2,7 @@
   <div class="one-definitions">
 	<transition name="component-fade" mode="out-in">
 	  <template v-if="definition">
-		<div class="tile is-parent">
+		<div class="tile is-vertical is-parent">
 		  <article
 				  class="tile is-child notification"
 				  v-bind:class="[isPrimary ? 'is-primary' : ''  ]">
@@ -13,6 +13,11 @@
 						  class="title"
 						  :to="{ name: 'OneDefinition', params: { name: definition.name } }">{{ definition.name }}
 				  </router-link>
+				</div>
+				<div v-if="audio && simpleComponent">
+				  <audio controls>
+					<source :src="audio" type="audio/mpeg">
+				  </audio>
 				</div>
 			  </div>
 			  <div class="level-right">
@@ -42,38 +47,41 @@
                       </span>
 						Proposez une définition
 					  </a>
-					  <a href="" class="dropdown-item">
-                      <span class="icon">
-                        <i class="fas fa-volume-up"></i>
-                      </span>
-						Ecouter l'audio
-					  </a>
 					</div>
 				  </div>
 				</div>
 			  </div>
 			</div>
-			<!--	COnditional rendering username	  -->
-			<template v-if="!simpleComponent">
-			  <router-link
-					  tag="p"
-					  id="userLink"
-					  class="subtitle has-text-left is-size-6"
-					  :to="{ name: 'OneDefinition', params: { name: definition.user.username } }">@{{ definition.user.username }}
-			  </router-link>
-			</template>
-			<div class="content has-text-left">
-			  <!-- Content -->
-			  {{ definition.definition }}
+			<div v-if="audio" class="has-text-left">
+			  <audio v-if="!simpleComponent" controls>
+				<source :src="audio" type="audio/mpeg">
+			  </audio>
 			</div>
+			<!--	COnditional rendering usernames	  -->
+			<p id="userLink" class="subtitle has-text-left is-size-6"
+			   v-if="definition && definition.user && definition.user.usernames">Ecrit par @{{
+			  definition.user.usernames }}
+			</p>
+			<b-message type="is-primary">
+			  <b class="is-size-5">{{ definition.definition }}</b>
+			  <section class="example">
+				<b-message v-if="expression.example">
+				  <span class="subtile">Example : </span>
+				  <!-- Example -->
+				  "{{ definition.example }}"
+				</b-message>
+			  </section>
+			</b-message>
+
 			<div id="tag-items" class="has-text-left">
             <span id="label-items" v-for="(label, index) in definition.tags" :key="index">
               <BaseTagLabel :name="label" :colors="!!simpleComponent"></BaseTagLabel>
             </span>
 			</div>
-			<BaseVoteHorizontal :nb-vote="definition ? definition.score : 92 " :id-expression="definition.id"></BaseVoteHorizontal>
+			<BaseVoteHorizontal :expression="definition"></BaseVoteHorizontal>
 		  </article>
 		</div>
+
 	  </template>
 	  <template v-else-if="definition === false">
 		<div class="tile is-parent">
@@ -102,10 +110,12 @@
 	import { Get }            from "../../services/api.service"
 	import Logger             from "../../services/logger"
 	import { ENDPOINT }       from "../../constants"
+	import stringify          from "../../helpers/stringifyText"
+	import BMessage           from "buefy/src/components/message/Message"
 
 	export default {
 		name: "OneDefinition",
-		components: {BaseVoteHorizontal, BaseTagLabel},
+		components: {BMessage, BaseVoteHorizontal, BaseTagLabel},
 		props: {
 			isPrimary: Boolean,
 			simpleComponent: Boolean,
@@ -113,48 +123,56 @@
 		},
 		data: function () {
 			return {
-				definition: this.expression
+				definition: this.expression,
+				audio: null,
+				voiceRecord: new MediaStream(),
+				headers: {}
 			}
 		},
+		methods: {},
 		beforeMount() {
 			const name = this.$route && this.$route.params ? this.$route.params.name : undefined
+			Logger('OneDefinition : BeforeMount : randomExpression', name)
 			if (name) {
-				Get(`${ENDPOINT.WORDS}?where={"name": "${name}"}`)
+				Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(name)}}`)
 					.then(result => {
-						Logger('OneDefinition : beforeMount : result', result.data[0])
-						this.definition = result.data[0]
+						this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
+						this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
+					})
+					.then(res => {
+						Logger('OneDefinition : BeforeMount : randomExpression', res)
 					})
 					.catch(error => {
 						Logger('Error', error)
 					})
 			} else {
-				Logger('OneDefinition : beforeMount : this.expression', this.expression)
 				if (this.expression) {
 					this.definition = this.expression
+					this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
 					return
 				}
-		  		Logger("OneDefinition : beforeMount : Expression was not found")
+				Logger("OneDefinition : beforeMount : Expression was not found")
 			}
 		},
 		async beforeRouteUpdate(to, from, next) {
-			// react to route changes...
-			// don't forget to call next()
-			console.log(to, from)
-			Get(`${ENDPOINT.WORDS}?where={"name": "${to.params.name}"}`)
-				.then(result => {
-					Logger('OneDefinition : beforeRouteUpdate : result', result.data[0])
-					this.definition = result.data[0]
+			Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(to.params.name)}}`)
+				.then(async result => {
+					this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
+					this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
 				})
 				.catch(error => {
 					Logger('Error', error)
 				})
-			console.log("done")
 			next()
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+  .justify-column {
+	flex-direction: column;
+  }
+
   .media {
 	border: 1px solid #e1e1e1;
 	box-shadow: 0 1px 0 0 #e1e1e1;
@@ -179,10 +197,6 @@
 	cursor: pointer;
   }
 
-  p {
-	cursor: pointer;
-  }
-
   #tag-items {
 	margin: 5px 0;
 
@@ -190,11 +204,18 @@
 	  margin: 0 .2em;
 	}
   }
+
+  .example {
+	margin-top: 5px;
+  }
+
   .fade-enter-active, .component-fade-leave-active {
 	transition: opacity .3s ease;
   }
+
   .fade-enter, .component-fade-leave-to
-	/* .component-fade-leave-active avant la 2.1.8 */ {
+	/* .component-fade-leave-active avant la 2.1.8 */
+  {
 	opacity: 0;
   }
 </style>

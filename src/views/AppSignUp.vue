@@ -2,20 +2,22 @@
   <div class="columns">
 	<div class="column is-6 is-offset-3">
 	  <FormSignUp @tryRegister="register"
-		:message="form.message"
-		:color="form.color"
-		:status="form.status"></FormSignUp>
+				  :message="form.message"
+				  :color="form.color"
+				  :status="form.status"></FormSignUp>
 	</div>
   </div>
 </template>
 
 <script>
-	import FormSignUp                      from "../components/form/FormSignUp"
-	import { Post }                        from "../services/api.service"
-	import DTO                             from "../services/DTO"
-	import Logger                          from "../services/logger"
-	import Store                           from "../store"
-	import { NOTIF_MSG, API_PATH, STATUS } from "../constants"
+	import FormSignUp                 from "../components/form/FormSignUp"
+	import { Post }                   from "../services/api.service"
+	import DTO                        from "../services/DTO"
+	import Logger                     from "../services/logger"
+	import Store                      from "../store"
+	import { API_PATH, STATUS }       from "../constants"
+	import { passwordIsGreaterThan6 } from '../helpers/checkPasswordHelper'
+	import { checkPassword }          from '../helpers/checkPasswordHelper'
 
 	export default {
 		name: "AppSignUp",
@@ -43,85 +45,57 @@
 				try {
 					const result = await Post(API_PATH.CREATE_USER, DTO.accountCreate(credentials))
 
-					Logger('result', result)
-
 					Store.setConnected(true)
 					Store.setUser(result.data)
 
-					this.setMsgNotification(NOTIF_MSG.SUCCESS)
+					this.setMsgNotification(this.$t('notif.SUCCESS'), false)
 					const that = this
 					setTimeout(() => {
 						that.$router.push("/login")
 					}, 1500)
 				} catch (e) {
 					this.form.status = STATUS.ERROR
-					Logger('e', e)
+					Logger('error', e)
 					const that = this
 					setTimeout(() => {
 						if (!e || !e.response || !e.response.data) {
-							that.setMsgNotification(NOTIF_MSG.ERROR_SERVER)
+							that.setMsgNotification(this.$t('notif.ERROR_SERVER'), true)
 							return
 						}
 						if (e.response.data.status === 422) {
-							that.setMsgNotification(NOTIF_MSG.USER_ALREADY_EXIST)
+							that.setMsgNotification(this.$t('notif.USER_ALREADY_EXIST'), true)
 							return
 						}
 
 						if (e.response.data.statusCode === 409) {
-
-							that.setMsgNotification(NOTIF_MSG.EMAIL_ALREADY_EXIST)
-							return
+							that.setMsgNotification(this.$t('notif.EMAIL_ALREADY_EXIST'), true)
 						}
 					}, 1500)
 				}
 
 			},
 			/**
-			 * Check if password is the same
-			 * @param credentials {object}
-			 * @return {boolean}
-			 */
-			checkPassword(credentials) {
-				// Check if password is the same
-				if (!credentials.pwd || !credentials.pwd2) return false
-				return credentials.pwd === credentials.pwd2
-			},
-			/**
-			 * Check password length
-			 * @param credentials {object}
-			 * @return {boolean}
-			 */
-			checkPasswordLength(credentials) {
-				// Check if password is the same
-				if (!credentials.pwd) return false
-				return credentials.pwd.length >= 6
-			},
-			/**
 			 * Set the message of notification
 			 *
 			 * @param message {string} The new message to show
+			 * @param isError {boolean} Use to update color of form
 			 * @return {boolean}
 			 */
-			setMsgNotification(message) {
-				this.form.color = message === NOTIF_MSG.SUCCESS ? 'success' : 'danger'
+			setMsgNotification(message, isError = true) {
+				this.form.color = isError ? 'danger' : 'success'
 				this.form.message = message
 			},
-			/**
-			 * Check all form
-			 * @param credentials {object}
-			 * @return {boolean}
-			 */
 			validationInput(credentials) {
-				if (!this.checkPasswordLength(credentials)) {
-					this.setMsgNotification(NOTIF_MSG.PWD_TOO_SHORT)
+				if (!passwordIsGreaterThan6(credentials.pwd)) {
+					this.setMsgNotification(this.$t('notif.PWD_TOO_SHORT'), true)
 					return false
 				}
-				if (!this.checkPassword(credentials)) {
-					this.setMsgNotification(NOTIF_MSG.NOT_SAME_PWD)
+				if (!checkPassword(credentials.pwd, credentials.pwd2)) {
+					this.setMsgNotification(this.$t('notif.NOT_SAME_PWD'), true)
 					return false
 				}
 				return true
-			},
+			}
 		}
 	}
 </script>

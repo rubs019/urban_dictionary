@@ -1,0 +1,171 @@
+{
+  "en": {
+    "menu_name": {
+      "home": "Home",
+      "login": "Login",
+      "logout": "Logout",
+      "signup": "Sign up",
+      "games": "Play",
+      "contact": "Contact",
+      "about": "About",
+      "profile": "My profile",
+      "create_definition": "Add Expression"
+    },
+    "rankingExpression": {
+      "topLabel": "Top",
+      "dayTopLabel": "Top of the day",
+      "weekTopLabel": "Top of the week"
+    },
+    "search": {
+      "placeholder": "Search a word"
+    },
+    "form": {
+      "myInfo": "My information",
+      "myExpression": "My expressions",
+      "btnUpdate": "Update",
+      "login": {
+        "submitBtn": "Log in"
+      },
+      "username": "Username",
+      "password": "Password",
+      "noAccount": "Don't have an account ?",
+      "alreadyAccount": "You already have an account ?",
+      "email": "Email",
+      "confirmPassword": "Confirm your password"
+    },
+    "notif": {
+      "voteError": "An error occurred during the vote, please try again later",
+      "voteErrorUnconnectedUser": "You must be <a href='/login'>connect</a> to access this feature",
+      "confirmTextvoteErrorUnconnectedUser": "I promise, I'll connect.",
+      "ACCOUNT_NOT_EXIST": "The user name does not exist",
+      "BAD_CREDENTIALS": "Incorrect username or password",
+      "PWD_OR_LOGIN_EMPTY": "The user name and/or password is empty",
+      "PWD_TOO_SHORT": "The password must have at least 6 letters",
+      "SECOND_PWD_REQUIRED": "Please enter a second password",
+      "NOT_SAME_PWD": "Passwords must be identical",
+      "USER_ALREADY_EXIST": "This username already exists",
+      "EMAIL_ALREADY_EXIST": "This email is already used",
+      "SUCCESS": "You will be redirected to the corresponding page",
+      "ERROR_SERVER": "An error has occurred, please try again in a few moments",
+      "SUCCESS_LOGIN": "Successful connection..."
+    },
+    "game": {
+      "listRoomActive": "List of active rooms",
+      "showMoreRoom": "See more rooms...",
+      "noActiveRoom": "No active room",
+      "unConnectedUserMessage": "Please login to create or join a room",
+      "createRoom": "Create a new room",
+      "roomName": "Room name",
+      "maxRoomPlayer": "Max player",
+      "selectName": "Select a name",
+      "private": "Private",
+      "ranked": "ranked",
+      "notif": {
+        "NOT_OWNER": "You are not the owner",
+        "MAX_PLAYER_REACHED": "Max player reached",
+        "TIMEOUT": "Oops ... The deadline, finished"
+      }
+    },
+    "message": {
+      "you": "You",
+      "expressionTitle": "Create a new definition",
+      "expressionExplain": "Here you can create your own definitions and share to everyone!\n",
+      "expressionSubtitle": "Whether it is an expression specific to your city, your region, or your country, we collect all possible expressions in order to share this knowledge\n",
+      "switchPicture": "Switch picture ?",
+      "actualScore": "Your score is",
+      "downloadRPGD": "Download personnal information",
+      "pictureAboutYou": "A picture about you...",
+      "dayExpression": "Day expression",
+      "allExpression": "All expressions",
+      "appDescription": "Welcome on underdico, the slang dictionnary",
+      "createDefinition": "Create a definition",
+      "launchGame": "Start a game",
+      "close": "Close"
+    }
+  },
+  "fr": {
+    "menu_name": {
+      "home": "Accueil",
+      "login": "Se connecter",
+      "logout": "Se déconnecter",
+      "signup": "S'inscrire",
+      "games": "Jouer",
+      "contact": "Contact",
+      "expression": "Expression",
+      "about": "A propos",
+      "profile": "Mon profil",
+      "create_definition": "Créer une expression"
+    },
+    "rankingExpression": {
+      "topLabel": "Top",
+      "dayTopLabel": "Top du jour",
+      "weekTopLabel": "Top semaines"
+    },
+    "search": {
+      "placeholder": "Entrer le mot que vous cherchez"
+    },
+    "form": {
+      "myExpression": "Mes expressions",
+      "myInfo": "Mes informations",
+      "btnUpdate": "Mettre à jour",
+      "login": {
+        "submitBtn": "Se connecter"
+      },
+      "username": "Nom d'utilisateur",
+      "password": "Mot de passe",
+      "noAccount": "Vous n'avez pas encore de compte ?",
+      "alreadyAccount": "Vous avez déjà un compte ?",
+      "email": "Email",
+      "confirmPassword": "Confirmer votre mot de passe"
+    },
+    "notif": {
+      "voteError": "Une erreur s'est produite lors du vote, veuillez réessayer plus tard",
+      "voteErrorUnconnectedUser": "Vous devez vous <a href='/login'>connecter</a> pour accéder à cette fonctionnalité",
+      "confirmTextvoteErrorUnconnectedUser": "Promis, je me connecterais",
+      "ACCOUNT_NOT_EXIST": "Le nom d'utilisateur n'existe pas",
+      "BAD_CREDENTIALS": "Nom d'utilisateur ou mot de passe incorrect",
+      "PWD_OR_LOGIN_EMPTY": "Le nom d'utilisateur et/ou le password est vide",
+      "PWD_TOO_SHORT": "Le mot de passe doit avoir au moins 6 lettres",
+      "SECOND_PWD_REQUIRED": "Merci d'entrer un second mot de passe",
+      "NOT_SAME_PWD": "Les mots de passent doivent être identiques",
+      "USER_ALREADY_EXIST": "Ce nom d'utilisateur existe déjà",
+      "EMAIL_ALREADY_EXIST": "Cette email est déjà utilisé",
+      "SUCCESS": "Vous allez être redirigé vers la page correspondante",
+      "ERROR_SERVER": "Une erreur s'est produite, veuillez réessayer dans quelques instants",
+      "SUCCESS_LOGIN": "Connexion réussie..."
+    },
+    "game": {
+      "listRoomActive": "Liste des salons actifs",
+      "showMoreRoom": "Voir plus de salon...",
+      "noActiveRoom": "Pas de salon actif",
+      "unConnectedUserMessage": "Veuillez vous connecter pour créer/rejoindre un salon",
+      "createRoom": "Créer un nouveau salon",
+      "roomName": "Nom du salon",
+      "maxRoomPlayer": "Joueurs maximum",
+      "selectName": "Séléctioner un nom",
+      "private": "Privée",
+      "ranked": "Classé",
+      "notif": {
+        "NOT_OWNER": "Vous n'êtes pas le créateur de la partie",
+        "MAX_PLAYER_REACHED": "Le nombre maximum de joueurs à été atteint",
+        "TIMEOUT": "Oups... Tu as pris trop de temps"
+      }
+    },
+    "message": {
+      "you": "Vous",
+      "expressionTitle": "Créer une nouvelle expression",
+      "expressionExplain": "Ici vous pouvez créer vos propres définitions et les partager à tout le monde !",
+      "expressionSubtitle": "Que cela soit une expression propre à votre ville, à votre région, ou votre pays, nous récoltons toutes les expressions possible dans l'objectif de partager ces connaissances",
+      "actualScore": "Votre score actuel est de ",
+      "downloadRPGD": "Télécharger ses données brutes",
+      "switchPicture": "Changer de photo ?",
+      "pictureAboutYou": "Une image de vous...",
+      "dayExpression": "Expression du jour",
+      "allExpression": "Toutes les expressions",
+      "appDescription": "Bienvenue sur Underdico, le dictionnaire de référence de l'argot",
+      "createDefinition": "Créer une définition",
+      "launchGame": "lancer une partie",
+      "close": "Fermer"
+    }
+  }
+}

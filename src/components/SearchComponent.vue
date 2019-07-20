@@ -1,8 +1,8 @@
 <template>
   <div id="search-component" class="control has-icons-left has-icons-right">
 	<!-- Liste de defintions -->
-	<div class="content" v-if="resultList">
-	  <ul id="list-expression">
+	<div class="content">
+	  <ul v-if="resultList">
 		<!-- On affiche la liste que si nous avons des résultats -->
 		<li
 				v-for="(expression, index) in expressions"
@@ -23,7 +23,7 @@
 			@keydown.enter="UIRedirectToDefinition(userInput.name)"
 			@keyup="search(userInput.name)"
 			type="text"
-			placeholder="Entrer le mot que vous cherchez"
+			:placeholder="$t('search.placeholder')"
 			v-model="userInput.name"
 	/>
 	<!-- Icone de gauche -->
@@ -58,10 +58,14 @@
 			search: function(text) {
 				if (text.length < 2) return
 
-				Logger('SeachComponent : Search : ', text)
-				Get(`${ENDPOINT.WORDS}?where={"name": { "$regex": "${text}"}}`)
+				const cleanText = JSON.stringify({
+					'$regex': text,
+					'$options': 'i'
+				})
+
+				Logger('SeachComponent : Search : ', cleanText)
+				Get(`${ENDPOINT.WORDS}?where={"name": ${cleanText}}`)
 					.then((result) => {
-						console.log('result', result)
 
 						const { data: findedWord } = result
 
@@ -71,12 +75,6 @@
 					.catch((err) => {
 						Logger('SearchComponent :  Error', err)
 					})
-			},
-			filterWithLowerCase: function (rawExpression) {
-				return rawExpression.name.toLowerCase() === this.userInput.name
-			},
-			onClose() {
-				this.rawExpressions = []
 			},
 			UIRedirectToDefinition(text) {
 				Logger('SearchComponent : UIRedirectToDefinition : ', text)
@@ -94,8 +92,7 @@
 		},
 		computed: {
 			suggestions: function (res) {
-				Logger('res', res)
-				return this.expressions
+				return [{name: "Ok"}]
 			},
 			resultList: function () {
 				return this.suggestions.length !== 0
