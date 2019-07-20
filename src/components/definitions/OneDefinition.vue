@@ -59,8 +59,8 @@
 			</div>
 			<!--	COnditional rendering usernames	  -->
 			<p id="userLink" class="subtitle has-text-left is-size-6"
-			   v-if="definition && definition.user && definition.user.usernames">Ecrit par @{{
-			  definition.user.usernames }}
+			   v-if="definition && definition.user && definition.user.username">Ecrit par @{{
+			  definition.user.username }}
 			</p>
 			<b-message type="is-primary">
 			  <b class="is-size-5">{{ definition.definition }}</b>
@@ -137,7 +137,7 @@
 				Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(name)}}`)
 					.then(result => {
 						this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
-						this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
+						this.audio = this.definition.hasAudio ? `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio` : false
 					})
 					.then(res => {
 						Logger('OneDefinition : BeforeMount : randomExpression', res)
@@ -148,7 +148,8 @@
 			} else {
 				if (this.expression) {
 					this.definition = this.expression
-					this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
+					Logger('this.definition.hasAudio', this.definition.hasAudio)
+					this.audio = this.definition.hasAudio ? `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio` : false
 					return
 				}
 				Logger("OneDefinition : beforeMount : Expression was not found")

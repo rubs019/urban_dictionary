@@ -18,7 +18,7 @@
                                 <form @submit.prevent="register">
                                     <div class="content has-text-left" v-if="user">
                                         <b-field grouped>
-                                            <b-field :label="$t('form.usernames')" expanded>
+                                            <b-field :label="$t('form.username')" expanded>
                                                 <b-input id="login" v-model="user.login"></b-input>
                                             </b-field>
 

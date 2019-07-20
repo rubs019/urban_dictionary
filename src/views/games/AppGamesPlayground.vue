@@ -150,6 +150,15 @@
 			 * @param { User } user - information de l'utilisateur qui vient de déco
 			 * */
 			playerRemoved: function (user) {
+				if (user && user.username) {
+					helpers.errorToast(this, `${user.username} has been disconnected`)
+				} else {
+					helpers.errorToast(this, `A new player has been disconnected`)
+				}
+				const index = this.game.connectedUsers.findIndex(connectedUser => {
+					return connectedUser.id === user.id
+				})
+				this.game.connectedUsers.splice(1, index)
 			},
 			/**
 			 * Event lancer lorsque la partie débute
@@ -264,8 +273,8 @@
 				})
 			},
 			setTheNextUser: function (playerId) {
-				const user = this.game.connectedUsers.find(usernames => {
-					return usernames.id === playerId
+				const user = this.game.connectedUsers.find(username => {
+					return username.id === playerId
 				})
 				Logger('setNextUser() = ', user)
 				this.nextUser = user.username

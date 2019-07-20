@@ -60,8 +60,6 @@
 							</b-button>
 						  </div>
 						</form>
-						<button v-on:click="startRecord">Record</button>
-						<button v-on:click="stopRecord">Stop</button>
 					  </section>
 					</template>
 				  </div>
