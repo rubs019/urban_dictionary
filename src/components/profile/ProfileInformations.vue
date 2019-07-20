@@ -43,7 +43,7 @@
 			return {
 				Status: STATUS,
 				user: {
-					name: this.credentials.usernames,
+					name: this.credentials.username,
 					email: this.credentials.email
 				}
 			}

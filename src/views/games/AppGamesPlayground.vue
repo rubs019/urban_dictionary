@@ -27,27 +27,24 @@
 		  </div>
 		</div>
 		<div id="game-container" class="column is-6 is-size-2">
-		  <div class="has-text-left">
-			<b-button :disabled="!server.status" v-on:click="startRoom">Commencez le jeu</b-button>
-		  </div>
-		  <div class="has-text-centered">
-			{{ game.status }}
-			<div id="actionItem" v-if="game.status">
-			  <b-message type="is-primary">
-				C'est au tour de {{ nextUser }} de jouer
-			  </b-message>
-			  <!--<b-notification :active.sync="gameError">
-				{{ gameError }}
-			  </b-notification>-->
-			</div>
+		  <div class="level">
+			<span class="level-left">
+			  <b-button :disabled="!server.status" v-on:click="startRoom" class="is-info">Commencer le jeu</b-button>
+			</span>
+			<span class="level-right">
+			  <b-button :disabled="!server.status" v-on:click="leaveRoom" class="is-danger">Quitter la partie</b-button>
+			</span>
 		  </div>
 		  <div id="gameplay">
+			<b-message type="is-primary" v-if="game.status">
+			  C'est au tour de {{ nextUser }} de jouer
+			</b-message>
 			<div id="definitionToFind" class="notification is-info">
 			  <p id="wordDefinitionItem" class="is-size-5">
 				{{ game.definitionToFind || "Le texte va apparaitre ici une fois le jeu lancé"}}
 			  </p>
 			</div>
-			<div id="loader">
+			<div id="loader" v-show="game.status">
 			  <div class="bar has-background-info"></div>
 			</div>
 			<div id="obfuscatedWord">
@@ -58,6 +55,7 @@
 			<div id="wordNameItem">
 			  <input
 					  class="input is-rounded"
+					  placeholder="Entrer votre réponse ici"
 					  @keydown.enter="sendWordFromUser"
 					  v-model="game.wordFromUser">
 			</div>
@@ -172,6 +170,7 @@
 				const user = this.game.connectedUsers.find(user => user.id === playerId)
 				helpers.successToast(this, `Good proposition of ${user.username}`)
 				this.setTheNextUser(user.id)
+				this.game.wordFromUser = null
 				user.score = playerScore
 			},
 			/**
@@ -199,7 +198,6 @@
 			},
 			timeout: function (data) {
 				Logger('timeout', data)
-				this.resetTimer = true
 			},
 			exception: function (data) {
 				Logger('exception', data)
@@ -215,11 +213,12 @@
 				}
 				this.$socket.connect()
 			},
-			joinRoom: function (roomId) {
+			joinRoom: function (roomId, code) {
 				Logger('JoinRoom')
 
 				this.$socket.emit('joinRoom', {
-					roomId
+					roomId,
+					code
 				})
 			},
 			startRoom() {
@@ -337,8 +336,28 @@
 				this.server.status = true
 			}
 
+			Logger('this.$route.path', this.$route)
+			const isPrivate = this.$route.path.split('/')[2] === 'private'
+
+			if (isPrivate) {
+				const pathId = this.$route.params.id
+				const code = this.$route.query.code
+
+				const {data: room} = await Get(`${ENDPOINT.ROOM}/private?code=${code}`)
+
+				if (!room) {
+					helpers.errorToast(this, 'Erreur lors de la récupération de la room privée')
+					this.$router.push('/games')
+				}
+				this.room = room
+				this.fillConnectedUser(this.room)
+				this.joinRoom(pathId, code)
+
+				return
+			}
+
 			const roomInStorage = this.$localStorage.get('room', null)
-			if (roomInStorage) {
+			if (roomInStorage && !isPrivate) {
 				try {
 					this.room = JSON.parse(roomInStorage)
 					// On clean le localStorage, pour ne pas récupérer les info de la room si on se reconnecte
@@ -349,9 +368,11 @@
 					this.$router.push('/games')
 					return
 				}
-			} else {
+			} else if (!isPrivate) {
 				try {
-					const room = await this.fetchRoomInformation(this.$route.params.id)
+					Logger('this.$route.params.id', this.$route.params.id)
+					const pathId = this.$route.params.id
+					const room = await this.fetchRoomInformation(pathId)
 
 					Logger('fetchRoomInformation', room)
 
@@ -371,7 +392,7 @@
 				}
 			}
 
-			this.joinRoom(this.room.id, this.Storage.credentials.id)
+			this.joinRoom(this.room.id, this.room.code)
 		}
 	}
 </script>
