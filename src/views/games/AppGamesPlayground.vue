@@ -285,7 +285,7 @@
 			handleNewRound({definition, obfuscatedWord, nextPlayerId}) {
 				helpers.successToast(this, `Au suivant !`)
 				this.game.definitionToFind = definition
-				this.game.obfuscatedWord = [null, null, ' ', 't']
+				this.game.obfuscatedWord = obfuscatedWord
 				this.startTimer()
 				this.setTheNextUser(nextPlayerId)
 			},
@@ -349,10 +349,6 @@
 						clearInterval(this.interval)
 					}
 
-					if (that.resetTimer) {
-						percentage = 0
-						that.resetTimer = false
-					}
 					barElement.style.width = `${percentage}%`
 					percentage++
 				}, 300)
