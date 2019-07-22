@@ -20,7 +20,6 @@
 			<div class="tile is-vertical">
 			  <div class="tile is-parent">
 				<article class="tile is-child notification">
-				  <p class="title">{{ $t('message.you') }}</p>
 				  <p class="subtitle">{{ $t('message.OtherPictureAbout', {username: user.username}) }}</p>
 				  <figure class="image is-4by3">
 					<img class="is-rounded"
@@ -66,7 +65,7 @@
 	import { API_PATH, ENDPOINT as PATH } from "../constants"
 	import AppHeroComponent               from "../components/AppHeroComponent"
 	import ProfileInformations            from "../components/profile/ProfileInformations"
-	import Logger                         from "../services/logger"
+	import Logger                         from "../helpers/logger"
 	import { Get }                        from "../services/api.service"
 
 	export default {
@@ -84,20 +83,9 @@
 					const { data: user } = await Get(`${PATH.USERS}/${this.$route.params.id}`)
 
 					this.user = user
+					this.currentPhoto = `${process.env.VUE_APP_API_PROD}/${API_PATH.USER_AVATAR(this.user.id)}`
 				} catch (err) {
 					Logger('AppProfile : fetchUserCredentials', err.response)
-				}
-			},
-			async fetchUserPhoto() {
-				try {
-
-					this.currentPhoto = `${process.env.VUE_APP_API_PROD}/${API_PATH.USER_AVATAR(this.store.credentials.id)}`
-
-					// Afficher popup
-
-				} catch (e) {
-					Logger('AppProfile : uploadPhoto : Error', e)
-					// Afficher popup
 				}
 			}
 		},
@@ -109,7 +97,6 @@
 		},
 		async beforeMount() {
 			this.store = Store
-			await this.fetchUserPhoto()
 			await this.fetchUserCredentials()
 		}
 	}

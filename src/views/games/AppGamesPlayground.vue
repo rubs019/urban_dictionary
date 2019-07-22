@@ -83,7 +83,7 @@
 </template>
 
 <script>
-	import Logger       from "../../services/logger"
+	import Logger       from "../../helpers/logger"
 	import Store        from "../../store"
 	import { Get }      from '../../services/api.service'
 	import { ENDPOINT } from '../../constants'

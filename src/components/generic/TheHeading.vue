@@ -48,7 +48,8 @@
 		<router-link v-if="!Storage.state.isConnected" :to="{ name: 'AppSignUp' }" class="navbar-item">
 		  {{ $t('menu_name.signup') }}
 		</router-link>
-		<router-link v-if="Storage.state.isConnected && Storage.credentials.role === 'Admin'" :to="{ name: 'AppDashboard' }" class="navbar-item">
+		<router-link v-if="Storage.state.isConnected && Storage.credentials.role === 'Admin'"
+					 :to="{ name: 'AppDashboard' }" class="navbar-item">
 		  Dashboard
 		</router-link>
 		<b-dropdown class="navbar-item" aria-role="list" @change="switchLanguage">
@@ -107,9 +108,10 @@
 <script>
 	import { APP_NAME, ENDPOINT } from "../../constants"
 	import Store                  from "../../store"
-	import Logger                 from "../../services/logger"
+	import Logger                 from "../../helpers/logger"
 	import { Patch }              from "../../services/api.service"
 	import DTO                    from "../../services/DTO"
+	import EventBus               from '../../services/event-bus.js'
 
 	export default {
 		name: "TheHeading",
@@ -132,6 +134,7 @@
 					if (Store.state.isConnected) {
 						await Patch(`${ENDPOINT.USERS}/${Store.credentials.id}`, DTO.accountPatchInformation({locale: language}))
 					}
+					EventBus.$emit('switchLanguage', language)
 					this.Storage.setUser(language, 'locale')
 					this.Storage.setLanguage(language)
 				} catch (e) {

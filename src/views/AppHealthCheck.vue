@@ -42,7 +42,7 @@
 
 <script>
 	import * as APIService from "../services/api.service"
-	import Logger          from "../services/logger"
+	import Logger          from "../helpers/logger"
 
 	const STATUS_INITIAL = 0,
 		STATUS_UP = 1,

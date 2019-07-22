@@ -49,16 +49,18 @@
 	import { API_PATH, ENDPOINT } from "../constants"
 	import Store                  from "../store"
 	import { Get }                from "../services/api.service"
-	import Logger                 from "../services/logger"
-	import { requestBuilder }     from "../services/query"
+	import Logger                 from "../helpers/logger"
+	import { requestBuilder }     from "../helpers/query"
+	import EventBus               from '../services/event-bus.js'
 
-	export default {
+	const AppHome = {
 		name: "AppHome",
 		data() {
 			return {
 				dayExpression: null,
 				store: Store,
-				definitions: null
+				definitions: null,
+				test: true
 			}
 		},
 		components: {
@@ -78,10 +80,10 @@
 				}
 
 			},
-			async getExpressions() {
+			async getExpressions(lang) {
 				Logger('AppHome : getExpressions : ', this.store)
 				try {
-					const result = await Get(`${requestBuilder(ENDPOINT.WORDS, this.store.language)}`)
+					const result = await Get(`${requestBuilder(ENDPOINT.WORDS, lang || this.store.language)}`)
 
 					Logger('AppHome : getExpressions : ', result)
 					return result.data
@@ -94,8 +96,16 @@
 		async created() {
 			this.dayExpression = await this.getDayExpression()
 			this.definitions = await this.getExpressions()
+			const that = this
+			EventBus.$on('switchLanguage', async function (lang) {
+				Logger('switchLanguage AppHome', that)
+				that.definitions = null
+				that.definitions = await that.getExpressions(lang)
+			})
 		}
 	}
+
+	export default AppHome
 </script>
 
 <style scoped>

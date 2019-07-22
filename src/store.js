@@ -8,7 +8,7 @@
   username: johndie
   password: testtest
  */
-const Logger = require('./services/logger')
+const Logger = require('./helpers/logger')
 
 export default {
 	state: {

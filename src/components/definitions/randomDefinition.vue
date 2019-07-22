@@ -18,10 +18,10 @@
 </template>
 
 <script>
-    import { Get }                from "../../services/api.service"
-    import { API_PATH } from "../../constants"
-    import OneDefinition          from "./OneDefinition"
-    import Logger                 from "../../services/logger"
+    import { Get }       from "../../services/api.service"
+    import { API_PATH }  from "../../constants"
+    import OneDefinition from "./OneDefinition"
+    import Logger        from "../../helpers/logger"
 
     export default {
         name: "RandomDefinition",

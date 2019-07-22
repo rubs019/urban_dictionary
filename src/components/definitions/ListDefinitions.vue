@@ -56,7 +56,7 @@
 
 <script>
 import * as APIService from "../../services/api.service"
-import Logger from "../../services/logger"
+import Logger          from "../../helpers/logger"
 const ENDPOINT = "definitions"
 
 export default {

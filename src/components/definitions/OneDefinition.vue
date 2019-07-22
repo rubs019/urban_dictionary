@@ -78,7 +78,7 @@
 	import BaseVoteHorizontal from "./BaseVoteHorizontal"
 	import BaseTagLabel       from "../tag/BaseTagLabel"
 	import { Get }            from "../../services/api.service"
-	import Logger             from "../../services/logger"
+	import Logger             from "../../helpers/logger"
 	import { ENDPOINT }       from "../../constants"
 	import stringify          from "../../helpers/stringifyText"
 	import BMessage           from "buefy/src/components/message/Message"

@@ -45,7 +45,7 @@
 
 <script>
 	import { STATUS } from '../../constants'
-	import Logger     from "../../services/logger"
+	import Logger     from "../../helpers/logger"
 
 	export default {
 		name: "ProfileInformations",

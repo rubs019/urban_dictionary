@@ -101,10 +101,10 @@
 
 <script>
 	import Storage         from "../store"
-	import Logger          from "../services/logger"
+	import Logger          from "../helpers/logger"
 	import { Delete, Get } from "../services/api.service"
 	import { ENDPOINT }    from "../constants"
-	import helpers from "../helpers"
+	import helpers         from "../helpers"
 
 	export default {
 		name: "AppDashboard",

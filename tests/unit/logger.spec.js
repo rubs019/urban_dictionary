@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import logger from "../../src/services/logger"
+import logger     from "../../src/helpers/logger"
 
 describe('logger()', () => {
 	describe('I try to log in a dev environment', () => {

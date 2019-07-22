@@ -13,7 +13,7 @@
 	import FormSignUp                 from "../components/form/FormSignUp"
 	import { Post }                   from "../services/api.service"
 	import DTO                        from "../services/DTO"
-	import Logger                     from "../services/logger"
+	import Logger                     from "../helpers/logger"
 	import Store                      from "../store"
 	import { API_PATH, STATUS }       from "../constants"
 	import { passwordIsGreaterThan6 } from '../helpers/checkPasswordHelper'

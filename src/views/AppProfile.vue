@@ -97,14 +97,14 @@
 	import Store                                     from "../store"
 	import { API_PATH, ENDPOINT, NOTIF_MSG, STATUS } from "../constants"
 	import AppHeroComponent                          from "../components/AppHeroComponent"
-	import ProfileInformations                       from "../components/profile/ProfileInformations"
-	import ProfileDefinitions                        from "../components/profile/ProfileDefinitions"
-	import { Delete, Get, Patch, Put }               from "../services/api.service"
-	import Logger                                    from "../services/logger"
-	import DTO                                       from "../services/DTO"
-	import helper                                    from "../helpers/index"
-	import { getWordUser }                           from "../services/query"
-	import helpers                                   from "../helpers"
+	import ProfileInformations         from "../components/profile/ProfileInformations"
+	import ProfileDefinitions          from "../components/profile/ProfileDefinitions"
+	import { Delete, Get, Patch, Put } from "../services/api.service"
+	import Logger                      from "../helpers/logger"
+	import DTO                         from "../services/DTO"
+	import helper                      from "../helpers/index"
+	import { getWordUser }             from "../helpers/query"
+	import helpers                     from "../helpers"
 
 	export default {
 		name: "AppProfile",

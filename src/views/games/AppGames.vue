@@ -46,7 +46,7 @@
 <script>
 	import CreateRoomForm from '../../components/room/CreateRoomForm'
 	import { Post, Get }  from "../../services/api.service"
-	import Logger         from "../../services/logger"
+	import Logger         from "../../helpers/logger"
 	import { ENDPOINT }   from "../../constants"
 	import Store          from "../../store"
 	import helpers        from "../../helpers"

@@ -7,12 +7,12 @@
 </template>
 
 <script>
-	import FormLogin                                 from "../components/form/FormLogin"
-	import { Post, Get }                             from "../services/api.service"
-	import DTO                                       from "../services/DTO"
-	import Logger                                      from "../services/logger"
+	import FormLogin                      from "../components/form/FormLogin"
+	import { Post, Get }                  from "../services/api.service"
+	import DTO                            from "../services/DTO"
+	import Logger                         from "../helpers/logger"
 	import { ENDPOINT, API_PATH, STATUS } from "../constants"
-	import Store                                     from "../store"
+	import Store                          from "../store"
 
 	export default {
 		name: "AppLogIn",
