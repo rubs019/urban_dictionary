@@ -4,6 +4,14 @@
       <TheHeading />
     </div>
     <router-view />
+    <footer>
+      <cookie-law theme="dark-lime">
+        <div slot="message">
+          We use cookies to improve your online experience. By continuing to use our website we assume you are happy to allow the use of these cookies.
+          <router-link to="policy">Take a look at our Cookie Policy to learn more and change your preferences.</router-link>
+        </div>
+      </cookie-law>
+    </footer>
   </div>
 </template>
 
@@ -42,11 +50,13 @@
 <script>
 import TheHeading from "./components/generic/TheHeading.vue"
 import Store from "./store"
+import CookieLaw from 'vue-cookie-law'
 
 export default {
   name: "home",
   components: {
-    TheHeading
+    TheHeading,
+    CookieLaw
   },
   created() {
     const haveCredentialsStored = this.$localStorage.get('credentials', null)

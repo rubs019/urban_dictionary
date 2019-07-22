@@ -53,6 +53,7 @@
 	import { requestBuilder }     from "../helpers/query"
 	import EventBus               from '../services/event-bus.js'
 
+
 	const AppHome = {
 		name: "AppHome",
 		data() {

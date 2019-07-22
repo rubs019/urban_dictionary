@@ -121,7 +121,7 @@ export default new Router({
 			component: AppDashboard
 		},
 		{
-			path: "/policy.html",
+			path: "/policy",
 			name: "AppPrivacy",
 			component: AppPrivacy
 		},
