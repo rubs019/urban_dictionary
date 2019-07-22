@@ -3,8 +3,8 @@
 </template>
 
 <script>
-	import Store        from "../store"
-    import Logger from "../services/logger"
+	import Store  from "../store"
+    import Logger from "../helpers/logger"
 
 	export default {
 		name: "AppDisconnect",

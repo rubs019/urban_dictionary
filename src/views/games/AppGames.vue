@@ -46,7 +46,7 @@
 <script>
 	import CreateRoomForm from '../../components/room/CreateRoomForm'
 	import { Post, Get }  from "../../services/api.service"
-	import Logger         from "../../services/logger"
+	import Logger         from "../../helpers/logger"
 	import { ENDPOINT }   from "../../constants"
 	import Store          from "../../store"
 	import helpers        from "../../helpers"
@@ -121,6 +121,8 @@
 
 					this.$router.push('/games/' + result.id)
 				} catch (e) {
+					this.myCreateRoomModal.close()
+					helpers.errorToast(this, "Une erreur s'est produite lors de la création de la room")
 					Logger('AppGames : SendRoom : Error', e)
 				}
 			},

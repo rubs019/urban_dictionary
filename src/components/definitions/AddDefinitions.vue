@@ -60,8 +60,6 @@
 							</b-button>
 						  </div>
 						</form>
-						<button v-on:click="startRecord">Record</button>
-						<button v-on:click="stopRecord">Stop</button>
 					  </section>
 					</template>
 				  </div>
@@ -79,7 +77,7 @@
 	import { Post }                     from "../../services/api.service"
 	import { ENDPOINT, STATUS }         from "../../constants"
 	import DTO                          from "../../services/DTO"
-	import Logger                       from "../../services/logger"
+	import Logger                       from "../../helpers/logger"
 	import STORE                        from "../../store"
 	import { errorToast, successToast } from "../../helpers/toast"
 

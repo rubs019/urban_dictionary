@@ -54,10 +54,10 @@
 <script>
 	import TopExpressions                                         from "../TopExpressionsComponent"
 	import Store                                                  from "../../store"
-	import Logger                                                 from "../../services/logger"
+	import Logger                                                 from "../../helpers/logger"
 	import { Get }                                                from '../../services/api.service'
 	import { ENDPOINT }                                           from '../../constants'
-	import { getDayTopRequest, getTopRequest, getWeekTopRequest } from '../../services/query'
+	import { getDayTopRequest, getTopRequest, getWeekTopRequest } from '../../helpers/query'
 
 	export default {
 		name: "TheSidebar",

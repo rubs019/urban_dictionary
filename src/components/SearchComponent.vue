@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import Logger       from '../services/logger'
+  import Logger       from '../helpers/logger'
   import { Get }      from "../services/api.service"
   import { ENDPOINT } from "../constants"
 

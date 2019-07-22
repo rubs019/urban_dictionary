@@ -18,7 +18,7 @@
                                 <form @submit.prevent="register">
                                     <div class="content has-text-left" v-if="user">
                                         <b-field grouped>
-                                            <b-field :label="$t('form.usernames')" expanded>
+                                            <b-field :label="$t('form.username')" expanded>
                                                 <b-input id="login" v-model="user.login"></b-input>
                                             </b-field>
 
@@ -87,8 +87,8 @@
 <script>
 
 	import { STATUS } from "../../constants"
-    import Store from "../../store"
-    import Logger from "../../services/logger"
+    import Store      from "../../store"
+    import Logger     from "../../helpers/logger"
 
 
 	export default {

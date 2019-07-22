@@ -20,48 +20,18 @@
 				  </audio>
 				</div>
 			  </div>
-			  <div class="level-right">
-				<div class="dropdown is-hoverable">
-				  <div class="dropdown-trigger">
-					<div
-							class="dropdown-definition"
-							aria-haspopup="true"
-							aria-controls="dropdown-menu4"
-					>
-                        <span class="icon">
-                          <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-					</div>
-				  </div>
-				  <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-					<div class="dropdown-content">
-					  <a href="#" class="dropdown-item">
-                      <span class="icon">
-                          <i class="fas fa-flag" aria-hidden="true"></i>
-                        </span>
-						Autre langue
-					  </a>
-					  <a href="#" class="dropdown-item">
-                      <span class="icon">
-                        <i class="fas fa-book"></i>
-                      </span>
-						Proposez une définition
-					  </a>
-					</div>
-				  </div>
-				</div>
-			  </div>
 			</div>
 			<div v-if="audio" class="has-text-left">
 			  <audio v-if="!simpleComponent" controls>
 				<source :src="audio" type="audio/mpeg">
 			  </audio>
 			</div>
-			<!--	COnditional rendering usernames	  -->
-			<p id="userLink" class="subtitle has-text-left is-size-6"
-			   v-if="definition && definition.user && definition.user.usernames">Ecrit par @{{
-			  definition.user.usernames }}
-			</p>
+			  <router-link
+					  v-if="definition && definition.user && definition.user.id"
+					  tag="p"
+					  class="subtitle has-text-left is-size-6"
+					  :to="{ name: 'AppProfileOtherUser', params: { id: definition.user.id } }">Ecrit par <span class="userLink">@{{ definition.user.username }}</span>
+			  </router-link>
 			<b-message type="is-primary">
 			  <b class="is-size-5">{{ definition.definition }}</b>
 			  <section class="example">
@@ -108,7 +78,7 @@
 	import BaseVoteHorizontal from "./BaseVoteHorizontal"
 	import BaseTagLabel       from "../tag/BaseTagLabel"
 	import { Get }            from "../../services/api.service"
-	import Logger             from "../../services/logger"
+	import Logger             from "../../helpers/logger"
 	import { ENDPOINT }       from "../../constants"
 	import stringify          from "../../helpers/stringifyText"
 	import BMessage           from "buefy/src/components/message/Message"
@@ -137,7 +107,7 @@
 				Get(`${ENDPOINT.WORDS}?where={"name": ${stringify(name)}}`)
 					.then(result => {
 						this.definition = Array.isArray(result.data) && result.data.length > 0 ? result.data[0] : false
-						this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
+						this.audio = this.definition.hasAudio ? `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio` : false
 					})
 					.then(res => {
 						Logger('OneDefinition : BeforeMount : randomExpression', res)
@@ -148,7 +118,8 @@
 			} else {
 				if (this.expression) {
 					this.definition = this.expression
-					this.audio = `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio`
+					Logger('this.definition.hasAudio', this.definition.hasAudio)
+					this.audio = this.definition.hasAudio ? `${process.env.VUE_APP_API_PROD}/${ENDPOINT.WORDS}/${this.definition.id}/audio` : false
 					return
 				}
 				Logger("OneDefinition : beforeMount : Expression was not found")
@@ -217,5 +188,8 @@
 	/* .component-fade-leave-active avant la 2.1.8 */
   {
 	opacity: 0;
+  }
+  .userLink {
+	cursor: pointer;
   }
 </style>

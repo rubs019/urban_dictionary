@@ -9,7 +9,8 @@
       "contact": "Contact",
       "about": "About",
       "profile": "My profile",
-      "create_definition": "Add Expression"
+      "create_definition": "Add Expression",
+      "otherProfile": "Profile"
     },
     "rankingExpression": {
       "topLabel": "Top",
@@ -73,8 +74,13 @@
       "expressionSubtitle": "Whether it is an expression specific to your city, your region, or your country, we collect all possible expressions in order to share this knowledge\n",
       "switchPicture": "Switch picture ?",
       "actualScore": "Your score is",
+      "actualKarma": "Your karma is",
       "downloadRPGD": "Download personnal information",
+      "deleteAccount": "Delete your account",
       "pictureAboutYou": "A picture about you...",
+      "OtherPictureAbout": "Picture of {username}",
+      "otherActualScore": "{username} score",
+      "otherActualKarma": "{username} karma",
       "dayExpression": "Day expression",
       "allExpression": "All expressions",
       "appDescription": "Welcome on underdico, the slang dictionnary",
@@ -94,7 +100,8 @@
       "expression": "Expression",
       "about": "A propos",
       "profile": "Mon profil",
-      "create_definition": "Créer une expression"
+      "create_definition": "Créer une expression",
+      "otherProfile": "Profil"
     },
     "rankingExpression": {
       "topLabel": "Top",
@@ -157,9 +164,14 @@
       "expressionExplain": "Ici vous pouvez créer vos propres définitions et les partager à tout le monde !",
       "expressionSubtitle": "Que cela soit une expression propre à votre ville, à votre région, ou votre pays, nous récoltons toutes les expressions possible dans l'objectif de partager ces connaissances",
       "actualScore": "Votre score actuel est de ",
+      "actualKarma": "Votre karma est de",
       "downloadRPGD": "Télécharger ses données brutes",
+      "deleteAccount": "Supprimer son compte",
       "switchPicture": "Changer de photo ?",
       "pictureAboutYou": "Une image de vous...",
+      "OtherPictureAbout": "Photo de {username}",
+      "otherActualScore": "Score de {username}",
+      "otherActualKarma": "Karma de {username}",
       "dayExpression": "Expression du jour",
       "allExpression": "Toutes les expressions",
       "appDescription": "Bienvenue sur Underdico, le dictionnaire de référence de l'argot",

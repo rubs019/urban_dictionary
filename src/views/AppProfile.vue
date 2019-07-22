@@ -11,6 +11,7 @@
 				<b-tabs size="is-medium" type="is-boxed" expanded animated>
 				  <b-tab-item label="Mes informations">
 					<ProfileInformations
+							:editable="true"
 							:status-form="form.status"
 							v-if="store"
 							@updateUserInformation="updateUser"
@@ -35,7 +36,7 @@
 						 src="http://cdn.onlinewebfonts.com/svg/img_504570.png">
 				  </figure>
 				  <div class="upload-image">
-					<b-field class="file" :input="checkFile">
+					<b-field class="file">
 					  <b-upload v-model="file">
 						<a class="button is-primary">
 						  <i class="fas fa-upload"></i>
@@ -54,10 +55,21 @@
 				<article class="tile is-child notification is-primary">
 				  <p class="subtitle">{{ $t('message.actualScore') }}</p>
 				  <p class="title">
-                                        <span class="icon">
-                                            <i class="fas fa-star fa-1x"></i>
-                                        </span>
+					  <span class="icon">
+						  <i class="fas fa-star fa-1x"></i>
+					  </span>
 					{{ store.credentials.karma || 0 }}
+				  </p>
+				</article>
+			  </div>
+			  <div class="tile is-parent">
+				<article class="tile is-child notification is-primary">
+				  <p class="subtitle">{{ $t('message.actualKarma') }}</p>
+				  <p class="title">
+					  <span class="icon">
+						  <i class="fas fa-star fa-1x"></i>
+					  </span>
+					{{ store.credentials.score || 0 }}
 				  </p>
 				</article>
 			  </div>
@@ -65,6 +77,12 @@
 				<article id="personalInfo" v-on:click="fetchPersonnalInformation"
 						 class="tile is-child notification is-danger">
 				  <p>{{ $t('message.downloadRPGD') }}</p>
+				</article>
+			  </div>
+			  <div class="tile is-parent">
+				<article id="deleteUser" v-on:click="deleteAccount"
+						 class="tile is-child notification is-danger">
+				  <p>{{ $t('message.deleteAccount') }}</p>
 				</article>
 			  </div>
 			</div>
@@ -79,13 +97,14 @@
 	import Store                                     from "../store"
 	import { API_PATH, ENDPOINT, NOTIF_MSG, STATUS } from "../constants"
 	import AppHeroComponent                          from "../components/AppHeroComponent"
-	import ProfileInformations from "../components/profile/ProfileInformations"
-	import ProfileDefinitions  from "../components/profile/ProfileDefinitions"
-	import { Get, Patch, Put } from "../services/api.service"
-	import Logger              from "../services/logger"
-	import DTO                 from "../services/DTO"
-	import helper              from "../helpers/index"
-	import { getWordUser }     from "../services/query"
+	import ProfileInformations         from "../components/profile/ProfileInformations"
+	import ProfileDefinitions          from "../components/profile/ProfileDefinitions"
+	import { Delete, Get, Patch, Put } from "../services/api.service"
+	import Logger                      from "../helpers/logger"
+	import DTO                         from "../services/DTO"
+	import helper                      from "../helpers/index"
+	import { getWordUser }             from "../helpers/query"
+	import helpers                     from "../helpers"
 
 	export default {
 		name: "AppProfile",
@@ -101,8 +120,24 @@
 			}
 		},
 		methods: {
-			checkFile(file) {
-				Logger('checkFile', file)
+			deleteAccount() {
+				Logger('checkFile', this.store.credentials.id)
+
+				this.$dialog.confirm({
+					type: 'is-danger',
+					title: 'Attention',
+					confirmText: 'Oui je veux supprimer',
+					message: `<p>Voulez vous vraiment supprimer l'utilisateur <b>${this.store.credentials.username}</b></p>`,
+					onConfirm: async () => {
+						try {
+							await Delete(`${ENDPOINT.USERS}/${this.store.credentials.id}`)
+							helpers.successToast(this, 'L\'utilisateur à été supprimé')
+							this.$router.push('/disconnect')
+						} catch (e) {
+							Logger('deleteExpression: onConfirm : error', e.response)
+						}
+					}
+				})
 			},
 			async updateUser(user) {
 				Logger('AppProfile : updateUser : User', user)
@@ -195,14 +230,13 @@
 				}
 			},
 			async fetchPersonnalInformation() {
-				Logger('ok')
 				try {
 					const result = await Get(`${ENDPOINT.USERS}/${this.store.credentials.id}/summary`)
 					Logger('fetchPersonnalInformation : result', result)
 					const url = window.URL.createObjectURL(new Blob([JSON.stringify(result.data)]))
 					const link = document.createElement('a')
 					link.href = url
-					link.setAttribute('download', `${this.store.credentials.usernames}-account-${this.store.credentials.id}.json`) //or any other extension
+					link.setAttribute('download', `${this.store.credentials.username}-account-${this.store.credentials.id}.json`) //or any other extension
 					document.body.appendChild(link)
 					link.click()
 				} catch (err) {
@@ -210,7 +244,7 @@
 				}
 			}
 		},
-		components: {AppHeroComponent, ProfileDefinitions, ProfileInformations},
+		components: {AppHeroComponent, ProfileInformations},
 		beforeCreate() {
 			if (!Store.state.isConnected) {
 				this.$router.push('/')

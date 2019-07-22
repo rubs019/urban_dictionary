@@ -27,10 +27,10 @@
 
 <script>
     import {Get, Patch, Post} from "../../services/api.service"
-    import {ENDPOINT} from "../../constants"
-    import Logger from "../../services/logger"
-    import Store from "../../store"
-    import {errorToast} from "../../helpers/toast"
+    import {ENDPOINT}         from "../../constants"
+    import Logger             from "../../helpers/logger"
+    import Store              from "../../store"
+    import {errorToast}       from "../../helpers/toast"
 
     export default {
         name: "BaseVoteHorizontal",
