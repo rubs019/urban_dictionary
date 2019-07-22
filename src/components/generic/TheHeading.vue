@@ -48,6 +48,9 @@
 		<router-link v-if="!Storage.state.isConnected" :to="{ name: 'AppSignUp' }" class="navbar-item">
 		  {{ $t('menu_name.signup') }}
 		</router-link>
+		<router-link v-if="Storage.state.isConnected && Storage.credentials.role === 'Admin'" :to="{ name: 'AppDashboard' }" class="navbar-item">
+		  Dashboard
+		</router-link>
 		<b-dropdown class="navbar-item" aria-role="list" @change="switchLanguage">
 		  <button class="is-primary button" type="button" slot="trigger">
 			<template v-if="Storage.language === 'en'">

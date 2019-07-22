@@ -4,8 +4,6 @@
 	  <h1 class="title">Game playground
 		<span class="dot" :class="[server.status ? 'has-background-success' : 'has-background-danger']"></span>
 	  </h1>
-	  <!--        <b-button :disabled="!serverIsUp">leaveRoom</b-button>
-				  <b-button v-on:click="disconnect" :disabled="!serverIsUp">disconnect</b-button>-->
 	</div>
 	<div class="container is-fluid">
 	  <div class="columns">
@@ -54,10 +52,11 @@
 		  <div class="section">
 			<div id="wordNameItem">
 			  <input
-					  class="input is-rounded"
-					  placeholder="Entrer votre réponse ici"
-					  @keydown.enter="sendWordFromUser"
-					  v-model="game.wordFromUser">
+				:disabled="!isYourTurn"
+				class="input is-rounded"
+				:placeholder="isYourTurn ? 'Entrer votre réponse ici' : `Au tour de ${nextUser}`"
+				@keydown.enter="sendWordFromUser"
+				v-model="game.wordFromUser">
 			</div>
 		  </div>
 		</div>
@@ -78,7 +77,6 @@
 			</ul>
 		  </b-message>
 		</div>
-
 	  </div>
 	</div>
   </div>
@@ -99,6 +97,8 @@
 				server: {
 					status: false
 				},
+				nextUser: null,
+				isYourTurn: false,
 				room: {},
 				interval: null,
 				game: {
@@ -116,6 +116,7 @@
 				Logger('socket connected', this.server.status)
 			},
 			disconnect: function () {
+				helpers.errorToast('A user has been disconnect')
 			},
 			error: function (data) {
 				Logger('Error', data)
@@ -306,6 +307,7 @@
 					return username.id === playerId
 				})
 				Logger('setNextUser() = ', user)
+				this.isYourTurn = user.id === this.Storage.credentials.id
 				this.nextUser = user.username
 			},
 			/**
@@ -345,8 +347,9 @@
 				let percentage = 0
 				const that = this
 				this.interval = setInterval(function() {
+					Logger('percentage', percentage)
 					if (percentage > 100) {
-						clearInterval(this.interval)
+						clearInterval(that.interval)
 					}
 
 					barElement.style.width = `${percentage}%`

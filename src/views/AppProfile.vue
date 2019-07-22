@@ -55,10 +55,21 @@
 				<article class="tile is-child notification is-primary">
 				  <p class="subtitle">{{ $t('message.actualScore') }}</p>
 				  <p class="title">
-                                        <span class="icon">
-                                            <i class="fas fa-star fa-1x"></i>
-                                        </span>
+					  <span class="icon">
+						  <i class="fas fa-star fa-1x"></i>
+					  </span>
 					{{ store.credentials.karma || 0 }}
+				  </p>
+				</article>
+			  </div>
+			  <div class="tile is-parent">
+				<article class="tile is-child notification is-primary">
+				  <p class="subtitle">{{ $t('message.actualKarma') }}</p>
+				  <p class="title">
+					  <span class="icon">
+						  <i class="fas fa-star fa-1x"></i>
+					  </span>
+					{{ store.credentials.score || 0 }}
 				  </p>
 				</article>
 			  </div>
