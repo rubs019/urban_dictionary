@@ -1,7 +1,10 @@
 <template>
     <div class="random-definition">
+        <div class="tile is-parent">
+            <b-button v-on:click="fetchRandomExpression">Random</b-button>
+        </div>
         <div v-if="randomExpression">
-            <OneDefinition :expression="randomExpression" :is-primary="true"></OneDefinition>
+            <OneDefinition :key="id" :expression="randomExpression" :is-primary="true"></OneDefinition>
         </div>
         <template v-else>
             <div class="tile is-parent">
@@ -25,18 +28,25 @@
         components: {OneDefinition},
         data() {
             return {
+                id: 1,
                 audio: null,
                 randomExpression: null
             }
         },
-        beforeMount: async function () {
-            try {
-                const {data: randomExpression} = await Get(API_PATH.RANDOM_WORD)
+        methods: {
+            async fetchRandomExpression() {
+                try {
+                    const {data: randomExpression} = await Get(API_PATH.RANDOM_WORD)
 
-                this.randomExpression = randomExpression
-            } catch (e) {
-                Logger('randomDefinition : BeforeMount : Error', e.response)
+                    this.randomExpression = randomExpression
+                    this.id++
+                } catch (e) {
+                    Logger('randomDefinition : BeforeMount : Error', e.response)
+                }
             }
+        },
+        beforeMount: async function () {
+            this.fetchRandomExpression()
         }
     }
 </script>
