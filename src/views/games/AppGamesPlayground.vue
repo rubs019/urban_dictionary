@@ -27,7 +27,7 @@
 		<div id="game-container" class="column is-6 is-size-2">
 		  <div class="level">
 			<span class="level-left">
-			  <b-button :disabled="!server.status" v-on:click="startRoom" class="is-info">Commencer le jeu</b-button>
+			  <b-button :disabled="game.status" v-on:click="startRoom" class="is-info">Commencer le jeu</b-button>
 			</span>
 			<span class="level-right">
 			  <b-button :disabled="!server.status" v-on:click="leaveRoom" class="is-danger">Quitter la partie</b-button>
@@ -98,7 +98,7 @@
 					status: false
 				},
 				nextUser: null,
-				isYourTurn: false,
+				isYourTurn: true,
 				room: {},
 				interval: null,
 				game: {
@@ -116,7 +116,7 @@
 				Logger('socket connected', this.server.status)
 			},
 			disconnect: function () {
-				helpers.errorToast('A user has been disconnect')
+				helpers.errorToast(this, 'A user has been disconnect')
 			},
 			error: function (data) {
 				Logger('Error', data)

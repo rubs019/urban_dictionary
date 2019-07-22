@@ -121,6 +121,8 @@
 
 					this.$router.push('/games/' + result.id)
 				} catch (e) {
+					this.myCreateRoomModal.close()
+					helpers.errorToast(this, "Une erreur s'est produite lors de la création de la room")
 					Logger('AppGames : SendRoom : Error', e)
 				}
 			},
