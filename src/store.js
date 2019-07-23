@@ -1,13 +1,3 @@
-/*
-  username: matoubi
-  pwd: testtest
-
-  username: rubyy
-  password: testtest
-
-  username: johndie
-  password: testtest
- */
 const Logger = require('./helpers/logger')
 
 export default {

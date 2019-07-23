@@ -37,7 +37,7 @@
 					  <span class="icon">
 						  <i class="fas fa-star fa-1x"></i>
 					  </span>
-					{{ user.karma || 0 }}
+					{{ user.score || 0 }}
 				  </p>
 				</article>
 			  </div>
@@ -48,7 +48,7 @@
 					  <span class="icon">
 						  <i class="fas fa-star fa-1x"></i>
 					  </span>
-					{{ user.score || 0 }}
+					{{ user.karma || 0 }}
 				  </p>
 				</article>
 			  </div>

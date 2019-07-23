@@ -132,7 +132,7 @@
 			/**
 			 * Event lancer lorsqu'un utilisateur se connecte
 			 * Sert à rafraichir la liste des utilisateurs connecté
-			 * @param { User } user
+			 * @param { Object } user
 			 * */
 			newPlayer: async function (user) {
 				if (user && user.username) {
@@ -148,7 +148,7 @@
 			/**
 			 * Event lancer lorsqu'un utilisateur se déconnecte
 			 * Sert à supprimer l'utilisateur qui vient de partir de la liste des utilisateurs connecté
-			 * @param { User } user - information de l'utilisateur qui vient de déco
+			 * @param { Object } user - information de l'utilisateur qui vient de déco
 			 * */
 			playerRemoved: function (user) {
 				Logger('PlayerRemoved', user)
@@ -156,8 +156,7 @@
 			},
 			/**
 			 * Event lancer lorsque la partie débute
-			 * @param { User } user - information de l'utilisateur qui vient de déco
-			 * */
+			 */
 			roomStarted: function () {
 				this.game.status = true
 				helpers.successToast(this, 'Game start')
@@ -188,6 +187,11 @@
 				Logger('newRound|data', newRound)
 				this.handleNewRound(newRound)
 			},
+			/**
+			 * Event lancer lorsque le timeout
+			 * Sert à notifier qu'un utilisateur le temps imparti d'un utilisateur est terminée
+			 * @param {Object} data - Contient les méta données du nouveau round
+			 * */
 			timeout: function (data) {
 				Logger('timeout', data)
 				this.handleTimeout(data)
@@ -290,6 +294,9 @@
 				this.startTimer()
 				this.setTheNextUser(nextPlayerId)
 			},
+			/**
+			 * Utiliser lorsqu'un user tente d'envoyer un input
+			 */
 			sendWordFromUser: function () {
 				Logger(`The word enter is : ${this.game.wordFromUser}`)
 
