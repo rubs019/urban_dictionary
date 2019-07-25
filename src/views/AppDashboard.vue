@@ -102,7 +102,7 @@
 <script>
 	import Storage         from "../store"
 	import Logger          from "../helpers/logger"
-	import { Delete, Get } from "../services/api.service"
+	import { Delete, Get } from "../services/request/api.service"
 	import { ENDPOINT }    from "../constants"
 	import helpers         from "../helpers"
 

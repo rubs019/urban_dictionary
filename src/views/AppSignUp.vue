@@ -1,28 +1,29 @@
 <template>
   <div class="columns">
 	<div class="column is-6 is-offset-3">
-	  <FormSignUp @tryRegister="register"
-				  :message="form.message"
-				  :color="form.color"
-				  :status="form.status"></FormSignUp>
+	  <VFormSignUp @tryRegister="register"
+				   :message="form.message"
+				   :color="form.color"
+				   :status="form.status"></VFormSignUp>
 	</div>
   </div>
 </template>
 
-<script>
-	import FormSignUp                 from "../components/form/FormSignUp"
-	import { Post }                   from "../services/api.service"
-	import DTO                        from "../services/DTO"
+<script lang="ts">
+	import VFormSignUp                from "../components/VFormSignUp.vue"
+	import { Post }                   from "@/services/request/api.service"
+	import DTO                        from "../services/dto/dto"
 	import Logger                     from "../helpers/logger"
 	import Store                      from "../store"
-	import { API_PATH, STATUS }       from "../constants"
-	import { passwordIsGreaterThan6 } from '../helpers/checkPasswordHelper'
-	import { checkPassword }          from '../helpers/checkPasswordHelper'
+	import { API_PATH, STATUS }       from "@/constants"
+	import { passwordIsGreaterThan6 } from '@/helpers/checkPasswordHelper'
+	import { checkPassword }          from '@/helpers/checkPasswordHelper'
+    import {RawUserCredential, UserCredential} from '@/services/dto/dto.d'
 
-	export default {
+    export default {
 		name: "AppSignUp",
 		components: {
-			FormSignUp
+			VFormSignUp
 		},
 		data: () => ({
 			form: {
@@ -32,7 +33,7 @@
 			}
 		}),
 		methods: {
-			async register(credentials) {
+			async register(credentials: RawUserCredential) {
 
 				// Use to show loader
 				this.form.status = STATUS.PENDING
@@ -43,7 +44,13 @@
 				}
 
 				try {
-					const result = await Post(API_PATH.CREATE_USER, DTO.accountCreate(credentials))
+					const credential: UserCredential | undefined = DTO.accountCreate(credentials)
+
+					if (!credential) {
+					    Logger('Error credentials')
+						return
+					}
+					const result = await Post(API_PATH.CREATE_USER, credential)
 
 					Store.setConnected(true)
 					Store.setUser(result.data)
@@ -81,7 +88,7 @@
 			 * @param isError {boolean} Use to update color of form
 			 * @return {boolean}
 			 */
-			setMsgNotification(message, isError = true) {
+			setMsgNotification(message: string, isError = true) {
 				this.form.color = isError ? 'danger' : 'success'
 				this.form.message = message
 			},

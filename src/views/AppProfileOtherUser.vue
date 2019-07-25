@@ -8,11 +8,11 @@
 			<div class="notification is-primary">
 			  <p class="title has-text-left">{{ $t('menu_name.otherProfile') }}</p>
 			  <div class="notification is-white">
-				<ProfileInformations
+				<VProfileInformation
 						:editable="false"
 						v-if="user"
 						:credentials="user">
-				</ProfileInformations>
+				</VProfileInformation>
 			  </div>
 			</div>
 		  </div>
@@ -63,10 +63,10 @@
 <script>
 	import Store                          from "../store"
 	import { API_PATH, ENDPOINT as PATH } from "../constants"
-	import AppHeroComponent               from "../components/AppHeroComponent"
-	import ProfileInformations            from "../components/profile/ProfileInformations"
+	import AppHeroComponent               from "../components/AppHero"
+	import VProfileInformation            from "../components/VProfileInformation"
 	import Logger                         from "../helpers/logger"
-	import { Get }                        from "../services/api.service"
+	import { Get }                        from "../services/request/api.service"
 
 	export default {
 		name: "AppProfileOtherUser",
@@ -89,7 +89,7 @@
 				}
 			}
 		},
-		components: {AppHeroComponent, ProfileInformations},
+		components: {AppHeroComponent, VProfileInformation},
 		beforeCreate() {
 			if (!Store.state.isConnected) {
 				this.$router.push('/')

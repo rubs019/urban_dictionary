@@ -14,8 +14,8 @@
 			  <h3 class="title boxed-section-title is-4 has-text-left">
 				{{ $t('message.dayExpression') }}
 			  </h3>
-			  <OneDefinition :is-primary="true" :simpleComponent="false"
-							 :expression="dayExpression"></OneDefinition>
+			  <VOneDefinition :is-primary="true" :simpleComponent="false"
+							  :expression="dayExpression"></VOneDefinition>
 			</div>
 			<div class="expression" id="allExpression">
 			  <h3 class="title boxed-section-title is-4 has-text-left">
@@ -23,12 +23,12 @@
 			  </h3>
 			  <template v-if="definitions">
 				<div v-for="(definition, index) in definitions" :key="index">
-				  <OneDefinition :is-primary="false" :simpleComponent="true"
-								 :expression="definition"></OneDefinition>
+				  <VOneDefinition :is-primary="false" :simpleComponent="true"
+								  :expression="definition"></VOneDefinition>
 				</div>
 			  </template>
 			  <template v-else>
-				<OneDefinition :is-primary="false" :simpleComponent="true"></OneDefinition>
+				<VOneDefinition :is-primary="false" :simpleComponent="true"></VOneDefinition>
 			  </template>
 			</div>
 		  </div>
@@ -43,12 +43,12 @@
 </template>
 
 <script>
-	import AppHeroComponent       from "../components/AppHeroComponent.vue"
-	import OneDefinition          from "../components/definitions/OneDefinition"
-	import TheSidebar             from "../components/generic/TheSidebar"
+	import AppHeroComponent       from "../components/AppHero.vue"
+	import VOneDefinition         from "../components/VOneDefinition"
+	import TheSidebar             from "../components/TheSidebar"
 	import { API_PATH, ENDPOINT } from "../constants"
 	import Store                  from "../store"
-	import { Get }                from "../services/api.service"
+	import { Get }                from "../services/request/api.service"
 	import Logger                 from "../helpers/logger"
 	import { requestBuilder }     from "../helpers/query"
 	import EventBus               from '../services/event-bus.js'
@@ -66,7 +66,7 @@
 		},
 		components: {
 			AppHeroComponent,
-			OneDefinition,
+			VOneDefinition,
 			TheSidebar
 		},
 		methods: {

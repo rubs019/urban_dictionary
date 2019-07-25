@@ -41,7 +41,7 @@
 </template>
 
 <script>
-	import * as APIService from "../services/api.service"
+	import * as APIService from "../services/request/api.service"
 	import Logger          from "../helpers/logger"
 
 	const STATUS_INITIAL = 0,

@@ -10,13 +10,13 @@
 			  <div class="notification is-white">
 				<b-tabs size="is-medium" type="is-boxed" expanded animated>
 				  <b-tab-item label="Mes informations">
-					<ProfileInformations
+					<VProfileInformation
 							:editable="true"
 							:status-form="form.status"
 							v-if="store"
 							@updateUserInformation="updateUser"
 							:credentials="store.credentials">
-					</ProfileInformations>
+					</VProfileInformation>
 				  </b-tab-item>
 				</b-tabs>
 			  </div>
@@ -96,15 +96,15 @@
 <script>
 	import Store                                     from "../store"
 	import { API_PATH, ENDPOINT, NOTIF_MSG, STATUS } from "../constants"
-	import AppHeroComponent                          from "../components/AppHeroComponent"
-	import ProfileInformations         from "../components/profile/ProfileInformations"
-	import ProfileDefinitions          from "../components/profile/ProfileDefinitions"
-	import { Delete, Get, Patch, Put } from "../services/api.service"
-	import Logger                      from "../helpers/logger"
-	import DTO                         from "../services/DTO"
-	import helper                      from "../helpers/index"
-	import { getWordUser }             from "../helpers/query"
-	import helpers                     from "../helpers"
+	import AppHeroComponent                          from "../components/AppHero"
+	import VProfileInformation                       from "../components/VProfileInformation"
+	import ProfileDefinitions                        from "../components/ProfileDefinitions"
+	import { Delete, Get, Patch, Put }               from "../services/request/api.service"
+	import Logger                                    from "../helpers/logger"
+	import DTO                                       from "../services/dto/DTO"
+	import helper                                    from "../helpers/index"
+	import { getWordUser }                           from "../helpers/query"
+	import helpers                                   from "../helpers"
 
 	export default {
 		name: "AppProfile",
@@ -244,7 +244,7 @@
 				}
 			}
 		},
-		components: {AppHeroComponent, ProfileInformations},
+		components: {AppHeroComponent, VProfileInformation},
 		beforeCreate() {
 			if (!Store.state.isConnected) {
 				this.$router.push('/')

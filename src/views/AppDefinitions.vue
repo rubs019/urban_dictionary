@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import AppHeroComponent from "../components/AppHeroComponent"
-import TheSidebar       from "../components/generic/TheSidebar"
+import AppHeroComponent from "../components/AppHero"
+import TheSidebar       from "../components/TheSidebar"
 import Store            from "../store"
 
 export default {

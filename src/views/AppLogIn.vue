@@ -1,15 +1,15 @@
 <template>
     <div class="columns">
         <div class="column is-6 is-offset-3">
-            <FormLogin @login="login" :message="form.message" :color="form.color" :status="form.status"></FormLogin>
+            <VFormLogin @login="login" :message="form.message" :color="form.color" :status="form.status"></VFormLogin>
         </div>
     </div>
 </template>
 
 <script>
-	import FormLogin                      from "../components/form/FormLogin"
-	import { Post, Get }                  from "../services/api.service"
-	import DTO                            from "../services/DTO"
+	import VFormLogin                     from "../components/VFormLogin"
+	import { Post, Get }                  from "../services/request/api.service"
+	import DTO                            from "../services/dto/DTO"
 	import Logger                         from "../helpers/logger"
 	import { ENDPOINT, API_PATH, STATUS } from "../constants"
 	import Store                          from "../store"
@@ -17,7 +17,7 @@
 	export default {
 		name: "AppLogIn",
 		components: {
-			FormLogin
+			VFormLogin
 		},
 		data: () => ({
 			form: {
