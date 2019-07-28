@@ -1,4 +1,4 @@
-import axios from "axios"
+/* import axios from "axios"
 import Store from '../../store'
 
 const api = axios.create({
@@ -72,4 +72,4 @@ async function Delete(endpoint, headers = null) {
 }
 
 export { Get, Post, Patch, Put, Delete }
-
+*/

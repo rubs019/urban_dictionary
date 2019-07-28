@@ -7,7 +7,10 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
 
-	@Component
+	@Component({
+		name: 'AppContact'
+	})
+
 	export default class AppContact extends Vue {
 	}
 </script>

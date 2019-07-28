@@ -1,4 +1,4 @@
-import { expect } from "chai"
+/* import { expect } from "chai"
 import AppLogIn  from "../../src/views/AppLogIn.vue"
 
 // npm run test:unit --runTestsByPath /Users/rubyesgi/Documents/workspace/node/urban_dictionary_proto/app/tests/unit/appSignUp.spec.js
@@ -30,4 +30,5 @@ describe('checkCredentials()', () => {
 		})
 	})
 })
+*/
 

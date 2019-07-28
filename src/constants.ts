@@ -26,15 +26,4 @@ export const API_PATH = {
 	ROOM: `${ENDPOINT.ROOM}`
 }
 
-/**
- * Form status
- * @type {{SUCCESS: number, ERROR: number, PENDING: number, DEFAULT: number}}
- */
-export const STATUS = {
-	DEFAULT: 0,
-	PENDING: 1,
-	ERROR: 2,
-	SUCCESS: 3
-}
-
 export const APP_NAME = "UnderDico"

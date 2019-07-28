@@ -1,4 +1,4 @@
-import { expect } from "chai"
+/* import { expect } from "chai"
 import { mount } from "@vue/test-utils"
 import VSearchComponent from "@/components/VSearchComponent.vue"
 
@@ -19,24 +19,7 @@ describe("VSearchComponent.vue", () => {
     const classToTest = wrapper.find("input")
     expect(classToTest.classes()).to.contain("border-input")
   })
-
-  describe("resultList function", () => {
-    /*it("should return false if the resultList is empty", () => {
-      const wrapper = mount(VSearchComponent)
-      const ul = wrapper.find("ul")
-      expect(ul.exists()).to.be.false
-    })*/
-
-    /*it("should return true if the expression has been added", () => {
-      const wrapper = mount(VSearchComponent)
-      wrapper.setData({
-        expressions: [{name: "Tchoin"}]
-      })
-      const ul = wrapper.find("ul#list-expression")
-      expect(ul.exists()).to.be.true
-      expect(ul.contains('li')).to.be.true
-      const li = ul.find('li')
-      expect(li.text()).to.be.equal('Tchoin')
-    })*/
   })
 })
+
+*/

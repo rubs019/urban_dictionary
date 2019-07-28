@@ -42,7 +42,8 @@
 
 </template>
 
-<script>
+<script lang="ts">
+  	import Vue from 'Vue'
 	import AppHeroComponent       from "../components/AppHero.vue"
 	import VOneDefinition         from "../components/VOneDefinition"
 	import TheSidebar             from "../components/TheSidebar"
@@ -52,61 +53,56 @@
 	import Logger                 from "../helpers/logger"
 	import { requestBuilder }     from "../helpers/query"
 	import EventBus               from '../services/event-bus.js'
+    import { Component } from "vue-property-decorator"
+    import { Expression } from '@/services/dto/dto.d'
 
+    @Component({
+        name: "AppHome",
+        components: {
+            AppHeroComponent,
+            VOneDefinition,
+            TheSidebar
+        },
+        async created() {
+            this.dayExpression = await this.getDayExpression()
+            this.definitions = await this.getExpressions()
+            const that = this
+            EventBus.$on('switchLanguage', async function (lang) {
+                Logger('switchLanguage AppHome', that)
+                that.definitions = null
+                that.definitions = await that.getExpressions(lang)
+            })
+        }
+	})
+	export default class AppHome extends Vue {
+        dayExpression?: string
+        store: Store
+        definitions?: Expression[]
 
-	const AppHome = {
-		name: "AppHome",
-		data() {
-			return {
-				dayExpression: null,
-				store: Store,
-				definitions: null,
-				test: true
-			}
-		},
-		components: {
-			AppHeroComponent,
-			VOneDefinition,
-			TheSidebar
-		},
-		methods: {
-			async getDayExpression() {
-				try {
-					const {data: expressionDuJour} = await Get(`${requestBuilder(API_PATH.DAILY_WORD, this.store.language)}`)
+        async getDayExpression() {
+            try {
+                const {data: expressionDuJour} = await Get(`${requestBuilder(API_PATH.DAILY_WORD, this.store.language)}`)
 
-					return expressionDuJour
-				} catch (e) {
-					Logger('AppHome : getDayExpression : ', e.response)
-					return null
-				}
+                return expressionDuJour
+            } catch (e) {
+                Logger('AppHome : getDayExpression : ', e.response)
+                return null
+            }
 
-			},
-			async getExpressions(lang) {
-				Logger('AppHome : getExpressions : ', this.store)
-				try {
-					const result = await Get(`${requestBuilder(ENDPOINT.WORDS, lang || this.store.language)}`)
+        },
+        async getExpressions(lang) {
+            Logger('AppHome : getExpressions : ', this.store)
+            try {
+                const result = await Get(`${requestBuilder(ENDPOINT.WORDS, lang || this.store.language)}`)
 
-					Logger('AppHome : getExpressions : ', result)
-					return result.data
-				} catch (e) {
-					Logger('AppHome : getExpressions : ', e.response)
-					return null
-				}
-			}
-		},
-		async created() {
-			this.dayExpression = await this.getDayExpression()
-			this.definitions = await this.getExpressions()
-			const that = this
-			EventBus.$on('switchLanguage', async function (lang) {
-				Logger('switchLanguage AppHome', that)
-				that.definitions = null
-				that.definitions = await that.getExpressions(lang)
-			})
-		}
+                Logger('AppHome : getExpressions : ', result)
+                return result.data
+            } catch (e) {
+                Logger('AppHome : getExpressions : ', e.response)
+                return null
+            }
+        }
 	}
-
-	export default AppHome
 </script>
 
 <style scoped>

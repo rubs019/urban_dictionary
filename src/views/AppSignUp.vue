@@ -10,101 +10,106 @@
 </template>
 
 <script lang="ts">
-	import VFormSignUp                from "../components/VFormSignUp.vue"
-	import { Post }                   from "@/services/request/api.service"
-	import DTO                        from "../services/dto/dto"
-	import Logger                     from "../helpers/logger"
-	import Store                      from "../store"
-	import { API_PATH, STATUS }       from "@/constants"
-	import { passwordIsGreaterThan6 } from '@/helpers/checkPasswordHelper'
-	import { checkPassword }          from '@/helpers/checkPasswordHelper'
-    import {RawUserCredential, UserCredential} from '@/services/dto/dto.d'
+    import Vue from 'Vue'
+    import Component from 'vue-class-component'
+    import VFormSignUp from "../components/VFormSignUp.vue"
+    import DTO from "../services/dto/dto"
+    import Logger from "../helpers/logger"
+    import Store from "../store"
+    import { API_PATH } from "@/constants"
+    import { passwordIsGreaterThan6 } from '@/helpers/checkPasswordHelper'
+    import { checkPassword } from '@/helpers/checkPasswordHelper'
+    import { RawUserCredential, UserCredential } from '@/services/dto/dto.d'
+    import { Form, STATUS } from "@/definitions.d"
+    import { TranslateResult } from "vue-i18n"
+    import { APIRequest } from "@/services/request/request"
 
-    export default {
-		name: "AppSignUp",
-		components: {
-			VFormSignUp
-		},
-		data: () => ({
-			form: {
-				message: null,
-				color: null,
-				status: null
-			}
-		}),
-		methods: {
-			async register(credentials: RawUserCredential) {
+    @Component({
+        name: "AppSignUp",
+        components: {
+            VFormSignUp
+        },
+        data: function () {
+            return {}
+        }
+    })
+    export default class AppSignUp extends Vue {
+        form: Form = {}
 
-				// Use to show loader
-				this.form.status = STATUS.PENDING
+        /**
+         * Set the message of notification
+         *
+         * @param message {string} The new message to show
+         * @param isError {boolean} Use to update color of form
+         * @return {boolean}
+         */
+        setMsgNotification(message: TranslateResult, isError = true) {
+            this.form.color = isError ? 'danger' : 'success'
+            this.form.message = message
+        }
 
-				if (!this.validationInput(credentials)) {
-					this.form.status = STATUS.ERROR
-					return
-				}
+        validationInput(userCredential: RawUserCredential) {
+            if (!passwordIsGreaterThan6(userCredential.pwd)) {
+                this.setMsgNotification(this.$t('notif.PWD_TOO_SHORT'), true)
+                return false
+            }
+            if (!checkPassword(userCredential.pwd, userCredential.pwd2)) {
+                this.setMsgNotification(this.$t('notif.NOT_SAME_PWD'), true)
+                return false
+            }
+            return true
+        }
 
-				try {
-					const credential: UserCredential | undefined = DTO.accountCreate(credentials)
+        async register(credentials: RawUserCredential) {
 
-					if (!credential) {
-					    Logger('Error credentials')
-						return
-					}
-					const result = await Post(API_PATH.CREATE_USER, credential)
+            // Use to show loader
+            this.form.status = STATUS.PENDING
 
-					Store.setConnected(true)
-					Store.setUser(result.data)
+            if (!this.validationInput(credentials)) {
+                this.form.status = STATUS.ERROR
+                return
+            }
 
-					this.setMsgNotification(this.$t('notif.SUCCESS'), false)
-					const that = this
-					setTimeout(() => {
-						that.$router.push("/login")
-					}, 1500)
-				} catch (e) {
-					this.form.status = STATUS.ERROR
-					Logger('error', e)
-					const that = this
-					setTimeout(() => {
-						if (!e || !e.response || !e.response.data) {
-							that.setMsgNotification(this.$t('notif.ERROR_SERVER'), true)
-							return
-						}
-						if (e.response.data.status === 422) {
-							that.setMsgNotification(this.$t('notif.USER_ALREADY_EXIST'), true)
-							return
-						}
+            try {
+                const credential: UserCredential | undefined = DTO.accountCreate(credentials)
 
-						if (e.response.data.statusCode === 409) {
-							that.setMsgNotification(this.$t('notif.EMAIL_ALREADY_EXIST'), true)
-						}
-					}, 1500)
-				}
+                if (!credential) {
+                    Logger('Error credentials')
+                    return
+                }
 
-			},
-			/**
-			 * Set the message of notification
-			 *
-			 * @param message {string} The new message to show
-			 * @param isError {boolean} Use to update color of form
-			 * @return {boolean}
-			 */
-			setMsgNotification(message: string, isError = true) {
-				this.form.color = isError ? 'danger' : 'success'
-				this.form.message = message
-			},
-			validationInput(credentials) {
-				if (!passwordIsGreaterThan6(credentials.pwd)) {
-					this.setMsgNotification(this.$t('notif.PWD_TOO_SHORT'), true)
-					return false
-				}
-				if (!checkPassword(credentials.pwd, credentials.pwd2)) {
-					this.setMsgNotification(this.$t('notif.NOT_SAME_PWD'), true)
-					return false
-				}
-				return true
-			}
-		}
-	}
+                const result = await new APIRequest().Post(API_PATH.CREATE_USER, credential)
+
+                Store.setConnected(true)
+                Store.setUser(result.data)
+
+                this.setMsgNotification(this.$t('notif.SUCCESS'), false)
+                const that = this
+                setTimeout(() => {
+                    that.$router.push("/login")
+                }, 1500)
+            } catch (e) {
+                this.form.status = STATUS.ERROR
+                Logger('error', e)
+                const that = this
+                setTimeout(() => {
+                    if (!e || !e.response || !e.response.data) {
+                        that.setMsgNotification(this.$t('notif.ERROR_SERVER'), true)
+                        return
+                    }
+                    if (e.response.data.status === 422) {
+                        that.setMsgNotification(this.$t('notif.USER_ALREADY_EXIST'), true)
+                        return
+                    }
+
+                    if (e.response.data.statusCode === 409) {
+                        that.setMsgNotification(this.$t('notif.EMAIL_ALREADY_EXIST'), true)
+                    }
+                }, 1500)
+            }
+
+        }
+    }
 </script>
 
 <style scoped>

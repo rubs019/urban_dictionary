@@ -1,8 +1,6 @@
-import { expect } from "chai"
+/* import { expect } from "chai"
 import sinon from 'sinon'
 import AppSignUp  from "../../src/views/AppSignUp.vue"
-
-// npm run test:unit --runTestsByPath /Users/rubyesgi/Documents/workspace/node/urban_dictionary_proto/app/tests/unit/appSignUp.spec.js
 
 describe('checkPassword()', () => {
 	describe('I\'m trying to test two different passwords', () => {
@@ -82,4 +80,4 @@ describe('validationInput()', () => {
 		}
 		expect(AppSignUp.methods.validationInput(credentials)).to.be.true
 	})
-})
+})*/

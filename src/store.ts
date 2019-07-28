@@ -1,19 +1,14 @@
+import { RawUserCredential, UserConnectedCredential } from "@/services/dto/dto.d.ts"
+
 const Logger = require('./helpers/logger')
+
+export let userConnectedCredential: UserConnectedCredential
 
 export default {
 	state: {
 		isConnected: !!localStorage.getItem('isConnected')
 	},
 	language: localStorage.getItem('language'),
-	credentials: {
-		id: null,
-		username: null,
-		email: null,
-		role: null,
-		token: null,
-		karma: null,
-		locale: null
-	},
 	/**
 	 * Save the user credentials in the store
 	 *
@@ -21,24 +16,24 @@ export default {
 	 * @param credentials
 	 * @return boolean || null
 	 */
-	setUser(credentials, fieldName = null) {
+	setUser(credentials: RawUserCredential, fieldName?: string): boolean {
 		if (!credentials) return false
 
 		if (!fieldName) {
 
 			Logger('SetUser triggered with no fieldName,', credentials)
 
-			this.credentials = {
-				id: credentials.id || null,
-				username: credentials.username || null,
-				email: credentials.email || null,
-				role: credentials.role || null,
-				token: credentials.token || null,
-				karma: credentials.karma >= 0 ? credentials.karma.toString() : null,
-				locale: credentials.locale || null
+			userConnectedCredential = {
+				id: credentials.id,
+				username: credentials.username,
+				email: credentials.email,
+				role: credentials.role,
+				token: credentials.token,
+				karma: credentials.karma && credentials.karma >= 0 ? credentials.karma.toString() : undefined,
+				locale: credentials.locale
 			}
 
-			localStorage.setItem('credentials', JSON.stringify(this.credentials))
+			localStorage.setItem('credentials', JSON.stringify(userConnectedCredential))
 
 			return true
 		}
@@ -46,11 +41,12 @@ export default {
 		Logger(`SetUser triggered with fieldName = ${fieldName}`, credentials)
 
 		// Check if the property exist on credentials
-		if (!this.credentials.hasOwnProperty(fieldName)) return false
+		if (!userConnectedCredential.hasOwnProperty(fieldName)) return false
 
-		this.credentials[fieldName] = credentials
+		// @ts-ignore
+		userConnectedCredential[fieldName] = credentials
 
-		localStorage.setItem('credentials', JSON.stringify(this.credentials))
+		localStorage.setItem('credentials', JSON.stringify(userConnectedCredential))
 
 		return true
 	},
@@ -59,7 +55,7 @@ export default {
 	 * @param newValue {boolean}
 	 * @return undefined
 	 */
-	setConnected(newValue) {
+	setConnected(newValue?: boolean) {
 		if (typeof newValue !== "boolean") {
 			Logger(
 				`setConnected require a boolean but received a ${typeof newValue}`,
@@ -89,13 +85,14 @@ export default {
 	 */
 	clear() {
 		this.state.isConnected = false
-		this.credentials = {
-			id: null,
-			username: null,
-			email: null,
-			role: null,
-			token: null,
-			karma: null
+		userConnectedCredential = {
+			id: undefined,
+			username: undefined,
+			email: undefined,
+			role: undefined,
+			token: undefined,
+			karma: undefined,
+			locale: undefined
 		}
 		localStorage.removeItem('credentials')
 		localStorage.removeItem('isConnected')
